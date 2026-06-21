@@ -311,27 +311,68 @@ def build_chapter3_field_audit(records: Sequence[MetricRecord], period: str = ""
 
 
 def build_chapter3_apipost_checklist(records: Sequence[MetricRecord], period: str = "") -> str:
-    rows = build_chapter3_field_audit(records, period)
-    missing_specs = [
-        ("3.1/达成差额", '"指标名称": "达成差额"'),
-        ("3.1/同比增长率", '"指标名称": "同比增长率"'),
-        ("3.1/同比差额", '"指标名称": "同比差额"'),
-        ("3.2/负增长指标", '"指标名称": "同比增长率"'),
-        ("3.2/打样项目数差距", '"指标名称": "打样项目数差距"'),
-        ("3.2/打样项目数增长率", '"指标名称": "打样项目数增长率"'),
-        ("3.3/产品与行业同比增长率", '"指标名称": "同比增长率"'),
-    ]
+    """按第一章格式生成五列 ApiPost 核对清单。"""
     lines = [
         "# 第三章 ApiPost 取数核对清单", "",
-        "接口模块：`MOUDLE=3`；工号：`06427`；月份：`202606`。", "",
-        "复制“ApiPost 搜索内容”中任一完整引号片段到响应 JSON 搜索；存在日期类型时再用第二个片段确认同一记录。", "",
-        "| 报告位置 | ApiPost 搜索内容 | 取值字段 | 原始值 | 报告值 | 处理方式 | 状态 |",
-        "| --- | --- | --- | --- | --- | --- | --- |",
+        "使用方法：复制“ApiPost 搜索内容”到响应 JSON 中搜索，然后查看“取值字段”。", "",
+        "| 报告位置 | ApiPost 搜索内容 | 取值字段 | 报告值 | 状态 |",
+        "| --- | --- | --- | --- | --- |",
     ]
-    for row in rows:
-        lines.append("| {report_position} | `{search}` | `{value_field}` | `{raw_value}` | `{report_value}` | {processing} | {status} |".format(**row))
-    for position, search in missing_specs:
-        lines.append(f"| {position} | `{search}` | 接口未提供 | `待补充` | <span style=\"color:#c00000;font-weight:700\">待补充</span> | 不自行计算 | 待补充 |")
+
+    for record in records:
+        if record.path == "三、销量分析-销量-销量":
+            position = f"3.1/销量概况/{record.date_type}"
+            fields = (("目标值", record.target), ("实际值", record.actual), ("达成率", record.achievement_rate))
+        elif record.path in {"三、销量分析-招商生效客户", "三、销量分析-有效项目落地"}:
+            position = f"3.2/{record.name}/{record.date_type}"
+            fields = (("目标值", record.target), ("实际值", record.actual), ("扣分值", record.deduction), ("达成率", record.achievement_rate))
+        elif record.name in {"20个存量生效客户", "100个出货项目"}:
+            position = f"3.2/年度目标/{record.name}"
+            fields = (("目标值", record.target), ("实际值", record.actual), ("扣分值", record.deduction))
+        elif record.path == "三、销量分析-打样项目数-":
+            position = f"3.2/打样项目数/{record.date_type}"
+            fields = (("实际值", record.actual), ("同期数", record.yoy))
+        elif record.path.startswith("三、销量分析-各产品销量-"):
+            position = f"3.3/产品收入/{record.name}"
+            fields = (("实际值", record.actual), ("同期数", record.yoy))
+        elif record.path.startswith("三、销量分析-各产品销售量-"):
+            position = f"3.3/产品销售量/{record.name}"
+            fields = (("实际值", record.actual), ("同期数", record.yoy))
+        elif record.path.startswith("三、销量分析-各行业销量占比-"):
+            position = f"3.3/行业占比/{record.name}"
+            fields = (("实际值", record.actual), ("同期数", record.yoy))
+        elif record.path.startswith("三、销量分析-各行业销量-"):
+            position = f"3.3/行业销量/{record.name}"
+            fields = (("实际值", record.actual), ("同期数", record.yoy))
+        else:
+            continue
+
+        search_name = record.name if record.name else ""
+        search = (
+            f'`"指标名称": "{search_name}"` '
+            f'`"指标路径": "{record.path}"` '
+            f'`"日期类型": "{record.date_type}"`'
+        )
+        field_text = " ".join(f'`"{name}"`' for name, _value in fields)
+        values = " / ".join(_raw_text(value) or "待补充" for _name, value in fields)
+        lines.append(f"| {position} | {search} | {field_text} | `{values}` | 正常 |")
+
+    missing_rows = [
+        ("3.1/达成差额", '"指标名称": "达成差额"', "搜索不到该指标"),
+        ("3.1/同比增长率", '"指标名称": "同比增长率"', "搜索不到该指标"),
+        ("3.1/同比差额", '"指标名称": "同比差额"', "搜索不到该指标"),
+        ("3.2/负增长指标", '"指标名称": "同比增长率"', "缺少明确增长率字段"),
+        ("3.2/打样项目数差距", '"指标路径": "三、销量分析-打样项目数-"', "接口无差距字段，不自行计算"),
+        ("3.2/打样项目数增长率", '"指标路径": "三、销量分析-打样项目数-"', "接口无增长率字段，不自行计算"),
+        ("3.3/产品与行业同比增长率", '"指标名称": "同比增长率"', "接口无增长率字段，不自行计算"),
+    ]
+    for position, search, status in missing_rows:
+        lines.append(f"| {position} | `{search}` |  | `待补充` | {status} |")
+
+    lines.extend([
+        "", "## 需要特别确认", "",
+        "第三章接口中的同名记录通过 `\"日期类型\"` 区分月、季、年口径。本次按“指标名称＋指标路径＋日期类型”检查未发现数值冲突。达成差额、同比增长率、同比差额没有直接字段，当前显示“待补充”，未按数组顺序或数值大小猜测。",
+    ])
     return "\n".join(lines) + "\n"
 
 

@@ -77,10 +77,10 @@ class Chapter3StrictMappingTest(unittest.TestCase):
     def test_apipost_search_fragments_are_copyable(self):
         records = normalize_chapter3_records(self.real)
         checklist = build_chapter3_apipost_checklist(records, "202606")
-        self.assertIn('"指标路径": "三、销量分析-销量-销量"', checklist)
+        self.assertIn('"指标名称": "销量"', checklist)
         self.assertIn('"日期类型": "月"', checklist)
-        self.assertIn("原始值", checklist)
-        self.assertIn("处理方式", checklist)
+        self.assertIn("| 报告位置 | ApiPost 搜索内容 | 取值字段 | 报告值 | 状态 |", checklist)
+        self.assertIn("## 需要特别确认", checklist)
 
     def test_empty_data_raises_visible_error(self):
         with self.assertRaises(ChapterDataError) as ctx:
