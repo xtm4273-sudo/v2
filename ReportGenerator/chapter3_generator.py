@@ -176,8 +176,13 @@ def _build_process_section(grouped: Dict[str, Any], month_label: str, ytd_label:
     lines = [
         f"未达百（{ytd_label.replace('累计', '')}）指标包含：招商生效客户、有效落地项目",
         "",
-        f"负增长（{ytd_label.replace('累计', '')}）指标包含：{_names_or_missing(negative_count_items)}",
-        "",
+    ]
+    if negative_count_items:
+        lines.extend([
+            f"负增长（{ytd_label.replace('累计', '')}）指标包含：{'、'.join(negative_count_items)}",
+            "",
+        ])
+    lines.extend([
         (
             f"年度{_record_field(annual_customer, 'target')}存量生效客户目标已完成"
             f"{_record_field(annual_customer, 'actual')}（差距{_record_field(annual_customer, 'deduction')}），"
@@ -187,7 +192,7 @@ def _build_process_section(grouped: Dict[str, Any], month_label: str, ytd_label:
         "",
         f"| 过程指标 | 目标与实际 | {month_label} | 本季度累计 | {ytd_label} |",
         "| --- | --- | --- | --- | --- |",
-    ]
+    ])
     lines.extend(_process_rows("招商生效客户（家）", grouped["active_customer"]))
     lines.extend(_process_rows("有效落地项目（个）", grouped["landing_project"]))
     lines.extend(_sample_rows(grouped["sample_project"]))

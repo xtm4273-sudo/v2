@@ -66,6 +66,11 @@ class Chapter3StrictMappingTest(unittest.TestCase):
         self.assertIn("|  | 差距 | -3.000个 | -6.000个 | -6.000个 |", markdown)
         self.assertIn("|  | 增长率 | -27.27% | -31.58% | -20.69% |", markdown)
 
+    def test_hides_negative_growth_line_when_sample_count_is_not_down(self):
+        rows = [metric("", "三、销量分析-打样项目数-", "年", "29.000", yoy=23.0, unit="个")]
+        markdown, _ = format_chapter3_data(rows, period="202606")
+        self.assertNotIn("负增长（1-6月）指标包含", markdown)
+
     def test_process_growth_formula_is_in_apipost_checklist(self):
         checklist = build_chapter3_apipost_checklist(normalize_chapter3_records(self.real), "202606")
         self.assertIn("实际值 - 同期数", checklist)
