@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 import logging
 
@@ -171,10 +171,12 @@ def _build_sales_table(sales: Dict[str, Optional[MetricRecord]], month_label: st
 def _build_process_section(grouped: Dict[str, Any], month_label: str, ytd_label: str) -> List[str]:
     annual_customer = grouped["annual_customer"]
     annual_project = grouped["annual_project"]
+    sample_year = grouped["sample_project"].get("年")
+    negative_count_items = ["打样项目数"] if _is_count_negative(sample_year) else []
     lines = [
         f"未达百（{ytd_label.replace('累计', '')}）指标包含：招商生效客户、有效落地项目",
         "",
-        f"负增长（{ytd_label.replace('累计', '')}）指标包含：{MISSING}",
+        f"负增长（{ytd_label.replace('累计', '')}）指标包含：{_names_or_missing(negative_count_items)}",
         "",
         (
             f"年度{_record_field(annual_customer, 'target')}存量生效客户目标已完成"
@@ -203,11 +205,13 @@ def _process_rows(label: str, records: Dict[str, Optional[MetricRecord]]) -> Lis
 def _sample_rows(records: Dict[str, Optional[MetricRecord]]) -> List[str]:
     actual = [_record_field(records.get(dim), "actual") for dim in TIME_DIMENSIONS]
     yoy = [_record_field(records.get(dim), "yoy") for dim in TIME_DIMENSIONS]
+    gap = [_calculated_gap(records.get(dim)) for dim in TIME_DIMENSIONS]
+    growth = [_calculated_growth_rate(records.get(dim)) for dim in TIME_DIMENSIONS]
     return [
         f"| 打样项目数（个） | 26年 | {' | '.join(actual)} |",
         f"|  | 25年同期 | {' | '.join(yoy)} |",
-        f"|  | 差距 | {MISSING} | {MISSING} | {MISSING} |",
-        f"|  | 增长率 | {MISSING} | {MISSING} | {MISSING} |",
+        f"|  | 差距 | {' | '.join(gap)} |",
+        f"|  | 增长率 | {' | '.join(growth)} |",
     ]
 
 
@@ -246,7 +250,7 @@ def _build_dimension_section(grouped: Dict[str, Any], period_label: str, action_
 
 
 def build_rule_based_action_guide(grouped: Dict[str, Any]) -> str:
-    return "结合上述明确命中的产品、客户、项目与行业数据进行逐项复盘；待增长率字段补齐后再确定优先级。"
+    return "结合上述明确命中的产品、客户、项目与行业数据进行逐项复盘，优先关注实际个数低于同期个数的过程指标。"
 
 
 def build_chapter3_action_context(grouped: Dict[str, Any], period: str = "") -> Dict[str, Any]:
@@ -269,7 +273,7 @@ def build_chapter3_stats(records: List[MetricRecord], grouped: Dict[str, Any]) -
         "行业销量指标数": len(grouped["industry_volume"]),
         "行业占比指标数": len(grouped["industry_share"]),
         "conflicts": conflicts,
-        "warnings": ["接口未提供达成差额、同比增长率、同比差额的明确字段"],
+        "warnings": ["3.1 达成差额、同比增长率、同比差额及 3.3 同比增长率没有明确字段"],
     }
 
 
@@ -356,14 +360,22 @@ def build_chapter3_apipost_checklist(records: Sequence[MetricRecord], period: st
         field_text = " ".join(f'`"{name}"`' for name, _value in fields)
         values = " / ".join(_raw_text(value) or "待补充" for _name, value in fields)
         lines.append(f"| {position} | {search} | {field_text} | `{values}` | 正常 |")
+        if record.path == "三、销量分析-打样项目数-":
+            gap = _calculated_gap(record, include_unit=False)
+            growth = _calculated_growth_rate(record)
+            lines.append(
+                f"| 3.2/打样项目数/{record.date_type}/差距 | {search} | `\"实际值\"` `\"同期数\"` | `{gap}` | "
+                "代码计算：实际值 - 同期数 |"
+            )
+            lines.append(
+                f"| 3.2/打样项目数/{record.date_type}/增长率 | {search} | `\"实际值\"` `\"同期数\"` | `{growth}` | "
+                "代码计算：（实际值 - 同期数）÷同期数×100%，四舍五入保留2位小数 |"
+            )
 
     missing_rows = [
         ("3.1/达成差额", '"指标名称": "达成差额"', "搜索不到该指标"),
         ("3.1/同比增长率", '"指标名称": "同比增长率"', "搜索不到该指标"),
         ("3.1/同比差额", '"指标名称": "同比差额"', "搜索不到该指标"),
-        ("3.2/负增长指标", '"指标名称": "同比增长率"', "缺少明确增长率字段"),
-        ("3.2/打样项目数差距", '"指标路径": "三、销量分析-打样项目数-"', "接口无差距字段，不自行计算"),
-        ("3.2/打样项目数增长率", '"指标路径": "三、销量分析-打样项目数-"', "接口无增长率字段，不自行计算"),
         ("3.3/产品与行业同比增长率", '"指标名称": "同比增长率"', "接口无增长率字段，不自行计算"),
     ]
     for position, search, status in missing_rows:
@@ -371,7 +383,7 @@ def build_chapter3_apipost_checklist(records: Sequence[MetricRecord], period: st
 
     lines.extend([
         "", "## 需要特别确认", "",
-        "第三章接口中的同名记录通过 `\"日期类型\"` 区分月、季、年口径。本次按“指标名称＋指标路径＋日期类型”检查未发现数值冲突。达成差额、同比增长率、同比差额没有直接字段，当前显示“待补充”，未按数组顺序或数值大小猜测。",
+        "第三章接口中的同名记录通过 `\"日期类型\"` 区分月、季、年口径。本次按“指标名称＋指标路径＋日期类型”检查未发现数值冲突。3.2 负增长指标直接按“实际个数 < 同期个数”判定；增长率由代码按公式计算，不从接口取。3.1 达成差额、同比增长率、同比差额仍无直接字段，显示“待补充”。",
     ])
     return "\n".join(lines) + "\n"
 
@@ -459,6 +471,33 @@ def _decimal(value: Any) -> Optional[Decimal]:
         return Decimal(str(value)) if value is not None and str(value).strip() else None
     except InvalidOperation:
         return None
+
+
+def _is_count_negative(record: Optional[MetricRecord]) -> bool:
+    if record is None:
+        return False
+    actual, yoy = _decimal(record.actual), _decimal(record.yoy)
+    return actual is not None and yoy is not None and actual < yoy
+
+
+def _calculated_gap(record: Optional[MetricRecord], include_unit: bool = True) -> str:
+    if record is None:
+        return MISSING
+    actual, yoy = _decimal(record.actual), _decimal(record.yoy)
+    if actual is None or yoy is None:
+        return MISSING
+    value = str(actual - yoy)
+    return f"{value}{record.unit}" if include_unit and record.unit else value
+
+
+def _calculated_growth_rate(record: Optional[MetricRecord]) -> str:
+    if record is None:
+        return MISSING
+    actual, yoy = _decimal(record.actual), _decimal(record.yoy)
+    if actual is None or yoy is None or yoy == 0:
+        return MISSING
+    rate = ((actual - yoy) / yoy * Decimal("100")).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    return f"{rate:.2f}%"
 
 
 def _find_conflicts(records: Sequence[MetricRecord]) -> List[Dict[str, Any]]:

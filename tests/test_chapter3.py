@@ -60,6 +60,18 @@ class Chapter3StrictMappingTest(unittest.TestCase):
         self.assertIn(f"| 同比增长率 | {MISSING} | {MISSING} | {MISSING} |", markdown)
         self.assertNotIn("-64.63%", markdown)
 
+    def test_process_negative_growth_uses_counts_and_calculates_rate(self):
+        markdown, _ = format_chapter3_data(self.real, period="202606")
+        self.assertIn("负增长（1-6月）指标包含：打样项目数", markdown)
+        self.assertIn("|  | 差距 | -3.000个 | -6.000个 | -6.000个 |", markdown)
+        self.assertIn("|  | 增长率 | -27.27% | -31.58% | -20.69% |", markdown)
+
+    def test_process_growth_formula_is_in_apipost_checklist(self):
+        checklist = build_chapter3_apipost_checklist(normalize_chapter3_records(self.real), "202606")
+        self.assertIn("实际值 - 同期数", checklist)
+        self.assertIn("（实际值 - 同期数）÷同期数×100%", checklist)
+        self.assertIn("`-20.69%`", checklist)
+
     def test_conflicting_exact_duplicate_becomes_missing(self):
         rows = [
             metric("销量", "三、销量分析-销量-销量", "月", "1.000"),
