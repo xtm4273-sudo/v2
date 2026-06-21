@@ -4,8 +4,8 @@
 
 | 销量 | 6月 | 本季度累计 | 1-6月累计 |
 | --- | --- | --- | --- |
-| 目标 | 0.0万 | 0.0万 | 0.0万 |
-| 实际 | 15.659万 | 48.888万 | 145.611万 |
+| 目标 | 54.77 | 118.97 | 214.48 |
+| 实际 | 0.000 | 0.000 | 0.000 |
 | 达成率 | 0.000% | 0.000% | 0.000% |
 | 达成差额 | <span style="color:#c00000;font-weight:700">待补充</span> | <span style="color:#c00000;font-weight:700">待补充</span> | <span style="color:#c00000;font-weight:700">待补充</span> |
 | 同比增长率 | <span style="color:#c00000;font-weight:700">待补充</span> | <span style="color:#c00000;font-weight:700">待补充</span> | <span style="color:#c00000;font-weight:700">待补充</span> |

@@ -1,5 +1,5 @@
 {
-  "有效指标数": 72,
+  "有效指标数": 75,
   "销量概况数": 3,
   "过程指标数": 9,
   "产品销量金额指标数": 22,
@@ -188,303 +188,6 @@
       "value_field": "\"指标数据\".\"同期数\"",
       "raw_value": "0.0",
       "report_value": "0.0吨",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/月",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "1.0",
-      "report_value": "1.0家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/月",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "0.000",
-      "report_value": "0.000家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/月",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"扣分值\"",
-      "raw_value": "1.0",
-      "report_value": "1.0家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/月",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"达成率\"",
-      "raw_value": "0.000",
-      "report_value": "0.000%",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/年度目标/20个存量生效客户",
-      "search": "\"指标路径\": \"三、销量分析-20个存量生效客户\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "20.0",
-      "report_value": "20.0个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/年度目标/20个存量生效客户",
-      "search": "\"指标路径\": \"三、销量分析-20个存量生效客户\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "3.000",
-      "report_value": "3.000个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/年度目标/20个存量生效客户",
-      "search": "\"指标路径\": \"三、销量分析-20个存量生效客户\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"扣分值\"",
-      "raw_value": "17.0",
-      "report_value": "17.0个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/年度目标/100个出货项目",
-      "search": "\"指标路径\": \"三、销量分析-100个出货项目\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "100.0",
-      "report_value": "100.0个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/年度目标/100个出货项目",
-      "search": "\"指标路径\": \"三、销量分析-100个出货项目\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "26.000",
-      "report_value": "26.000个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/年度目标/100个出货项目",
-      "search": "\"指标路径\": \"三、销量分析-100个出货项目\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"扣分值\"",
-      "raw_value": "74.0",
-      "report_value": "74.0个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/季",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "1.0",
-      "report_value": "1.0家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/季",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "1.000",
-      "report_value": "1.000家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/季",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"扣分值\"",
-      "raw_value": "0.0",
-      "report_value": "0.0家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/季",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"达成率\"",
-      "raw_value": "100.000",
-      "report_value": "100.000%",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/年",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "2.0",
-      "report_value": "2.0家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/年",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "1.000",
-      "report_value": "1.000家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/年",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"扣分值\"",
-      "raw_value": "1.0",
-      "report_value": "1.0家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/招商生效客户/年",
-      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"达成率\"",
-      "raw_value": "50.000",
-      "report_value": "50.000%",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/月",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "2.0",
-      "report_value": "2.0家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/月",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "2.000",
-      "report_value": "2.000家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/月",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"扣分值\"",
-      "raw_value": "0.0",
-      "report_value": "0.0家",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/月",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"达成率\"",
-      "raw_value": "100.000",
-      "report_value": "100.000%",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/季",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "3.0",
-      "report_value": "3.0个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/季",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "3.000",
-      "report_value": "3.000个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/季",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"扣分值\"",
-      "raw_value": "0.0",
-      "report_value": "0.0个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/季",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"达成率\"",
-      "raw_value": "100.000",
-      "report_value": "100.000%",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/年",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "8.0",
-      "report_value": "8.0个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/年",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "4.000",
-      "report_value": "4.000个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/年",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"扣分值\"",
-      "raw_value": "4.0",
-      "report_value": "4.0个",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.2/有效项目落地/年",
-      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"达成率\"",
-      "raw_value": "50.000",
-      "report_value": "50.000%",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.1/月",
-      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "0.0",
-      "report_value": "0.0万",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.1/月",
-      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "15.659",
-      "report_value": "15.659万",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.1/月",
-      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"月\"",
-      "value_field": "\"指标数据\".\"达成率\"",
-      "raw_value": "0.000",
-      "report_value": "0.000%",
       "processing": "原值+单位，不舍入",
       "status": "正常"
     },
@@ -1173,60 +876,6 @@
       "status": "正常"
     },
     {
-      "report_position": "3.1/季",
-      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "0.0",
-      "report_value": "0.0万",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.1/季",
-      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "48.888",
-      "report_value": "48.888万",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.1/季",
-      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"季\"",
-      "value_field": "\"指标数据\".\"达成率\"",
-      "raw_value": "0.000",
-      "report_value": "0.000%",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.1/年",
-      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"目标值\"",
-      "raw_value": "0.0",
-      "report_value": "0.0万",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.1/年",
-      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"实际值\"",
-      "raw_value": "145.611",
-      "report_value": "145.611万",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
-      "report_position": "3.1/年",
-      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"年\"",
-      "value_field": "\"指标数据\".\"达成率\"",
-      "raw_value": "0.000",
-      "report_value": "0.000%",
-      "processing": "原值+单位，不舍入",
-      "status": "正常"
-    },
-    {
       "report_position": "3.2/打样项目数/年",
       "search": "\"指标路径\": \"三、销量分析-打样项目数-\"<br>\"日期类型\": \"年\"",
       "value_field": "\"指标数据\".\"实际值\"",
@@ -1385,6 +1034,357 @@
       "value_field": "\"指标数据\".\"同期数\"",
       "raw_value": "0.695",
       "report_value": "0.695%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/20个存量生效客户",
+      "search": "\"指标路径\": \"三、销量分析-20个存量生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "20.0",
+      "report_value": "20.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/20个存量生效客户",
+      "search": "\"指标路径\": \"三、销量分析-20个存量生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "3.000",
+      "report_value": "3.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/20个存量生效客户",
+      "search": "\"指标路径\": \"三、销量分析-20个存量生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "17.0",
+      "report_value": "17.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/月",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "1.0",
+      "report_value": "1.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/月",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.000",
+      "report_value": "0.000家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/月",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "1.0",
+      "report_value": "1.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/月",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "0.000",
+      "report_value": "0.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/100个出货项目",
+      "search": "\"指标路径\": \"三、销量分析-100个出货项目\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "100.0",
+      "report_value": "100.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/100个出货项目",
+      "search": "\"指标路径\": \"三、销量分析-100个出货项目\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "26.000",
+      "report_value": "26.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/100个出货项目",
+      "search": "\"指标路径\": \"三、销量分析-100个出货项目\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "74.0",
+      "report_value": "74.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/季",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "1.0",
+      "report_value": "1.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/季",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "1.000",
+      "report_value": "1.000家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/季",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "0.0",
+      "report_value": "0.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/季",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "100.000",
+      "report_value": "100.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/年",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "2.0",
+      "report_value": "2.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/年",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "1.000",
+      "report_value": "1.000家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/年",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "1.0",
+      "report_value": "1.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/年",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "50.000",
+      "report_value": "50.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/月",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "2.0",
+      "report_value": "2.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/月",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "2.000",
+      "report_value": "2.000家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/月",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "0.0",
+      "report_value": "0.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/月",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "100.000",
+      "report_value": "100.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/季",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "3.0",
+      "report_value": "3.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/季",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "3.000",
+      "report_value": "3.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/季",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "0.0",
+      "report_value": "0.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/季",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "100.000",
+      "report_value": "100.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/年",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "8.0",
+      "report_value": "8.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/年",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "4.000",
+      "report_value": "4.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/年",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "4.0",
+      "report_value": "4.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/年",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "50.000",
+      "report_value": "50.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/月",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "54.77",
+      "report_value": "54.77",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/月",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.000",
+      "report_value": "0.000",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/月",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "0.000",
+      "report_value": "0.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/季",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "118.97",
+      "report_value": "118.97",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/季",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.000",
+      "report_value": "0.000",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/季",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "0.000",
+      "report_value": "0.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/年",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "214.48",
+      "report_value": "214.48",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/年",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.000",
+      "report_value": "0.000",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/年",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "0.000",
+      "report_value": "0.000%",
       "processing": "原值+单位，不舍入",
       "status": "正常"
     }
