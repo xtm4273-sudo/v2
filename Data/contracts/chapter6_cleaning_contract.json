@@ -1,0 +1,152 @@
+{
+  "contract_id": "chapter6_expense_analysis_v2",
+  "chapter_id": "chapter6",
+  "chapter_title": "六、费用分析",
+  "source_module": "6",
+  "request": {
+    "ZEMPLOYEE": "{job_id}",
+    "CALMONTH": "{calmonth}",
+    "MOUDLE": "6"
+  },
+  "response_shape": {
+    "code": 1,
+    "message": "success",
+    "data": {
+      "月份": "202606",
+      "部门编码": "",
+      "区域经理工号": "",
+      "部门名称": "",
+      "区域经理姓名": "",
+      "岗位名称": "",
+      "客户编码": "",
+      "客户名称": "",
+      "章节名称": "六、费用分析",
+      "章节数据": []
+    }
+  },
+  "metrics": {
+    "travel_expense": {
+      "total": {
+        "field_key": "travel_expense.total",
+        "metric_path": "六、费用分析-差旅费",
+        "metric_name": "差旅费",
+        "date_type": "月",
+        "value_key": "实际值",
+        "yoy_value_key": "同期数",
+        "allow_derived_yoy": false,
+        "target_unit": "元",
+        "display_unit": "元",
+        "display_format": "original_precision_with_unit",
+        "selection": "unique_by_metric_name_path_date_type_unit",
+        "conflict_behavior": "pending_red"
+      },
+      "breakdown": {
+        "交通费": {
+          "metric_path": "六、费用分析-差旅费-交通费",
+          "metric_name": "交通费",
+          "value_key": "实际值",
+          "yoy_delta_key": "同比差额",
+          "target_unit": "元",
+          "missing_behavior": "pending_red_no_calculation"
+        },
+        "住宿费": {
+          "metric_path": "六、费用分析-差旅费-住宿费",
+          "metric_name": "住宿费",
+          "value_key": "实际值",
+          "yoy_delta_key": "同比差额",
+          "target_unit": "元",
+          "missing_behavior": "pending_red_no_calculation"
+        },
+        "车辆费": {
+          "metric_path": "六、费用分析-差旅费-车辆费",
+          "metric_name": "车辆费",
+          "value_key": "实际值",
+          "yoy_delta_key": "同比差额",
+          "target_unit": "元",
+          "missing_behavior": "pending_red_no_calculation"
+        },
+        "其他": {
+          "metric_path": "六、费用分析-差旅费-其他",
+          "metric_name": "其他",
+          "value_key": "实际值",
+          "yoy_delta_key": "同比差额",
+          "target_unit": "元",
+          "missing_behavior": "pending_red_no_calculation"
+        }
+      },
+      "efficiency": {
+        "出差天数": {
+          "metric_path": "六、费用分析-差旅费",
+          "metric_name": "差旅费",
+          "date_type": "月",
+          "value_key": "实际值",
+          "target_unit": "天",
+          "selection": "unique_by_metric_name_path_date_type_unit"
+        },
+        "日均花费": {
+          "metric_path": "六、费用分析-差旅费-每天花费金额",
+          "metric_name": "每天花费金额",
+          "date_type": "月",
+          "value_key": "实际值",
+          "target_unit": "元",
+          "selection": "unique_by_metric_name_path_date_type_unit",
+          "conflict_behavior": "pending_red"
+        }
+      }
+    },
+    "sample_paint_expense": {
+      "total": {
+        "field_key": "sample_paint_expense.total",
+        "metric_path": "六、费用分析-样板样漆费用",
+        "metric_name": "样板样漆费用",
+        "date_type": "月",
+        "value_key": "实际值",
+        "yoy_value_key": "同期数",
+        "yoy_delta_key": "同比差额",
+        "allow_derived_yoy": false,
+        "target_unit": "元",
+        "display_unit": "元",
+        "display_format": "original_precision_with_unit",
+        "selection": "unique_by_metric_name_path_date_type_unit"
+      },
+      "by_product": {
+        "field_key": "sample_paint_expense.by_product",
+        "description": "仅在每条记录提供产品名称或编码时按明确产品字段生成TOP3；不得按数组顺序或匿名金额排序",
+        "max_items": 3,
+        "missing_identity_behavior": "pending_red",
+        "item_schema": {
+          "product_name": "",
+          "expense_amount": 0,
+          "unit": "元"
+        }
+      }
+    }
+  },
+  "cross_reference": {
+    "description": "跨章节冗余字段，供行动指南条件判断使用",
+    "fields": {
+      "本月收入同比方向": {
+        "source_chapters": ["ch2", "ch3"],
+        "type": "enum",
+        "values": ["up", "down", "flat"],
+        "description": "报告月收入同比增长还是下降"
+      },
+      "本月新增逾期同比方向": {
+        "source_chapters": ["ch5"],
+        "type": "enum",
+        "values": ["up", "down", "flat"],
+        "description": "报告月新增逾期金额同比增长还是下降"
+      }
+    }
+  },
+  "action_guide_rules": [
+    {
+      "condition": "travel_expense.yoy_direction == 'up' AND (revenue_direction == 'down' OR overdue_direction == 'up')",
+      "guide": "本月差旅费增长，请警惕出差效率与出差质量。"
+    },
+    {
+      "condition": "sample_paint_expense.yoy_direction == 'up' AND sample_paint_product_revenue_direction == 'down'",
+      "guide": "样板样漆费用增加但对应产品收入下滑，需要控制样板样漆费用。"
+    }
+  ]
+}

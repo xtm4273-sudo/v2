@@ -2,7 +2,7 @@
 
 Example:
     python run_chapter6_api.py --job-id 86002542 --calmonth 202606 --api-key xxx
-    python run_chapter6_api.py --job-id 86002542 --calmonth 202606 --skip-api --fixture Data/fixtures/chapter6_mock.json
+    python run_chapter6_api.py --job-id 06427 --calmonth 202606 --skip-api --fixture Reports/chapter6_strict_06427_202606/raw/employee_06427_month_202606_module_6.json
 """
 from __future__ import annotations
 
@@ -34,11 +34,6 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--verify-ssl", action="store_true", help="开启 SSL 证书校验；生产环境建议开启")
     parser.add_argument("--fixture", default=None, help="接口未就绪时用于生成报告的本地 JSON fixture")
     parser.add_argument("--skip-api", action="store_true", help="跳过接口请求，仅使用 --fixture 生成报告")
-    parser.add_argument(
-        "--use-ai-action-guide",
-        action="store_true",
-        help="行动指南走 AI Writer；模型不可用或失败时自动回退规则文案",
-    )
     return parser
 
 
@@ -89,20 +84,6 @@ def print_response_summary(response: Dict[str, Any], raw_path: Path) -> None:
         print(f"章节数据条数: {len(chapter_data)}")
 
 
-def print_stats(stats: Dict[str, Any], final_data_path: Path) -> None:
-    print(
-        "数据统计: "
-        f"差旅费总额 {stats.get('差旅费总额') or '—'}，"
-        f"拆解项 {stats.get('差旅费拆解项数', 0)} 项，"
-        f"出差天数 {stats.get('出差天数') or '—'} 天，"
-        f"样板样漆总额 {stats.get('样板样漆总额') or '—'}，"
-        f"产品数 {stats.get('样板样漆产品数', 0)} 个"
-    )
-    warnings = stats.get("warnings", [])
-    if warnings:
-        print(f"清洗提示: {len(warnings)} 条，详见 {final_data_path.resolve()}")
-
-
 async def run(args: argparse.Namespace) -> None:
     if args.skip_api and not args.fixture:
         raise SystemExit("--skip-api 需要同时提供 --fixture")
@@ -139,11 +120,11 @@ async def run(args: argparse.Namespace) -> None:
     save_json(raw_path, generation_source)
     print_response_summary(generation_source, raw_path)
 
-    from ReportGenerator.chapter6_strict import build_chapter6_apipost_checklist, format_chapter6_strict
+    from ReportGenerator.chapter6_generator import build_chapter6_apipost_checklist, format_chapter6_data
     from ReportGenerator.chapter6_renderer import save_final_html, save_final_pdf
 
     try:
-        final_markdown, stats = format_chapter6_strict(generation_source, period=args.calmonth)
+        final_markdown, stats = format_chapter6_data(generation_source, period=args.calmonth)
     except ChapterDataError as e:
         raise SystemExit(str(e)) from e
 

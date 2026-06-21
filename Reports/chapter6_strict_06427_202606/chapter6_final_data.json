@@ -15,7 +15,11 @@
     "chapter6.travel.hotel_delta": null,
     "chapter6.travel.vehicle_delta": null,
     "chapter6.travel.other_delta": null,
-    "chapter6.efficiency.days": null,
+    "chapter6.efficiency.days": {
+      "raw_value": "49.000",
+      "unit": "天",
+      "report_value": "49.000天"
+    },
     "chapter6.efficiency.daily_total": null,
     "chapter6.efficiency.transport": null,
     "chapter6.efficiency.hotel": null,
@@ -146,18 +150,20 @@
       "field_id": "chapter6.efficiency.days",
       "report_position": "出差效率/出差天数",
       "match": {
-        "指标名称": "出差天数",
-        "指标路径": "六、费用分析-差旅费-出差天数",
+        "指标名称": "差旅费",
+        "指标路径": "六、费用分析-差旅费",
         "指标数据.单位": "天",
         "指标数据.日期类型": "月"
       },
       "value_path": "指标数据.实际值",
       "unit_path": "指标数据.单位",
       "calculation": "无，直接取接口原始值并保持原始精度",
-      "matched_count": 0,
-      "raw_values": [],
-      "status": "缺失",
-      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+      "matched_count": 1,
+      "raw_values": [
+        "49.000天"
+      ],
+      "status": "正常",
+      "report_value": "49.000天"
     },
     "chapter6.efficiency.daily_total": {
       "field_id": "chapter6.efficiency.daily_total",
@@ -360,5 +366,21 @@
       "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>",
       "status": "重复冲突且缺产品唯一标识"
     }
+  },
+  "travel_expense": {
+    "total": {
+      "value": null,
+      "unit": "元"
+    },
+    "efficiency": {
+      "days": "49.000"
+    }
+  },
+  "sample_paint_expense": {
+    "total": {
+      "value": "4398.500",
+      "unit": "元"
+    },
+    "by_product": []
   }
 }
