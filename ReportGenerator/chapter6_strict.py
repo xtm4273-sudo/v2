@@ -23,6 +23,7 @@ class FieldSpec:
     path: str
     value_path: str = "指标数据.实际值"
     unit: str = ""
+    date_type: str = "月"
     calculation: str = "无，直接取接口原始值并保持原始精度"
 
 
@@ -32,19 +33,19 @@ def _spec(field_id: str, position: str, name: str, path: str, **kwargs: str) -> 
 
 CHAPTER6_FIELD_MAP: Tuple[FieldSpec, ...] = (
     _spec("chapter6.travel.total", "差旅费/报告月总额", "差旅费", f"{CHAPTER}-差旅费", unit="元"),
-    _spec("chapter6.travel.yoy_rate", "差旅费/同比增长率", "差旅费", f"{CHAPTER}-差旅费", value_path="指标数据.同比增长率", unit="元"),
-    _spec("chapter6.travel.transport_delta", "差旅费/交通费同比差额", "交通费", f"{CHAPTER}-差旅费-交通费", value_path="指标数据.同比差额"),
-    _spec("chapter6.travel.hotel_delta", "差旅费/住宿费同比差额", "住宿费", f"{CHAPTER}-差旅费-住宿费", value_path="指标数据.同比差额"),
-    _spec("chapter6.travel.vehicle_delta", "差旅费/车辆费同比差额", "车辆费", f"{CHAPTER}-差旅费-车辆费", value_path="指标数据.同比差额"),
-    _spec("chapter6.travel.other_delta", "差旅费/其他同比差额", "其他", f"{CHAPTER}-差旅费-其他", value_path="指标数据.同比差额"),
+    _spec("chapter6.travel.yoy_rate", "差旅费/同比增长率", "差旅费", f"{CHAPTER}-差旅费", value_path="指标数据.同比增长率", unit="元", calculation="不计算；接口无同比增长率字段，不根据实际值与同期数计算"),
+    _spec("chapter6.travel.transport_delta", "差旅费/交通费同比差额", "交通费", f"{CHAPTER}-差旅费-交通费", value_path="指标数据.同比差额", calculation="不计算；接口无具名记录和同比差额字段"),
+    _spec("chapter6.travel.hotel_delta", "差旅费/住宿费同比差额", "住宿费", f"{CHAPTER}-差旅费-住宿费", value_path="指标数据.同比差额", calculation="不计算；接口无具名记录和同比差额字段"),
+    _spec("chapter6.travel.vehicle_delta", "差旅费/车辆费同比差额", "车辆费", f"{CHAPTER}-差旅费-车辆费", value_path="指标数据.同比差额", calculation="不计算；接口无具名记录和同比差额字段"),
+    _spec("chapter6.travel.other_delta", "差旅费/其他同比差额", "其他", f"{CHAPTER}-差旅费-其他", value_path="指标数据.同比差额", calculation="不计算；接口无具名记录和同比差额字段"),
     _spec("chapter6.efficiency.days", "出差效率/出差天数", "出差天数", f"{CHAPTER}-差旅费-出差天数", unit="天"),
     _spec("chapter6.efficiency.daily_total", "出差效率/平均每天花费", "每天花费金额", f"{CHAPTER}-差旅费-每天花费金额", unit="元"),
     _spec("chapter6.efficiency.transport", "出差效率/日均交通费", "交通费", f"{CHAPTER}-差旅费-每天花费金额-交通费", unit="元"),
     _spec("chapter6.efficiency.hotel", "出差效率/日均住宿费", "住宿费", f"{CHAPTER}-差旅费-每天花费金额-住宿费", unit="元"),
     _spec("chapter6.efficiency.vehicle", "出差效率/日均车辆费", "车辆费", f"{CHAPTER}-差旅费-每天花费金额-车辆费", unit="元"),
     _spec("chapter6.efficiency.other", "出差效率/日均其他费用", "其他", f"{CHAPTER}-差旅费-每天花费金额-其他", unit="元"),
-    _spec("chapter6.sample.total", "样板样漆费用/报告月总额", "样板样漆费用", f"{CHAPTER}-样板样漆费用", unit="万元"),
-    _spec("chapter6.sample.yoy_delta", "样板样漆费用/同比差额", "样板样漆费用", f"{CHAPTER}-样板样漆费用", value_path="指标数据.同比差额", unit="万元"),
+    _spec("chapter6.sample.total", "样板样漆费用/报告月总额", "样板样漆费用", f"{CHAPTER}-样板样漆费用", unit="元"),
+    _spec("chapter6.sample.yoy_delta", "样板样漆费用/同比差额", "样板样漆费用", f"{CHAPTER}-样板样漆费用", value_path="指标数据.同比差额", unit="元", calculation="不计算；接口无同比差额字段，不以扣分值代替"),
 )
 
 
@@ -106,6 +107,8 @@ def build_chapter6_apipost_checklist(stats: Dict[str, Any]) -> str:
         ]
         if source["match"].get("指标数据.单位"):
             search_items.append(f'`"单位": "{source["match"]["指标数据.单位"]}"`')
+        if source["match"].get("指标数据.日期类型"):
+            search_items.append(f'`"日期类型": "{source["match"]["指标数据.日期类型"]}"`')
         raw = "；".join(source.get("raw_values", [])) or "搜索不到"
         lines.append("| " + " | ".join([
             source["report_position"],
@@ -140,6 +143,8 @@ def _matching(rows: Iterable[Any], spec: FieldSpec) -> List[Dict[str, Any]]:
             continue
         data = row.get("指标数据") if isinstance(row.get("指标数据"), dict) else {}
         if spec.unit and str(data.get("单位") or "") != spec.unit:
+            continue
+        if spec.date_type and str(data.get("日期类型") or "") != spec.date_type:
             continue
         result.append(row)
     return result
@@ -204,6 +209,8 @@ def _source_base(spec: FieldSpec) -> Dict[str, Any]:
     match = {"指标名称": spec.name, "指标路径": spec.path}
     if spec.unit:
         match["指标数据.单位"] = spec.unit
+    if spec.date_type:
+        match["指标数据.日期类型"] = spec.date_type
     return {
         "field_id": spec.field_id,
         "report_position": spec.report_position,

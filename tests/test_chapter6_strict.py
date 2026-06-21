@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT))
 from ReportGenerator.chapter6_strict import PENDING, build_chapter6_apipost_checklist, format_chapter6_strict
 
 
-RAW_PATH = ROOT / "Reports" / "full_report_tests" / "202606" / "06427_刘晨" / "raw" / "module_6.json"
+RAW_PATH = ROOT / "Reports" / "chapter6_strict_06427_202606" / "raw" / "employee_06427_month_202606_module_6.json"
 
 
 class Chapter6StrictMappingTest(unittest.TestCase):
@@ -24,13 +24,14 @@ class Chapter6StrictMappingTest(unittest.TestCase):
         self.assertEqual(data["区域经理工号"], "06427")
         self.assertEqual(data["月份"], "202606")
         self.assertEqual(data["章节名称"], "六、费用分析")
-        self.assertEqual(len(data["章节数据"]), 26)
+        self.assertEqual(len(data["章节数据"]), 43)
 
     def test_unique_total_keeps_original_precision_without_conversion(self):
-        self.assertIn("6月费用11.993万元", self.markdown)
-        self.assertNotIn("119930", self.markdown)
+        self.assertIn("6月费用4398.500元", self.markdown)
+        self.assertNotIn("4398.50元", self.markdown)
         source = self.stats["field_sources"]["chapter6.sample.total"]
-        self.assertEqual(source["raw_values"], ["11.993万元"])
+        self.assertEqual(source["raw_values"], ["4398.500元"])
+        self.assertEqual(source["match"]["指标数据.日期类型"], "月")
         self.assertEqual(source["calculation"], "无，直接取接口原始值并保持原始精度")
 
     def test_conflicting_rows_are_not_assigned_by_order_or_size(self):
@@ -38,9 +39,10 @@ class Chapter6StrictMappingTest(unittest.TestCase):
         self.assertEqual(sources["chapter6.travel.total"]["status"], "重复冲突")
         self.assertEqual(sources["chapter6.efficiency.daily_total"]["status"], "重复冲突")
         self.assertIn("缺产品唯一标识", sources["chapter6.sample.product1"]["status"])
+        self.assertEqual(sources["chapter6.sample.product1"]["matched_count"], 7)
         self.assertIn(PENDING, self.markdown)
-        self.assertNotIn("14759.530元", self.markdown)
-        self.assertNotIn("2858.000元", self.markdown)
+        self.assertNotIn("7115.500元", self.markdown)
+        self.assertNotIn("1429.200元", self.markdown)
 
     def test_missing_fields_are_not_calculated_from_zero_or_deduction(self):
         sources = self.stats["field_sources"]

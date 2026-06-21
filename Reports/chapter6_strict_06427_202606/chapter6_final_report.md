@@ -8,7 +8,7 @@
 
 ## 样板样漆费用
 
-6月费用11.993万元，同比差额<span style="color:#c00000;font-weight:700">待补充</span>。其中产品1及费用<span style="color:#c00000;font-weight:700">待补充</span>、产品2及费用<span style="color:#c00000;font-weight:700">待补充</span>、产品3及费用<span style="color:#c00000;font-weight:700">待补充</span>。
+6月费用4398.500元，同比差额<span style="color:#c00000;font-weight:700">待补充</span>。其中产品1及费用<span style="color:#c00000;font-weight:700">待补充</span>、产品2及费用<span style="color:#c00000;font-weight:700">待补充</span>、产品3及费用<span style="color:#c00000;font-weight:700">待补充</span>。
 
 ## 行动指南
 
