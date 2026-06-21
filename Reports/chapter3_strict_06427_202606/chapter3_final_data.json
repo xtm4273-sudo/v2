@@ -8,7 +8,7 @@
   "行业占比指标数": 5,
   "conflicts": [],
   "warnings": [
-    "3.1 达成差额、同比增长率、同比差额及 3.3 同比增长率没有明确字段"
+    "3.1 达成差额、同比增长率、同比差额没有明确字段；3.3 缺少客户下降金额前三明细"
   ],
   "field_audit": [
     {
@@ -872,6 +872,78 @@
       "value_field": "\"指标数据\".\"同期数\"",
       "raw_value": "15.758",
       "report_value": "15.758万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/产销客户数",
+      "search": "\"指标路径\": \"三、销量分析-销量-产销客户数\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "16.000",
+      "report_value": "16.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/产销客户数",
+      "search": "\"指标路径\": \"三、销量分析-销量-产销客户数\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "16.0",
+      "report_value": "16.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/客均销量",
+      "search": "\"指标路径\": \"三、销量分析-销量-客均销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "9.101",
+      "report_value": "9.101万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/客均销量",
+      "search": "\"指标路径\": \"三、销量分析-销量-客均销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "12.142",
+      "report_value": "12.142万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/产销项目数",
+      "search": "\"指标路径\": \"三、销量分析-销量-产销项目数\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "41.000",
+      "report_value": "41.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/产销项目数",
+      "search": "\"指标路径\": \"三、销量分析-销量-产销项目数\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "39.0",
+      "report_value": "39.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/单项目销量",
+      "search": "\"指标路径\": \"三、销量分析-销量-单项目销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "3.551",
+      "report_value": "3.551万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/单项目销量",
+      "search": "\"指标路径\": \"三、销量分析-销量-单项目销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "4.981",
+      "report_value": "4.981万",
       "processing": "原值+单位，不舍入",
       "status": "正常"
     },

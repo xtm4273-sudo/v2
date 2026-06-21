@@ -221,48 +221,82 @@ def _sample_rows(records: Dict[str, Optional[MetricRecord]]) -> List[str]:
 
 
 def _build_dimension_section(grouped: Dict[str, Any], period_label: str, action_guide_text: Optional[str]) -> List[str]:
-    positive_products, risk_products = _direction_names(grouped["product_amount"])
-    positive_industries, risk_industries = _direction_names(grouped["industry_volume"])
-    process_positive, process_risk = _process_direction_names(grouped["process"])
+    amount_by_name = {record.name: record for record in grouped["product_amount"]}
+    volume_by_name = {record.name: record for record in grouped["product_volume"]}
+    industry_by_name = {record.name: record for record in grouped["industry_volume"]}
+    share_by_name = {record.name: record for record in grouped["industry_share"]}
+
+    positive_products = sorted(
+        [record for record in amount_by_name.values() if (_growth_percent(record) or Decimal("0")) > 0],
+        key=lambda record: _decimal(record.actual) or Decimal("0"),
+        reverse=True,
+    )[:3]
+    risk_product_pairs = sorted(
+        [
+            (amount, volume_by_name[amount.name])
+            for amount in amount_by_name.values()
+            if amount.name in volume_by_name
+            and (_growth_percent(amount) or Decimal("0")) < 0
+            and (_growth_percent(volume_by_name[amount.name]) or Decimal("0")) < 0
+        ],
+        key=lambda pair: _decimal(pair[0].actual) or Decimal("0"),
+        reverse=True,
+    )[:3]
+    positive_industries = sorted(
+        [
+            (record, share_by_name[record.name])
+            for record in industry_by_name.values()
+            if record.name in share_by_name
+            and (_growth_percent(record) or Decimal("0")) > 0
+            and _share_change(share_by_name[record.name]) is not None
+            and (_share_change(share_by_name[record.name]) or Decimal("0")) > 0
+        ],
+        key=lambda pair: _decimal(pair[1].actual) or Decimal("0"),
+        reverse=True,
+    )[:3]
+    risk_industries = sorted(
+        [
+            (record, share_by_name[record.name])
+            for record in industry_by_name.values()
+            if record.name in share_by_name
+            and (_growth_percent(record) or Decimal("0")) < 0
+            and _share_change(share_by_name[record.name]) is not None
+            and (_share_change(share_by_name[record.name]) or Decimal("0")) < 0
+        ],
+        key=lambda pair: _decimal(pair[1].actual) or Decimal("0"),
+        reverse=True,
+    )[:3]
+
+    customer = grouped["process"].get("产销客户数")
+    project = grouped["process"].get("产销项目数")
+    customer_average = grouped["process"].get("客均销量")
+    project_average = grouped["process"].get("单项目销量")
+
     lines = [
         f"* 正向指标（{period_label}）",
-        f"  * 产品：{_names_or_missing(positive_products)}。",
-        f"  * 客户与项目：{_names_or_missing(process_positive)}。",
-        f"  * 行业：{_names_or_missing(positive_industries)}。",
+        f"  * 产品：{_positive_product_text(positive_products)}表现突出",
+        f"  * 客户：产销客户数同比增长{_calculated_growth_rate(customer)}（增加{_calculated_gap(customer)}）",
+        f"  * 项目：产销项目数同比增长{_calculated_growth_rate(project)}（增加{_calculated_gap(project)}）",
+        f"  * 行业：{_positive_industry_text(positive_industries)}",
         f"* 风险指标（{period_label}）",
-        f"  * 产品：{_names_or_missing(risk_products)}。",
-        f"  * 客户与项目：{_names_or_missing(process_risk)}。",
-        f"  * 行业：{_names_or_missing(risk_industries)}。",
-        "",
-        "### 产品收入与销售量明细（接口原始精度）", "",
-        "| 产品 | 口径 | 26年实际 | 25年同期 | 同比增长率 |",
-        "| --- | --- | --- | --- | --- |",
+        f"  * 产品：{_risk_product_text(risk_product_pairs)}",
+        f"  * 客户：客均销量{_record_field(customer_average, 'actual')}（↓{_absolute_growth_text(customer_average)}）。{period_label}销量下降金额前三的客户包含：{MISSING}",
+        f"  * 项目：单项目销量{_record_field(project_average, 'actual')}（↓{_absolute_growth_text(project_average)}）",
+        f"  * 行业：{_risk_industry_text(risk_industries)}",
+        f"* 行动指南：{action_guide_text or build_rule_based_action_guide(grouped)}",
     ]
-    amount = {r.name: r for r in grouped["product_amount"]}
-    volume = {r.name: r for r in grouped["product_volume"]}
-    for name in sorted(set(amount) | set(volume)):
-        for label, record in (("收入", amount.get(name)), ("销售量", volume.get(name))):
-            if record:
-                lines.append(f"| {name} | {label} | {_record_field(record, 'actual')} | {_record_field(record, 'yoy')} | {MISSING} |")
-    lines.extend(["", "### 行业销量与占比明细（接口原始精度）", "", "| 行业 | 销量 | 销量同期数 | 销量占比 | 占比同期数 |", "| --- | --- | --- | --- | --- |"])
-    volumes = {r.name: r for r in grouped["industry_volume"]}
-    shares = {r.name: r for r in grouped["industry_share"]}
-    for name in sorted(set(volumes) | set(shares)):
-        v, s = volumes.get(name), shares.get(name)
-        lines.append(f"| {name} | {_record_field(v, 'actual')} | {_record_field(v, 'yoy')} | {_record_field(s, 'actual')} | {_record_field(s, 'yoy')} |")
-    lines.extend(["", f"* 行动指南：{action_guide_text or build_rule_based_action_guide(grouped)}"])
     return lines
 
 
 def build_rule_based_action_guide(grouped: Dict[str, Any]) -> str:
-    return "结合上述明确命中的产品、客户、项目与行业数据进行逐项复盘，优先关注实际个数低于同期个数的过程指标。"
+    return "优先复盘收入与销售量同时下降的产品，同步关注客均销量、单项目销量及收入与占比下降的行业，逐项制定补量动作。"
 
 
 def build_chapter3_action_context(grouped: Dict[str, Any], period: str = "") -> Dict[str, Any]:
     return {
         "period": month_labels(period)[1].replace("累计", ""),
         "fixed_mapping_only": True,
-        "missing_fields": ["达成差额", "同比增长率", "同比差额"],
+        "missing_fields": ["3.1 达成差额", "3.1 同比增长率", "3.1 同比差额", "客户下降金额前三明细"],
         "sales_actual": {dim: _record_field(grouped["sales_overview"].get(dim), "actual") for dim in TIME_DIMENSIONS},
     }
 
@@ -278,7 +312,7 @@ def build_chapter3_stats(records: List[MetricRecord], grouped: Dict[str, Any]) -
         "行业销量指标数": len(grouped["industry_volume"]),
         "行业占比指标数": len(grouped["industry_share"]),
         "conflicts": conflicts,
-        "warnings": ["3.1 达成差额、同比增长率、同比差额及 3.3 同比增长率没有明确字段"],
+        "warnings": ["3.1 达成差额、同比增长率、同比差额没有明确字段；3.3 缺少客户下降金额前三明细"],
     }
 
 
@@ -297,6 +331,14 @@ def build_chapter3_field_audit(records: Sequence[MetricRecord], period: str = ""
             fields = (("目标值", record.target), ("实际值", record.actual), ("扣分值", record.deduction), ("达成率", record.achievement_rate))
         elif record.path == "三、销量分析-打样项目数-":
             position = f"3.2/打样项目数/{record.date_type}"
+            fields = (("实际值", record.actual), ("同期数", record.yoy))
+        elif record.path in {
+            "三、销量分析-销量-产销客户数",
+            "三、销量分析-销量-产销项目数",
+            "三、销量分析-销量-客均销量",
+            "三、销量分析-销量-单项目销量",
+        }:
+            position = f"3.3/{record.name}"
             fields = (("实际值", record.actual), ("同期数", record.yoy))
         elif record.name in {"20个存量生效客户", "100个出货项目"}:
             position = f"3.2/年度目标/{record.name}"
@@ -376,19 +418,40 @@ def build_chapter3_apipost_checklist(records: Sequence[MetricRecord], period: st
                 f"| 3.2/打样项目数/{record.date_type}/增长率 | {search} | `\"实际值\"` `\"同期数\"` | `{growth}` | "
                 "代码计算：（实际值 - 同期数）÷同期数×100%，四舍五入保留2位小数 |"
             )
+        if record.date_type == "年" and (
+            record.path.startswith("三、销量分析-各产品")
+            or record.path.startswith("三、销量分析-各行业销量-")
+            or record.path in {
+                "三、销量分析-销量-产销客户数",
+                "三、销量分析-销量-产销项目数",
+                "三、销量分析-销量-客均销量",
+                "三、销量分析-销量-单项目销量",
+            }
+        ):
+            growth = _calculated_growth_rate(record)
+            lines.append(
+                f"| {position}/同比增长率 | {search} | `\"实际值\"` `\"同期数\"` | `{growth}` | "
+                "代码计算：（实际值 - 同期数）÷同期数×100%，四舍五入保留2位小数 |"
+            )
+        if record.date_type == "年" and record.path.startswith("三、销量分析-各行业销量占比-"):
+            change = _share_change_text(record)
+            lines.append(
+                f"| {position}/占比变化 | {search} | `\"实际值\"` `\"同期数\"` | `{change}` | "
+                "代码计算：|本期占比 - 同期占比|，四舍五入保留2位小数 |"
+            )
 
     missing_rows = [
         ("3.1/达成差额", '"指标名称": "达成差额"', "搜索不到该指标"),
         ("3.1/同比增长率", '"指标名称": "同比增长率"', "搜索不到该指标"),
         ("3.1/同比差额", '"指标名称": "同比差额"', "搜索不到该指标"),
-        ("3.3/产品与行业同比增长率", '"指标名称": "同比增长率"', "接口无增长率字段，不自行计算"),
+        ("3.3/客户下降金额前三明细", '"指标名称": "客户销量下降金额"', "接口未提供客户明细"),
     ]
     for position, search, status in missing_rows:
         lines.append(f"| {position} | `{search}` |  | `待补充` | {status} |")
 
     lines.extend([
         "", "## 需要特别确认", "",
-        "第三章接口中的同名记录通过 `\"日期类型\"` 区分月、季、年口径。本次按“指标名称＋指标路径＋日期类型”检查未发现数值冲突。3.2 负增长指标直接按“实际个数 < 同期个数”判定；增长率由代码按公式计算，不从接口取。3.1 达成差额、同比增长率、同比差额仍无直接字段，显示“待补充”。",
+        "第三章接口中的同名记录通过 `\"日期类型\"` 区分月、季、年口径。本次按“指标名称＋指标路径＋日期类型”检查未发现数值冲突。3.2 负增长指标直接按“实际个数 < 同期个数”判定。3.2 和 3.3 增长/下降率由代码按公式计算，不从接口取。客户下降金额前三明细未提供，报告显示红色“待补充”。3.1 达成差额、同比增长率、同比差额仍无直接字段。",
     ])
     return "\n".join(lines) + "\n"
 
@@ -503,6 +566,76 @@ def _calculated_growth_rate(record: Optional[MetricRecord]) -> str:
         return MISSING
     rate = ((actual - yoy) / yoy * Decimal("100")).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
     return f"{rate:.2f}%"
+
+
+def _growth_percent(record: Optional[MetricRecord]) -> Optional[Decimal]:
+    if record is None:
+        return None
+    actual, yoy = _decimal(record.actual), _decimal(record.yoy)
+    if actual is None or yoy is None or yoy == 0:
+        return None
+    return (actual - yoy) / yoy * Decimal("100")
+
+
+def _absolute_growth_text(record: Optional[MetricRecord]) -> str:
+    rate = _growth_percent(record)
+    if rate is None:
+        return MISSING
+    rounded = abs(rate).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    return f"{rounded:.2f}%"
+
+
+def _share_change(record: Optional[MetricRecord]) -> Optional[Decimal]:
+    if record is None:
+        return None
+    actual, yoy = _decimal(record.actual), _decimal(record.yoy)
+    if actual is None or yoy is None:
+        return None
+    return actual - yoy
+
+
+def _share_change_text(record: Optional[MetricRecord]) -> str:
+    change = _share_change(record)
+    if change is None:
+        return MISSING
+    rounded = abs(change).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    return f"{rounded:.2f}%"
+
+
+def _positive_product_text(records: Sequence[MetricRecord]) -> str:
+    if not records:
+        return MISSING
+    return "、".join(
+        f"{record.name}{_record_field(record, 'actual')}（↑{_absolute_growth_text(record)}）"
+        for record in records
+    )
+
+
+def _risk_product_text(records: Sequence[Tuple[MetricRecord, MetricRecord]]) -> str:
+    if not records:
+        return MISSING
+    return "；".join(
+        f"{amount.name}{_record_field(amount, 'actual')}（↓{_absolute_growth_text(amount)}），销售量下降{_absolute_growth_text(volume)}"
+        for amount, volume in records
+    )
+
+
+def _positive_industry_text(records: Sequence[Tuple[MetricRecord, MetricRecord]]) -> str:
+    if not records:
+        return MISSING
+    return "；".join(
+        f"{amount.name}行业收入增长{_absolute_growth_text(amount)}，占比增长{_share_change_text(share)}"
+        for amount, share in records
+    )
+
+
+def _risk_industry_text(records: Sequence[Tuple[MetricRecord, MetricRecord]]) -> str:
+    if not records:
+        return MISSING
+    return "；".join(
+        f"{amount.name}行业收入下降{_absolute_growth_text(amount)}，占比下降{_share_change_text(share)}"
+        for amount, share in records
+    )
 
 
 def _find_conflicts(records: Sequence[MetricRecord]) -> List[Dict[str, Any]]:

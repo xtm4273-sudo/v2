@@ -49,10 +49,24 @@ class Chapter3StrictMappingTest(unittest.TestCase):
         markdown, stats = format_chapter3_data(self.real, period="202606")
         self.assertIn("| 实际 | 15.659万 | 48.888万 | 145.611万 |", markdown)
         self.assertIn("|  | 实际 | 0.000家 | 1.000家 | 1.000家 |", markdown)
-        self.assertIn("86.500吨", markdown)
         self.assertNotIn("15.66万", markdown)
         self.assertEqual(stats["有效指标数"], 72)
         self.assertEqual(stats["conflicts"], [])
+
+    def test_chapter33_matches_customer_template_without_detail_tables(self):
+        markdown, _ = format_chapter3_data(self.real, period="202606")
+        self.assertIn("* 正向指标（1-6月）", markdown)
+        self.assertIn("产品：无机矿物内墙涂料7.550万（↑1991.41%）、弹性涂料7.372万（↑80.11%）、其他产品（界面剂、胶粘剂、辅材等）6.232万（↑149.08%）表现突出", markdown)
+        self.assertIn("客户：产销客户数同比增长0.00%（增加0.000个）", markdown)
+        self.assertIn("项目：产销项目数同比增长5.13%（增加2.000个）", markdown)
+        self.assertIn("地产系统行业收入增长39.93%，占比增长4.88%", markdown)
+        self.assertIn("* 风险指标（1-6月）", markdown)
+        self.assertIn("地坪漆55.326万（↓7.31%），销售量下降6.35%", markdown)
+        self.assertIn("客户：客均销量9.101万（↓25.05%）", markdown)
+        self.assertIn("项目：单项目销量3.551万（↓28.71%）", markdown)
+        self.assertIn("市政公建行业收入下降44.74%，占比下降8.93%", markdown)
+        self.assertNotIn("产品收入与销售量明细", markdown)
+        self.assertNotIn("行业销量与占比明细", markdown)
 
     def test_missing_fields_are_red_and_not_calculated(self):
         markdown, _ = format_chapter3_data(self.real, period="202606")

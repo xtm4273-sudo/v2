@@ -315,6 +315,13 @@ def _markdown_to_pdf(markdown: str, output_path: Path) -> None:
     )
     styles.add(
         ParagraphStyle(
+            name="CNBulletKeep",
+            parent=styles["CNBullet"],
+            keepWithNext=True,
+        )
+    )
+    styles.add(
+        ParagraphStyle(
             name="CNTable",
             parent=styles["BodyText"],
             fontName=font,
@@ -349,7 +356,8 @@ def _markdown_to_pdf(markdown: str, output_path: Path) -> None:
         elif line.startswith("  * "):
             story.append(Paragraph(_inline_pdf(line[4:]), styles["CNSubBullet"], bulletText="✧"))
         elif line.startswith("* "):
-            story.append(Paragraph(_inline_pdf(line[2:]), styles["CNBullet"], bulletText="▶"))
+            style = styles["CNBulletKeep"] if line[2:].startswith("风险指标") else styles["CNBullet"]
+            story.append(Paragraph(_inline_pdf(line[2:]), style, bulletText="▶"))
         else:
             story.append(Paragraph(_inline_pdf(line), styles["CNBody"]))
         i += 1
