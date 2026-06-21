@@ -1,0 +1,1392 @@
+{
+  "有效指标数": 72,
+  "销量概况数": 3,
+  "过程指标数": 9,
+  "产品销量金额指标数": 22,
+  "产品销售量指标数": 22,
+  "行业销量指标数": 5,
+  "行业占比指标数": 5,
+  "conflicts": [],
+  "warnings": [
+    "接口未提供达成差额、同比增长率、同比差额的明确字段"
+  ],
+  "field_audit": [
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-一体板\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "7.458",
+      "report_value": "7.458万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-一体板\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-一体板\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.916",
+      "report_value": "0.916千平米",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-一体板\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0千平米",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-艺术漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "1.062",
+      "report_value": "1.062万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-艺术漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-艺术漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.940",
+      "report_value": "0.940吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-艺术漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-建筑节能砂浆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.085",
+      "report_value": "0.085万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-建筑节能砂浆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-建筑节能砂浆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "1.250",
+      "report_value": "1.250吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-建筑节能砂浆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-建筑节能辅材产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.050",
+      "report_value": "0.050万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-建筑节能辅材产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-建筑节能辅材产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.027",
+      "report_value": "0.027吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-建筑节能辅材产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-小森板\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "4.427",
+      "report_value": "4.427万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-小森板\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-小森板\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.507",
+      "report_value": "0.507吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-小森板\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.0",
+      "report_value": "0.0吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/月",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "1.0",
+      "report_value": "1.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/月",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.000",
+      "report_value": "0.000家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/月",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "1.0",
+      "report_value": "1.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/月",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "0.000",
+      "report_value": "0.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/20个存量生效客户",
+      "search": "\"指标路径\": \"三、销量分析-20个存量生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "20.0",
+      "report_value": "20.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/20个存量生效客户",
+      "search": "\"指标路径\": \"三、销量分析-20个存量生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "3.000",
+      "report_value": "3.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/20个存量生效客户",
+      "search": "\"指标路径\": \"三、销量分析-20个存量生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "17.0",
+      "report_value": "17.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/100个出货项目",
+      "search": "\"指标路径\": \"三、销量分析-100个出货项目\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "100.0",
+      "report_value": "100.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/100个出货项目",
+      "search": "\"指标路径\": \"三、销量分析-100个出货项目\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "26.000",
+      "report_value": "26.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/年度目标/100个出货项目",
+      "search": "\"指标路径\": \"三、销量分析-100个出货项目\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "74.0",
+      "report_value": "74.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/季",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "1.0",
+      "report_value": "1.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/季",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "1.000",
+      "report_value": "1.000家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/季",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "0.0",
+      "report_value": "0.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/季",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "100.000",
+      "report_value": "100.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/年",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "2.0",
+      "report_value": "2.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/年",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "1.000",
+      "report_value": "1.000家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/年",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "1.0",
+      "report_value": "1.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/招商生效客户/年",
+      "search": "\"指标路径\": \"三、销量分析-招商生效客户\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "50.000",
+      "report_value": "50.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/月",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "2.0",
+      "report_value": "2.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/月",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "2.000",
+      "report_value": "2.000家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/月",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "0.0",
+      "report_value": "0.0家",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/月",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "100.000",
+      "report_value": "100.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/季",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "3.0",
+      "report_value": "3.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/季",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "3.000",
+      "report_value": "3.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/季",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "0.0",
+      "report_value": "0.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/季",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "100.000",
+      "report_value": "100.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/年",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "8.0",
+      "report_value": "8.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/年",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "4.000",
+      "report_value": "4.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/年",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"扣分值\"",
+      "raw_value": "4.0",
+      "report_value": "4.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/有效项目落地/年",
+      "search": "\"指标路径\": \"三、销量分析-有效项目落地\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "50.000",
+      "report_value": "50.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/月",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "0.0",
+      "report_value": "0.0万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/月",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "15.659",
+      "report_value": "15.659万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/月",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "0.000",
+      "report_value": "0.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-真石漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "7.217",
+      "report_value": "7.217万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-真石漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "21.152",
+      "report_value": "21.152万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-真石漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "33.537",
+      "report_value": "33.537吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-真石漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "91.007",
+      "report_value": "91.007吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-内墙乳胶漆面漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "19.931",
+      "report_value": "19.931万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-内墙乳胶漆面漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "31.155",
+      "report_value": "31.155万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-内墙乳胶漆面漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "68.378",
+      "report_value": "68.378吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-内墙乳胶漆面漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "101.144",
+      "report_value": "101.144吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-内墙腻子\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "5.432",
+      "report_value": "5.432万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-内墙腻子\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.52",
+      "report_value": "0.52万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-内墙腻子\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "86.500",
+      "report_value": "86.500吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-内墙腻子\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "10.0",
+      "report_value": "10.0吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-外墙腻子\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "3.777",
+      "report_value": "3.777万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-外墙腻子\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "2.348",
+      "report_value": "2.348万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-外墙腻子\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "53.750",
+      "report_value": "53.750吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-外墙腻子\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "36.0",
+      "report_value": "36.0吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-真石质感配套底漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.058",
+      "report_value": "0.058万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-真石质感配套底漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "1.452",
+      "report_value": "1.452万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-真石质感配套底漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.081",
+      "report_value": "0.081吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-真石质感配套底漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "1.648",
+      "report_value": "1.648吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-无机矿物内墙涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "7.550",
+      "report_value": "7.550万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-无机矿物内墙涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.361",
+      "report_value": "0.361万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-无机矿物内墙涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "13.572",
+      "report_value": "13.572吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-无机矿物内墙涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.562",
+      "report_value": "0.562吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-聚合物水泥防水涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "15.190",
+      "report_value": "15.190万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-聚合物水泥防水涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "31.669",
+      "report_value": "31.669万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-聚合物水泥防水涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "40.400",
+      "report_value": "40.400吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-聚合物水泥防水涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "87.0",
+      "report_value": "87.0吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-多彩涂料中涂\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.079",
+      "report_value": "0.079万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-多彩涂料中涂\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "7.453",
+      "report_value": "7.453万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-多彩涂料中涂\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.100",
+      "report_value": "0.100吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-多彩涂料中涂\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "8.832",
+      "report_value": "8.832吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-地坪漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "55.326",
+      "report_value": "55.326万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-地坪漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "59.687",
+      "report_value": "59.687万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-地坪漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "39.316",
+      "report_value": "39.316吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-地坪漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "41.982",
+      "report_value": "41.982吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-弹性涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "7.372",
+      "report_value": "7.372万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-弹性涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "4.093",
+      "report_value": "4.093万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-弹性涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "9.450",
+      "report_value": "9.450吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-弹性涂料\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "6.363",
+      "report_value": "6.363吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-质感漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.729",
+      "report_value": "0.729万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-质感漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.056",
+      "report_value": "0.056万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-质感漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "2.277",
+      "report_value": "2.277吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-质感漆\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.165",
+      "report_value": "0.165吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-墙清\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.252",
+      "report_value": "0.252万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-墙清\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.095",
+      "report_value": "0.095万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-墙清\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.252",
+      "report_value": "0.252吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-墙清\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.151",
+      "report_value": "0.151吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-其他产品（界面剂、胶粘剂、辅材等）\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "6.232",
+      "report_value": "6.232万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-其他产品（界面剂、胶粘剂、辅材等）\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "2.502",
+      "report_value": "2.502万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-其他产品（界面剂、胶粘剂、辅材等）\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "17.805",
+      "report_value": "17.805吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-其他产品（界面剂、胶粘剂、辅材等）\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "7.17",
+      "report_value": "7.17吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-水包水\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.133",
+      "report_value": "0.133万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-水包水\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "1.278",
+      "report_value": "1.278万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-水包水\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.145",
+      "report_value": "0.145吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-水包水\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "1.638",
+      "report_value": "1.638吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-石膏\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.458",
+      "report_value": "0.458万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-石膏\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "2.669",
+      "report_value": "2.669万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-石膏\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "7.500",
+      "report_value": "7.500吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-石膏\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "37.125",
+      "report_value": "37.125吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-多彩涂料底面等其他产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "2.741",
+      "report_value": "2.741万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-多彩涂料底面等其他产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "9.514",
+      "report_value": "9.514万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-多彩涂料底面等其他产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "3.645",
+      "report_value": "3.645吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-多彩涂料底面等其他产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "10.076",
+      "report_value": "10.076吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-内墙乳胶漆其他产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.055",
+      "report_value": "0.055万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销量-内墙乳胶漆其他产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.029",
+      "report_value": "0.029万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-内墙乳胶漆其他产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "0.138",
+      "report_value": "0.138吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各产品销售量-内墙乳胶漆其他产品\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.06",
+      "report_value": "0.06吨",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-地产系统\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "15.305",
+      "report_value": "15.305万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-地产系统\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "10.938",
+      "report_value": "10.938万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-工业\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "81.732",
+      "report_value": "81.732万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-工业\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "100.184",
+      "report_value": "100.184万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-市政公建\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "36.497",
+      "report_value": "36.497万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-市政公建\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "66.046",
+      "report_value": "66.046万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-教育、医疗卫生、金融系统\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "7.549",
+      "report_value": "7.549万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-教育、医疗卫生、金融系统\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "15.758",
+      "report_value": "15.758万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/季",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "0.0",
+      "report_value": "0.0万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/季",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "48.888",
+      "report_value": "48.888万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/季",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "0.000",
+      "report_value": "0.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/年",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"目标值\"",
+      "raw_value": "0.0",
+      "report_value": "0.0万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/年",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "145.611",
+      "report_value": "145.611万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.1/年",
+      "search": "\"指标路径\": \"三、销量分析-销量-销量\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"达成率\"",
+      "raw_value": "0.000",
+      "report_value": "0.000%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/打样项目数/年",
+      "search": "\"指标路径\": \"三、销量分析-打样项目数-\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "23.000",
+      "report_value": "23.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/打样项目数/年",
+      "search": "\"指标路径\": \"三、销量分析-打样项目数-\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "29.0",
+      "report_value": "29.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/打样项目数/季",
+      "search": "\"指标路径\": \"三、销量分析-打样项目数-\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "13.000",
+      "report_value": "13.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/打样项目数/季",
+      "search": "\"指标路径\": \"三、销量分析-打样项目数-\"<br>\"日期类型\": \"季\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "19.0",
+      "report_value": "19.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/打样项目数/月",
+      "search": "\"指标路径\": \"三、销量分析-打样项目数-\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "8.000",
+      "report_value": "8.000个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.2/打样项目数/月",
+      "search": "\"指标路径\": \"三、销量分析-打样项目数-\"<br>\"日期类型\": \"月\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "11.0",
+      "report_value": "11.0个",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-连锁酒店、商业、餐饮、文体娱乐\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "4.529",
+      "report_value": "4.529万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量-连锁酒店、商业、餐饮、文体娱乐\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "1.35",
+      "report_value": "1.35万",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-地产系统\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "10.511",
+      "report_value": "10.511%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-地产系统\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "5.63",
+      "report_value": "5.63%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-工业\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "56.131",
+      "report_value": "56.131%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-工业\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "51.568",
+      "report_value": "51.568%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-市政公建\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "25.064",
+      "report_value": "25.064%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-市政公建\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "33.996",
+      "report_value": "33.996%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-教育、医疗卫生、金融系统\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "5.184",
+      "report_value": "5.184%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-教育、医疗卫生、金融系统\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "8.111",
+      "report_value": "8.111%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-连锁酒店、商业、餐饮、文体娱乐\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"实际值\"",
+      "raw_value": "3.110",
+      "report_value": "3.110%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    },
+    {
+      "report_position": "3.3/明细",
+      "search": "\"指标路径\": \"三、销量分析-各行业销量占比-连锁酒店、商业、餐饮、文体娱乐\"<br>\"日期类型\": \"年\"",
+      "value_field": "\"指标数据\".\"同期数\"",
+      "raw_value": "0.695",
+      "report_value": "0.695%",
+      "processing": "原值+单位，不舍入",
+      "status": "正常"
+    }
+  ]
+}
