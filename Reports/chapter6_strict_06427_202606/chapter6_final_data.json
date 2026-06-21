@@ -1,0 +1,374 @@
+{
+  "metadata": {
+    "月份": "202606",
+    "部门编码": "L110021",
+    "区域经理工号": "06427",
+    "部门名称": "城市焕新事业部",
+    "区域经理姓名": "刘晨",
+    "岗位名称": "",
+    "章节名称": "六、费用分析"
+  },
+  "values": {
+    "chapter6.travel.total": null,
+    "chapter6.travel.yoy_rate": null,
+    "chapter6.travel.transport_delta": null,
+    "chapter6.travel.hotel_delta": null,
+    "chapter6.travel.vehicle_delta": null,
+    "chapter6.travel.other_delta": null,
+    "chapter6.efficiency.days": null,
+    "chapter6.efficiency.daily_total": null,
+    "chapter6.efficiency.transport": null,
+    "chapter6.efficiency.hotel": null,
+    "chapter6.efficiency.vehicle": null,
+    "chapter6.efficiency.other": null,
+    "chapter6.sample.total": {
+      "raw_value": "11.993",
+      "unit": "万元",
+      "report_value": "11.993万元"
+    },
+    "chapter6.sample.yoy_delta": null,
+    "chapter6.sample.product1": null,
+    "chapter6.sample.product2": null,
+    "chapter6.sample.product3": null
+  },
+  "field_sources": {
+    "chapter6.travel.total": {
+      "field_id": "chapter6.travel.total",
+      "report_position": "差旅费/报告月总额",
+      "match": {
+        "指标名称": "差旅费",
+        "指标路径": "六、费用分析-差旅费",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 4,
+      "raw_values": [
+        "14759.530元",
+        "583.500元",
+        "8157.530元",
+        "3500.000元"
+      ],
+      "status": "重复冲突",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.travel.yoy_rate": {
+      "field_id": "chapter6.travel.yoy_rate",
+      "report_position": "差旅费/同比增长率",
+      "match": {
+        "指标名称": "差旅费",
+        "指标路径": "六、费用分析-差旅费",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.同比增长率",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 4,
+      "raw_values": [
+        "字段不存在/null",
+        "字段不存在/null",
+        "字段不存在/null",
+        "字段不存在/null"
+      ],
+      "status": "取值字段缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.travel.transport_delta": {
+      "field_id": "chapter6.travel.transport_delta",
+      "report_position": "差旅费/交通费同比差额",
+      "match": {
+        "指标名称": "交通费",
+        "指标路径": "六、费用分析-差旅费-交通费"
+      },
+      "value_path": "指标数据.同比差额",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 0,
+      "raw_values": [],
+      "status": "缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.travel.hotel_delta": {
+      "field_id": "chapter6.travel.hotel_delta",
+      "report_position": "差旅费/住宿费同比差额",
+      "match": {
+        "指标名称": "住宿费",
+        "指标路径": "六、费用分析-差旅费-住宿费"
+      },
+      "value_path": "指标数据.同比差额",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 0,
+      "raw_values": [],
+      "status": "缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.travel.vehicle_delta": {
+      "field_id": "chapter6.travel.vehicle_delta",
+      "report_position": "差旅费/车辆费同比差额",
+      "match": {
+        "指标名称": "车辆费",
+        "指标路径": "六、费用分析-差旅费-车辆费"
+      },
+      "value_path": "指标数据.同比差额",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 0,
+      "raw_values": [],
+      "status": "缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.travel.other_delta": {
+      "field_id": "chapter6.travel.other_delta",
+      "report_position": "差旅费/其他同比差额",
+      "match": {
+        "指标名称": "其他",
+        "指标路径": "六、费用分析-差旅费-其他"
+      },
+      "value_path": "指标数据.同比差额",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 0,
+      "raw_values": [],
+      "status": "缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.efficiency.days": {
+      "field_id": "chapter6.efficiency.days",
+      "report_position": "出差效率/出差天数",
+      "match": {
+        "指标名称": "出差天数",
+        "指标路径": "六、费用分析-差旅费-出差天数",
+        "指标数据.单位": "天"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 0,
+      "raw_values": [],
+      "status": "缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.efficiency.daily_total": {
+      "field_id": "chapter6.efficiency.daily_total",
+      "report_position": "出差效率/平均每天花费",
+      "match": {
+        "指标名称": "每天花费金额",
+        "指标路径": "六、费用分析-差旅费-每天花费金额",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 4,
+      "raw_values": [
+        "5.160元",
+        "22.290元",
+        "72.190元",
+        "30.970元"
+      ],
+      "status": "重复冲突",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.efficiency.transport": {
+      "field_id": "chapter6.efficiency.transport",
+      "report_position": "出差效率/日均交通费",
+      "match": {
+        "指标名称": "交通费",
+        "指标路径": "六、费用分析-差旅费-每天花费金额-交通费",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 0,
+      "raw_values": [],
+      "status": "缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.efficiency.hotel": {
+      "field_id": "chapter6.efficiency.hotel",
+      "report_position": "出差效率/日均住宿费",
+      "match": {
+        "指标名称": "住宿费",
+        "指标路径": "六、费用分析-差旅费-每天花费金额-住宿费",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 0,
+      "raw_values": [],
+      "status": "缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.efficiency.vehicle": {
+      "field_id": "chapter6.efficiency.vehicle",
+      "report_position": "出差效率/日均车辆费",
+      "match": {
+        "指标名称": "车辆费",
+        "指标路径": "六、费用分析-差旅费-每天花费金额-车辆费",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 0,
+      "raw_values": [],
+      "status": "缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.efficiency.other": {
+      "field_id": "chapter6.efficiency.other",
+      "report_position": "出差效率/日均其他费用",
+      "match": {
+        "指标名称": "其他",
+        "指标路径": "六、费用分析-差旅费-每天花费金额-其他",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 0,
+      "raw_values": [],
+      "status": "缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.sample.total": {
+      "field_id": "chapter6.sample.total",
+      "report_position": "样板样漆费用/报告月总额",
+      "match": {
+        "指标名称": "样板样漆费用",
+        "指标路径": "六、费用分析-样板样漆费用",
+        "指标数据.单位": "万元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 1,
+      "raw_values": [
+        "11.993万元"
+      ],
+      "status": "正常",
+      "report_value": "11.993万元"
+    },
+    "chapter6.sample.yoy_delta": {
+      "field_id": "chapter6.sample.yoy_delta",
+      "report_position": "样板样漆费用/同比差额",
+      "match": {
+        "指标名称": "样板样漆费用",
+        "指标路径": "六、费用分析-样板样漆费用",
+        "指标数据.单位": "万元"
+      },
+      "value_path": "指标数据.同比差额",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取接口原始值并保持原始精度",
+      "matched_count": 1,
+      "raw_values": [
+        "字段不存在/null"
+      ],
+      "status": "取值字段缺失",
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>"
+    },
+    "chapter6.sample.product1": {
+      "field_id": "chapter6.sample.product1",
+      "report_position": "样板样漆费用/产品1及费用",
+      "match": {
+        "指标名称": "样板样漆费用",
+        "指标路径": "六、费用分析-样板样漆费用-样板样漆费用",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "不计算；缺少产品名称/编码，禁止按数组顺序或金额大小选取产品",
+      "matched_count": 16,
+      "raw_values": [
+        "2220.400元",
+        "470.000元",
+        "344.000元",
+        "79.200元",
+        "98.000元",
+        "48.500元",
+        "1609.200元",
+        "2858.000元",
+        "429.000元",
+        "16.800元",
+        "58.800元",
+        "1368.200元",
+        "419.700元",
+        "129.000元",
+        "640.000元",
+        "286.000元"
+      ],
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>",
+      "status": "重复冲突且缺产品唯一标识"
+    },
+    "chapter6.sample.product2": {
+      "field_id": "chapter6.sample.product2",
+      "report_position": "样板样漆费用/产品2及费用",
+      "match": {
+        "指标名称": "样板样漆费用",
+        "指标路径": "六、费用分析-样板样漆费用-样板样漆费用",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "不计算；缺少产品名称/编码，禁止按数组顺序或金额大小选取产品",
+      "matched_count": 16,
+      "raw_values": [
+        "2220.400元",
+        "470.000元",
+        "344.000元",
+        "79.200元",
+        "98.000元",
+        "48.500元",
+        "1609.200元",
+        "2858.000元",
+        "429.000元",
+        "16.800元",
+        "58.800元",
+        "1368.200元",
+        "419.700元",
+        "129.000元",
+        "640.000元",
+        "286.000元"
+      ],
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>",
+      "status": "重复冲突且缺产品唯一标识"
+    },
+    "chapter6.sample.product3": {
+      "field_id": "chapter6.sample.product3",
+      "report_position": "样板样漆费用/产品3及费用",
+      "match": {
+        "指标名称": "样板样漆费用",
+        "指标路径": "六、费用分析-样板样漆费用-样板样漆费用",
+        "指标数据.单位": "元"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "不计算；缺少产品名称/编码，禁止按数组顺序或金额大小选取产品",
+      "matched_count": 16,
+      "raw_values": [
+        "2220.400元",
+        "470.000元",
+        "344.000元",
+        "79.200元",
+        "98.000元",
+        "48.500元",
+        "1609.200元",
+        "2858.000元",
+        "429.000元",
+        "16.800元",
+        "58.800元",
+        "1368.200元",
+        "419.700元",
+        "129.000元",
+        "640.000元",
+        "286.000元"
+      ],
+      "report_value": "<span style=\"color:#c00000;font-weight:700\">待补充</span>",
+      "status": "重复冲突且缺产品唯一标识"
+    }
+  }
+}
