@@ -1,0 +1,283 @@
+{
+  "code": 1,
+  "message": "derived_from_chapters_1_to_7",
+  "data": {
+    "月份": "202606",
+    "区域经理工号": "06427",
+    "区域经理姓名": "刘晨",
+    "部门名称": "杭州工业厂房经营部",
+    "章节名称": "八、总结",
+    "performance": {
+      "绩效得分": 55.7,
+      "省区内排名": "20",
+      "事业部内排名": "565",
+      "销量": 145.611,
+      "销量省区排名": 24.0,
+      "分摊前利润": 44.987,
+      "利润省区排名": 6.0
+    },
+    "facts": [
+      {
+        "dimension": "绩效",
+        "metric_name": "绩效得分",
+        "actual": 55.7,
+        "target": 100.0,
+        "gap": 44.3,
+        "unit": "分",
+        "source_chapter": 1,
+        "change_display": "",
+        "severity": "high"
+      },
+      {
+        "dimension": "绩效",
+        "metric_name": "分摊前利润",
+        "actual": 44.987,
+        "target": null,
+        "gap": null,
+        "unit": "万元",
+        "source_chapter": 1,
+        "change_display": "省区第6",
+        "severity": "medium"
+      },
+      {
+        "dimension": "利润",
+        "metric_name": "营业收入（不含税）",
+        "actual": 128.86,
+        "target": null,
+        "gap": null,
+        "unit": "万元",
+        "source_chapter": 2,
+        "change_display": "",
+        "severity": "medium"
+      },
+      {
+        "dimension": "利润",
+        "metric_name": "毛利额",
+        "actual": 28.129,
+        "target": null,
+        "gap": null,
+        "unit": "万元",
+        "source_chapter": 2,
+        "change_display": "",
+        "severity": "medium"
+      },
+      {
+        "dimension": "利润",
+        "metric_name": "分摊前利润",
+        "actual": 44.987,
+        "target": null,
+        "gap": null,
+        "unit": "万元",
+        "source_chapter": 2,
+        "change_display": "",
+        "severity": "medium"
+      },
+      {
+        "dimension": "项目",
+        "metric_name": "月度有效项目落地",
+        "actual": 2.0,
+        "target": 2.0,
+        "gap": 0.0,
+        "unit": "家",
+        "source_chapter": 3,
+        "change_display": "达成100%",
+        "severity": "medium"
+      },
+      {
+        "dimension": "项目",
+        "metric_name": "年度出货项目",
+        "actual": 26.0,
+        "target": 100.0,
+        "gap": 74.0,
+        "unit": "个",
+        "source_chapter": 3,
+        "change_display": "达成26%",
+        "severity": "high"
+      },
+      {
+        "dimension": "渠道",
+        "metric_name": "招商生效客户",
+        "actual": 1.0,
+        "target": 2.0,
+        "gap": 1.0,
+        "unit": "家",
+        "source_chapter": 3,
+        "change_display": "达成50%",
+        "severity": "high"
+      },
+      {
+        "dimension": "客户",
+        "metric_name": "存量生效客户",
+        "actual": 3.0,
+        "target": 20.0,
+        "gap": 17.0,
+        "unit": "个",
+        "source_chapter": 3,
+        "change_display": "达成15%",
+        "severity": "high"
+      },
+      {
+        "dimension": "应收",
+        "metric_name": "逾期应收",
+        "actual": 47.049,
+        "target": null,
+        "gap": null,
+        "unit": "万元",
+        "source_chapter": 5,
+        "change_display": "",
+        "severity": "high"
+      },
+      {
+        "dimension": "打样",
+        "metric_name": "样板样漆费用",
+        "actual": 4398.5,
+        "target": null,
+        "gap": null,
+        "unit": "元",
+        "source_chapter": 6,
+        "change_display": "",
+        "severity": "medium"
+      },
+      {
+        "dimension": "行销",
+        "metric_name": "拜访总频次",
+        "actual": null,
+        "target": null,
+        "gap": null,
+        "unit": "次",
+        "source_chapter": 7,
+        "change_display": "数据待补充",
+        "severity": "high"
+      }
+    ],
+    "positive_signals": [
+      {
+        "dimension": "绩效",
+        "dimension_label": "绩效",
+        "metric_name": "分摊前利润",
+        "value_display": "44.987万元",
+        "change_display": "省区第6",
+        "is_outstanding": true,
+        "severity": "medium",
+        "source_chapter": 1
+      },
+      {
+        "dimension": "利润",
+        "dimension_label": "利润",
+        "metric_name": "分摊前利润",
+        "value_display": "44.987万元",
+        "change_display": "",
+        "is_outstanding": true,
+        "severity": "medium",
+        "source_chapter": 2
+      },
+      {
+        "dimension": "项目",
+        "dimension_label": "项目",
+        "metric_name": "月度有效项目落地",
+        "value_display": "2家",
+        "change_display": "达成100%",
+        "is_outstanding": true,
+        "severity": "medium",
+        "source_chapter": 3
+      }
+    ],
+    "negative_signals": [
+      {
+        "dimension": "绩效",
+        "dimension_label": "绩效",
+        "metric_name": "绩效得分",
+        "value_display": "55.7分",
+        "change_display": "",
+        "is_outstanding": false,
+        "severity": "high",
+        "source_chapter": 1
+      },
+      {
+        "dimension": "项目",
+        "dimension_label": "项目",
+        "metric_name": "年度出货项目",
+        "value_display": "26个",
+        "change_display": "达成26%",
+        "is_outstanding": false,
+        "severity": "high",
+        "source_chapter": 3
+      },
+      {
+        "dimension": "渠道",
+        "dimension_label": "渠道",
+        "metric_name": "招商生效客户",
+        "value_display": "1家",
+        "change_display": "达成50%",
+        "is_outstanding": false,
+        "severity": "high",
+        "source_chapter": 3
+      },
+      {
+        "dimension": "客户",
+        "dimension_label": "客户",
+        "metric_name": "存量生效客户",
+        "value_display": "3个",
+        "change_display": "达成15%",
+        "is_outstanding": false,
+        "severity": "high",
+        "source_chapter": 3
+      },
+      {
+        "dimension": "应收",
+        "dimension_label": "应收",
+        "metric_name": "逾期应收",
+        "value_display": "47.049万元",
+        "change_display": "",
+        "is_outstanding": false,
+        "severity": "high",
+        "source_chapter": 5
+      },
+      {
+        "dimension": "打样",
+        "dimension_label": "打样",
+        "metric_name": "样板样漆费用",
+        "value_display": "4398.5元",
+        "change_display": "",
+        "is_outstanding": false,
+        "severity": "medium",
+        "source_chapter": 6
+      }
+    ],
+    "dimension_summary": {
+      "产品": {
+        "top_growing": [],
+        "top_declining": []
+      },
+      "项目": {
+        "project_count": 26.0,
+        "project_target": 100.0,
+        "achievement_rate": 26.0,
+        "single_project_revenue": null,
+        "yoy_change_pct": null
+      },
+      "渠道": {
+        "channel_count": 1.0,
+        "channel_target": 2.0,
+        "achievement_rate": 50.0,
+        "yoy_change_pct": null
+      },
+      "客户": {
+        "customer_count": 3.0,
+        "customer_target": 20.0,
+        "achievement_rate": 15.0,
+        "avg_revenue_per_customer": null,
+        "yoy_change_pct": null
+      },
+      "应收": {
+        "overdue_amount": 47.049,
+        "impairment_amount": -27.885,
+        "finance_cost": 3100.0
+      },
+      "打样": {
+        "sample_expense": 4398.5,
+        "yoy_direction": "unknown"
+      }
+    }
+  }
+}

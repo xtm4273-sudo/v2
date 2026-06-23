@@ -9,16 +9,17 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 import re
 
-from reportlab.lib import colors
+from .report_theme import apply_html_theme, colors
+from .browser_pdf import html_to_pdf
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.cidfonts import UnicodeCIDFont
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
-from .chapter2_generator import format_chapter2_data
+from .chapter2_generator import build_chapter2_markdown, normalize_chapter2_data
 
 
 def month_labels(period: str) -> Tuple[str, str]:
@@ -33,16 +34,11 @@ def month_labels(period: str) -> Tuple[str, str]:
 def build_final_markdown(
     raw_chapter_data: List[Dict[str, Any]],
     period: str,
-    note: str = "说明：此处销量不含双算",
+    note: str = "",
 ) -> str:
-    """生成客户版第二章 Markdown：只保留章节标题、利润表和可选说明。"""
-    month_label, ytd_label = month_labels(period)
-    table, _stats = format_chapter2_data(
-        raw_chapter_data,
-        month_label=month_label,
-        ytd_label=ytd_label,
-    )
-    lines = ["# 二、利润概况", "", table]
+    """生成客户版第二章 Markdown，不改写接口精度。"""
+    markdown = build_chapter2_markdown(normalize_chapter2_data(raw_chapter_data, period=period))
+    lines = [markdown.rstrip()]
     if note:
         lines.extend(["", note])
     return "\n".join(lines) + "\n"
@@ -55,18 +51,22 @@ def save_final_html(markdown: str, output_path: Path) -> Path:
 
 
 def save_final_pdf(markdown: str, output_path: Path) -> Path:
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    _markdown_to_pdf(markdown, output_path)
-    return output_path
+    return html_to_pdf(_markdown_to_html(markdown), output_path)
 
 
 def _inline_html(text: str) -> str:
-    text = escape(text.strip())
+    pending = "__CHAPTER2_PENDING__"
+    text = text.strip().replace('<span class="pending-value">待补充</span>', pending)
+    text = escape(text)
+    text = text.replace(pending, '<span class="pending-value">待补充</span>')
     return re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", text)
 
 
 def _inline_pdf(text: str) -> str:
-    text = escape(text.strip())
+    pending = "__CHAPTER2_PENDING__"
+    text = text.strip().replace('<span class="pending-value">待补充</span>', pending)
+    text = escape(text)
+    text = text.replace(pending, '<font color="#c00000"><b>待补充</b></font>')
     return re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", text)
 
 
@@ -123,7 +123,7 @@ body {
   margin: 0;
   background: #f3f5f7;
   color: #172033;
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+  font-family: "Microsoft YaHei", "Heiti SC", "PingFang SC", "Noto Sans CJK SC", sans-serif;
   line-height: 1.72;
 }
 .page {
@@ -140,6 +140,7 @@ p { margin: 7px 0; font-size: 15px; }
 p.bullet { position: relative; padding-left: 18px; }
 p.bullet::before { content: "•"; position: absolute; left: 0; color: #244b73; font-weight: 700; }
 strong { color: #0b5cad; font-weight: 700; }
+.pending-value { color: #c00000; font-weight: 700; }
 table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; table-layout: fixed; }
 th, td { border: 1px solid #cfd8e3; padding: 9px 10px; text-align: left; vertical-align: middle; word-break: break-word; }
 th { background: #edf3f8; color: #16324f; font-weight: 700; }
@@ -155,7 +156,7 @@ tr:nth-child(even) td { background: #fafbfd; }
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第二章利润概况报告</title>
-<style>{css}</style>
+<style>{apply_html_theme(css)}</style>
 </head>
 <body><main class="page">{''.join(parts)}</main></body>
 </html>
@@ -163,8 +164,12 @@ tr:nth-child(even) td { background: #fafbfd; }
 
 
 def _markdown_to_pdf(markdown: str, output_path: Path) -> None:
-    pdfmetrics.registerFont(UnicodeCIDFont("STSong-Light"))
-    font = "STSong-Light"
+    font_path = Path("/System/Library/Fonts/Supplemental/Arial Unicode.ttf")
+    if not font_path.exists():
+        raise RuntimeError(f"生成第二章 PDF 失败：缺少可嵌入中文字体 {font_path}")
+    font = "Chapter2CJK"
+    if font not in pdfmetrics.getRegisteredFontNames():
+        pdfmetrics.registerFont(TTFont(font, str(font_path)))
 
     styles = getSampleStyleSheet()
     styles.add(

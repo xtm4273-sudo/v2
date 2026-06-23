@@ -36,7 +36,7 @@ class Chapter1GeneratorTest(unittest.TestCase):
         self.assertEqual([item.name for item in data.underperforming_items], ["招商生效客户", "有效落地项目"])
         self.assertEqual(data.quarter_bonus.sales_actual, 80)
         self.assertEqual(data.year_end_profit.accumulated_profit, 20)
-        self.assertEqual(data.field_sources["chapter1.rank_table.sales_province_rank"]["source"], "章节数据[1].指标数据.省区排名")
+        self.assertEqual(data.field_sources["chapter1.rank_table.sales_province_rank"]["source"], "章节数据[3].指标数据.省区排名")
 
     def test_builds_markdown_with_template_sections_and_fixed_text(self):
         markdown, stats = format_chapter1_data(self.sample_response, period="202606")
@@ -76,7 +76,7 @@ class Chapter1GeneratorTest(unittest.TestCase):
     def test_report_preserves_api_decimal_precision(self):
         response = copy.deepcopy(self.sample_response)
         quarter_sales = next(
-            row for row in response["data"]["章节数据"] if row["指标名称"] == "本季度累计销量"
+            row for row in response["data"]["章节数据"] if row["指标名称"] == "个人季度实际销量"
         )
         quarter_sales["指标数据"]["实际值"] = "48.888"
 
@@ -84,6 +84,18 @@ class Chapter1GeneratorTest(unittest.TestCase):
 
         self.assertIn("| 个人季度实际销量 | 本季度累计销量 | 48.888万 |", markdown)
         self.assertNotIn("| 个人季度实际销量 | 本季度累计销量 | 48.89万 |", markdown)
+
+    def test_conflicting_duplicate_rate_is_pending(self):
+        response = copy.deepcopy(self.sample_response)
+        duplicate = copy.deepcopy(
+            next(row for row in response["data"]["章节数据"] if row["指标名称"] == "个人季度实际销量")
+        )
+        duplicate["指标数据"]["达成率"] = "0.411"
+        response["data"]["章节数据"].append(duplicate)
+
+        markdown, _stats = format_chapter1_data(response, period="202606")
+
+        self.assertIn("|  | 当前达成率 | 待补充 |", markdown)
 
     def test_profit_bonus_base_is_pending_until_customer_provides_brackets(self):
         pending = ("待补充", "上一档奖金基数规则待客户补充，暂不进行区间判断。")
@@ -135,6 +147,9 @@ class Chapter1GeneratorTest(unittest.TestCase):
         self.assertIn("第一章绩效得分与预警报告", html)
         self.assertIn("绩效得分与预警", html)
         self.assertIn("季度目标达成奖", html)
+        self.assertIn('<span class="pending-value">待补充</span>', html)
+        self.assertIn('class="data-table rank-table"', html)
+        self.assertIn(".rank-table td:not(:first-child)", html)
         self.assertTrue(pdf_path.exists())
         self.assertGreater(pdf_path.stat().st_size, 1000)
 

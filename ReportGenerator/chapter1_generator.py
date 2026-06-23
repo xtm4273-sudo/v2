@@ -109,29 +109,18 @@ CHAPTER1_FIELD_MAP: Dict[str, Dict[str, Any]] = {
         "unit_path": ("指标数据", "单位"),
         "target": ("sales", "actual"),
         "required": True,
-        "fallback": [
-            {"match": {"指标名称": "销量"}, "value_path": ("指标数据", "实际值")},
-            {"match": {"指标名称": "销量排名-省区"}, "value_path": ("指标数据", "实际值")},
-            {"match": {"指标名称": "销量排名-事业部"}, "value_path": ("指标数据", "实际值")},
-        ],
     },
     "chapter1.rank_table.sales_province_rank": {
         "match": {"指标名称": "销量排名-省区"},
         "value_path": ("指标数据", "省区排名"),
         "target": ("sales", "province_rank"),
         "required": True,
-        "fallback": [
-            {"match": {"指标名称": "销量"}, "value_path": ("指标数据", "省区排名")},
-        ],
     },
     "chapter1.rank_table.sales_business_rank": {
         "match": {"指标名称": "销量排名-事业部"},
         "value_path": ("指标数据", "部门排名"),
         "target": ("sales", "business_rank"),
         "required": True,
-        "fallback": [
-            {"match": {"指标名称": "销量"}, "value_path": ("指标数据", "事业部排名")},
-        ],
     },
     "chapter1.rank_table.profit_amount": {
         "match": {"指标名称": "本年累计分摊前利润", "指标数据.日期类型": "年"},
@@ -139,61 +128,39 @@ CHAPTER1_FIELD_MAP: Dict[str, Dict[str, Any]] = {
         "unit_path": ("指标数据", "单位"),
         "target": ("profit", "actual"),
         "required": True,
-        "fallback": [
-            {"match": {"指标名称": "分摊前利润排名-省区"}, "value_path": ("指标数据", "实际值")},
-            {"match": {"指标名称": "分摊前利润排名-事业部"}, "value_path": ("指标数据", "实际值")},
-            {"match": {"指标名称": "分摊前利润", "指标数据.日期类型": "年"}, "value_path": ("指标数据", "实际值")},
-        ],
     },
     "chapter1.rank_table.profit_province_rank": {
         "match": {"指标名称": "分摊前利润排名-省区"},
         "value_path": ("指标数据", "省区排名"),
         "target": ("profit", "province_rank"),
         "required": True,
-        "fallback": [
-            {"match": {"指标名称": "分摊前利润"}, "value_path": ("指标数据", "省区排名")},
-        ],
     },
     "chapter1.rank_table.profit_business_rank": {
         "match": {"指标名称": "分摊前利润排名-事业部"},
         "value_path": ("指标数据", "部门排名"),
         "target": ("profit", "business_rank"),
         "required": True,
-        "fallback": [
-            {"match": {"指标名称": "分摊前利润"}, "value_path": ("指标数据", "事业部排名")},
-        ],
     },
     "chapter1.quarter_bonus.sales_actual": {
         "match": {"指标名称": "个人季度实际销量", "指标数据.日期类型": "季"},
-        "select": "last",
+        "select": "unique_value",
         "value_path": ("指标数据", "实际值"),
         "target": ("quarter_bonus", "sales_actual"),
         "required": True,
-        "fallback": [
-            {"match": {"指标名称": "本季度累计销量"}, "value_path": ("指标数据", "实际值")},
-            {"match": {"指标名称": "销量", "指标数据.日期类型": "季"}, "value_path": ("指标数据", "实际值")},
-        ],
     },
     "chapter1.quarter_bonus.achievement_rate": {
         "match": {"指标名称": "个人季度实际销量", "指标数据.日期类型": "季"},
-        "select": "last",
+        "select": "unique_value",
         "value_path": ("指标数据", "达成率"),
         "target": ("quarter_bonus", "achievement_rate"),
         "transform": "rate",
         "required": True,
-        "fallback": [
-            {"match": {"指标名称": "当前达成率"}, "value_path": ("指标数据", "实际值")},
-            {"match": {"指标名称": "本季度累计销量"}, "value_path": ("指标数据", "达成率")},
-        ],
     },
     "chapter1.quarter_bonus.overdue_amount": {
         "match": {"指标名称": "截止月底逾期金额"},
         "value_path": ("指标数据", "实际值"),
         "target": ("quarter_bonus", "overdue_amount"),
         "required": False,
-        "fallback": [
-            {"match": {"指标名称": "发放规则（与逾期金额同比挂钩）", "指标数据.日期类型": "月"}, "value_path": ("指标数据", "实际值")},
-        ],
     },
     "chapter1.quarter_bonus.due_amount": {
         "match": {"指标名称": "本季度预计到期款"},
@@ -214,7 +181,6 @@ CHAPTER1_FIELD_MAP: Dict[str, Dict[str, Any]] = {
         "required": True,
         "fallback": [
             {"match": {"指标名称": "本年累计分摊前利润"}, "value_path": ("指标数据", "实际值")},
-            {"match": {"指标名称": "分摊前利润", "指标数据.日期类型": "年"}, "value_path": ("指标数据", "实际值")},
         ],
     },
     "chapter1.year_end_profit.bonus_base": {
@@ -267,7 +233,7 @@ def build_chapter1_markdown(chapter_data: Chapter1Data, period: str = "") -> str
     month = _month_from_period(chapter_data.metadata.get("month") or period)
     ytd_label = f"1-{month}月" if month else "累计"
     title_period = _title_period(chapter_data.metadata.get("month") or period)
-    operation_department = chapter_data.metadata.get("operation_department") or "**经营部**"
+    operation_department = chapter_data.metadata.get("operation_department") or "经营部（接口未提供）"
 
     lines: List[str] = [
         f"{operation_department}区域经理{title_period}经营分析报告",
@@ -388,15 +354,15 @@ def _build_quarter_bonus_table(chapter_data: Chapter1Data, month: Optional[int])
             "| 奖金影响因素 | 情形 | 数值 |",
             "| --- | --- | --- |",
             f"| 个人季度实际销量 | 本季度累计销量 | {_fmt_number(bonus.sales_actual)}万 |",
-            f"|  | 当前达成率 | {_fmt_number(bonus.achievement_rate)}% |",
+            f"|  | 当前达成率 | {_percent_or_pending(bonus.achievement_rate)} |",
             "|  | 距离80%达成率（发放硬性条件） | 待补充 |",
             "|  | 距离同期销量持平（负增长将同比例打折） | 待补充 |",
             "|  | 距离100%达成率还差 | 待补充 |",
-            f"| 发放规则（与逾期金额同比挂钩） | 截止{month_text}逾期金额 | {_fmt_number(bonus.overdue_amount)}万 |",
-            f"|  | 本季度预计到期款 | {_fmt_number(bonus.due_amount)}万 |",
-            f"|  | 合计（潜在逾期总额） | {_fmt_number(potential_overdue)}万 |",
-            f"|  | {next_year}年同期逾期金额（含法诉，仅考虑{next_year}年同期，不考虑交接后的逾期） | {_fmt_number(bonus.same_period_overdue)}万 |",
-            f"|  | 逾期金额同比下降30%，本季度末逾期金额不超过（含法诉，仅考虑{next_year}年同期，不考虑交接后的逾期） | {_fmt_number(overdue_limit)}万 |",
+            f"| 发放规则（与逾期金额同比挂钩） | 截止{month_text}逾期金额 | {_amount_or_pending(bonus.overdue_amount)} |",
+            f"|  | 本季度预计到期款 | {_amount_or_pending(bonus.due_amount)} |",
+            f"|  | 合计（潜在逾期总额） | {_amount_or_pending(potential_overdue)} |",
+            f"|  | {next_year}年同期逾期金额（含法诉，仅考虑{next_year}年同期，不考虑交接后的逾期） | {_amount_or_pending(bonus.same_period_overdue)} |",
+            f"|  | 逾期金额同比下降30%，本季度末逾期金额不超过（含法诉，仅考虑{next_year}年同期，不考虑交接后的逾期） | {_amount_or_pending(overdue_limit)} |",
             f"|  | 本季度末逾期金额对应的各类情形 | {_overdue_rule_text()} |",
         ]
     )
@@ -420,6 +386,14 @@ def _overdue_rule_text() -> str:
         "（4）如当季度逾期金额(含法务)占循环12个月销量占比低于2%(含)，则剩余奖金100%发放；例如:员工C循环12个月销量为800万，当季度逾期金额为15万，则占比为1.87%，对应剩余奖金发放比例为100%；<br>"
         "（5）如当季度有逾期且同比持平或增长，则剩余奖金延后发放并打折。如剩余奖金延后发放，则剩余奖金金额逐季度按0.85打折，顺延至年底的剩余奖金发放条件参照信用管理制度中年终奖发放条件）"
     )
+
+
+def _amount_or_pending(value: Any) -> str:
+    return "待补充" if value is None else f"{_fmt_number(value)}万"
+
+
+def _percent_or_pending(value: Any) -> str:
+    return "待补充" if value is None else f"{_fmt_number(value)}%"
 
 
 def _extract_subject(raw_data: Any) -> Dict[str, Any]:
@@ -557,6 +531,12 @@ def _select_match(matches: List[Tuple[int, Dict[str, Any]]], rule: Dict[str, Any
     select = rule.get("select", "first")
     if select == "last":
         return matches[-1]
+    if select == "unique_value":
+        value_path = rule.get("value_path", ())
+        values = [str(_get_path(row, value_path)) for _index, row in matches if _get_path(row, value_path) not in (None, "")]
+        if not values or len(set(values)) != 1:
+            return None
+        return matches[0]
     if select in {"max_value", "min_value"}:
         value_path = rule.get("value_path", ())
         valued = [(index, row, _to_float(_get_path(row, value_path))) for index, row in matches]
@@ -680,7 +660,7 @@ def _amount_text(value: RankValue) -> str:
 
 def _top_text(value: RankValue) -> str:
     if not value.province_rank or not value.province_total:
-        return "TOP —"
+        return "TOP 待补充"
     pct = value.province_rank / value.province_total * 100
     bucket = int(((pct + 9.999) // 10) * 10)
     return f"TOP {bucket}%"

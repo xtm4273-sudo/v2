@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "月份": "202606",
+    "部门编码": "L110021",
+    "区域经理工号": "86002542",
+    "部门名称": "城市焕新事业部",
+    "区域经理姓名": "李泽豪",
+    "岗位名称": "",
+    "客户编码": "",
+    "客户名称": "",
+    "章节名称": "六、费用分析"
+  },
+  "travel_expense": {
+    "total": {
+      "value": 8500.0,
+      "yoy_value": 6200.0,
+      "unit": "元"
+    },
+    "breakdown": [
+      {
+        "name": "交通费",
+        "amount": 3200.0,
+        "yoy_delta": 800.0,
+        "unit": "元"
+      },
+      {
+        "name": "住宿费",
+        "amount": 2800.0,
+        "yoy_delta": 600.0,
+        "unit": "元"
+      },
+      {
+        "name": "车辆费",
+        "amount": 1800.0,
+        "yoy_delta": 500.0,
+        "unit": "元"
+      },
+      {
+        "name": "其他",
+        "amount": 700.0,
+        "yoy_delta": -200.0,
+        "unit": "元"
+      }
+    ],
+    "efficiency": {
+      "days": 12,
+      "daily_total": 708.0,
+      "daily_breakdown": {
+        "交通费": 267.0,
+        "住宿费": 233.0,
+        "车辆费": 150.0,
+        "其他": 58.0
+      }
+    }
+  },
+  "sample_paint_expense": {
+    "total": {
+      "value": 4500.0,
+      "yoy_value": 3200.0,
+      "yoy_delta": 1300.0,
+      "unit": "元"
+    },
+    "by_product": [
+      {
+        "product_name": "真石漆",
+        "expense_amount": 1800.0,
+        "unit": "元"
+      },
+      {
+        "product_name": "内墙乳胶漆面漆",
+        "expense_amount": 1500.0,
+        "unit": "元"
+      },
+      {
+        "product_name": "外墙腻子",
+        "expense_amount": 800.0,
+        "unit": "元"
+      }
+    ]
+  },
+  "cross_ref": {
+    "revenue_direction": "down",
+    "overdue_direction": "up"
+  },
+  "warnings": []
+}

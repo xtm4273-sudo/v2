@@ -1,0 +1,1383 @@
+{
+  "contract_name": "城市焕新事业部区域经理分析报告二期指标归因需求清单",
+  "source_workbook": "/Users/ppp/Downloads/指标归因梳理-城市焕新事业部区域经理分析报告-增加第五章节归因.xlsx",
+  "source_sheet": "归因梳理",
+  "generated_on": "2026-06-17",
+  "scope": "SimpleIntellReportV2 chapters 1-8",
+  "summary": {
+    "一、绩效得分与预警": {
+      "total": 26,
+      "required": 7,
+      "attribution": 1,
+      "judgement_or_calculation": 7,
+      "descriptive_only": 19
+    },
+    "二、利润概况": {
+      "total": 1,
+      "required": 0,
+      "attribution": 0,
+      "judgement_or_calculation": 0,
+      "descriptive_only": 1
+    },
+    "三、销量分析": {
+      "total": 13,
+      "required": 11,
+      "attribution": 7,
+      "judgement_or_calculation": 11,
+      "descriptive_only": 2
+    },
+    "四、毛利率与产品结构": {
+      "total": 2,
+      "required": 2,
+      "attribution": 2,
+      "judgement_or_calculation": 2,
+      "descriptive_only": 0
+    },
+    "五、应收分析": {
+      "total": 2,
+      "required": 1,
+      "attribution": 1,
+      "judgement_or_calculation": 1,
+      "descriptive_only": 1
+    },
+    "六、费用分析": {
+      "total": 4,
+      "required": 4,
+      "attribution": 4,
+      "judgement_or_calculation": 4,
+      "descriptive_only": 0
+    },
+    "七、行销行为诊断": {
+      "total": 5,
+      "required": 3,
+      "attribution": 0,
+      "judgement_or_calculation": 3,
+      "descriptive_only": 2
+    }
+  },
+  "rules": [
+    {
+      "id": "chapter1_3_绩效排名_绩效排名",
+      "source_excel_row": 3,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "绩效排名",
+      "metric_path": [
+        "绩效排名"
+      ],
+      "primary_metric": "绩效排名",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "月绩效平均分在省区区域经理中的排名、在事业部区域经理中的排名",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_4_绩效排名_销量",
+      "source_excel_row": 4,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "绩效排名",
+      "metric_path": [
+        "销量"
+      ],
+      "primary_metric": "销量",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "区域经理的本年累计销量",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_5_绩效排名_销量排名",
+      "source_excel_row": 5,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "绩效排名",
+      "metric_path": [
+        "销量排名"
+      ],
+      "primary_metric": "销量排名",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "本年累计销量在省区区域经理中的排名、在事业部区域经理中的排名",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_6_绩效排名_分摊前利润",
+      "source_excel_row": 6,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "绩效排名",
+      "metric_path": [
+        "分摊前利润"
+      ],
+      "primary_metric": "分摊前利润",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "本年累计分摊前利润",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_7_绩效排名_分摊前利润排名",
+      "source_excel_row": 7,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "绩效排名",
+      "metric_path": [
+        "分摊前利润排名"
+      ],
+      "primary_metric": "分摊前利润排名",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "本年累计分摊前利润在省区区域经理中的排名、在事业部区域经理中的排名",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_8_11月度绩效得分情况_月平均绩效得分不含其他奖惩",
+      "source_excel_row": 8,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.1   月度绩效得分情况",
+      "metric_path": [
+        "月平均绩效得分\n（不含其他奖惩）"
+      ],
+      "primary_metric": "月平均绩效得分\n（不含其他奖惩）",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "这个销售人员的月平均绩效总分\n（不含其他奖惩）",
+      "metric_nature": "描述性",
+      "rule_text": "总分排名所在区间\nTPO20%：优秀\n20%-50%：良好\n50%-80%：中游水平\n后20%：落后-待改进",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_9_11月度绩效得分情况_未达百绩效项目全年总扣分",
+      "source_excel_row": 9,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.1   月度绩效得分情况",
+      "metric_path": [
+        "未达百绩效项目",
+        "全年总扣分"
+      ],
+      "primary_metric": "未达百绩效项目",
+      "secondary_metric": "全年总扣分",
+      "tertiary_metric": "",
+      "metric_description": "存在绩效扣分的考核项目，本年累计已扣多少分",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_10_11月度绩效得分情况_未达百绩效项目月平均得分",
+      "source_excel_row": 10,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.1   月度绩效得分情况",
+      "metric_path": [
+        "未达百绩效项目",
+        "月平均得分"
+      ],
+      "primary_metric": "未达百绩效项目",
+      "secondary_metric": "月平均得分",
+      "tertiary_metric": "",
+      "metric_description": "存在绩效扣分的考核项目，月平均绩效得分",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_11_11月度绩效得分情况_未达百绩效项目达成率",
+      "source_excel_row": 11,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.1   月度绩效得分情况",
+      "metric_path": [
+        "未达百绩效项目",
+        "达成率"
+      ],
+      "primary_metric": "未达百绩效项目",
+      "secondary_metric": "达成率",
+      "tertiary_metric": "",
+      "metric_description": "存在绩效扣分的考核项目，实际值/目标值，比如销量目标100万，实际值50万，达成率为50%",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_12_12本季度目标达成奖预警_个人季度实际销量本季度累计销量",
+      "source_excel_row": 12,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "本季度累计销量"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "本季度累计销量",
+      "tertiary_metric": "",
+      "metric_description": "本季度累计销量，本季度累计指从季度首月到当前月份，比如当前月份是5月，即4-5月累计销量",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_13_12本季度目标达成奖预警_个人季度实际销量当前达成率本季度累计",
+      "source_excel_row": 13,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "当前达成率",
+        "本季度累计销量实际值"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "当前达成率",
+      "tertiary_metric": "本季度累计销量实际值",
+      "metric_description": "本季度累计销量达成率，=本季度累计销量实际值/本季度累计销量目标值，，本季度累计指从季度首月到当前月份，比如当前月份是5月，即4-5月累计销量",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_14_12本季度目标达成奖预警_个人季度实际销量当前达成率本季度累计",
+      "source_excel_row": 14,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "当前达成率",
+        "本季度累计销量目标值"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "当前达成率",
+      "tertiary_metric": "本季度累计销量目标值",
+      "metric_description": "",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_15_12本季度目标达成奖预警_个人季度实际销量距离80达成率发放硬",
+      "source_excel_row": 15,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "距离80%达成率（发放硬性条件）",
+        "本季度累计销量实际值"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "距离80%达成率（发放硬性条件）",
+      "tertiary_metric": "本季度累计销量实际值",
+      "metric_description": "等于本季度累计销量同期值*80%减本季度累计销量实际值",
+      "metric_nature": "描述性",
+      "rule_text": "需做判断\n1、若本季度累计销量同期值*80%＞本季度累计销量实际值，则报告提示还差**万。\n2、若本季度累计销量同期值*80%≤本季度累计销量实际值，则报告提示：已达到发放条件。",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "judgement_rule",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第一章已实现距离80%达成率判断，`distance_to_80_condition()` 按同期值*80%与实际值比较，并在季度目标达成奖表中展示。",
+      "evidence_files": [
+        "ReportGenerator/chapter1_generator.py",
+        "tests/test_chapter1.py"
+      ],
+      "next_action": "保留现状；后续只需在归因验收里绑定该规则。"
+    },
+    {
+      "id": "chapter1_16_12本季度目标达成奖预警_个人季度实际销量距离80达成率发放硬",
+      "source_excel_row": 16,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "距离80%达成率（发放硬性条件）",
+        "本季度累计销量同期值"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "距离80%达成率（发放硬性条件）",
+      "tertiary_metric": "本季度累计销量同期值",
+      "metric_description": "",
+      "metric_nature": "描述性",
+      "rule_text": "",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "required_calculation",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第一章已将本季度累计销量同期值解析为 `quarter_bonus.sales_yoy`，供 80% 条件和同期持平判断复用。",
+      "evidence_files": [
+        "ReportGenerator/chapter1_generator.py",
+        "tests/test_chapter1.py"
+      ],
+      "next_action": "保留现状；接口字段需持续提供 `同期数`。"
+    },
+    {
+      "id": "chapter1_17_12本季度目标达成奖预警_个人季度实际销量距离同期销量持平负增",
+      "source_excel_row": 17,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "距离同期销量持平（负增长将同比例打折）",
+        "本季度累计销量实际值"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "距离同期销量持平（负增长将同比例打折）",
+      "tertiary_metric": "本季度累计销量实际值",
+      "metric_description": "等于本季度累计销量同期值减本季度累计销量实际值",
+      "metric_nature": "描述性",
+      "rule_text": "需做判断\n1、若本季度累计销量同期值>本季度累计销量实际值，则报告提示还差**万。\n2、若本季度累计销量同期值≤本季度累计销量实际值，则报告提示：已超过同期。",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "judgement_rule",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第一章已实现距离同期销量持平判断，`distance_to_same_period()` 输出“还差”或“已超过同期”。",
+      "evidence_files": [
+        "ReportGenerator/chapter1_generator.py",
+        "tests/test_chapter1.py"
+      ],
+      "next_action": "保留现状。"
+    },
+    {
+      "id": "chapter1_18_12本季度目标达成奖预警_个人季度实际销量距离同期销量持平负增",
+      "source_excel_row": 18,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "距离同期销量持平（负增长将同比例打折）",
+        "本季度累计销量同期值"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "距离同期销量持平（负增长将同比例打折）",
+      "tertiary_metric": "本季度累计销量同期值",
+      "metric_description": "",
+      "metric_nature": "描述性",
+      "rule_text": "",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "required_calculation",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "同 row16，本季度累计销量同期值已进入 `sales_yoy`，可支撑同期持平判断。",
+      "evidence_files": [
+        "ReportGenerator/chapter1_generator.py",
+        "tests/test_chapter1.py"
+      ],
+      "next_action": "保留现状。"
+    },
+    {
+      "id": "chapter1_19_12本季度目标达成奖预警_个人季度实际销量距离100达成率还差",
+      "source_excel_row": 19,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "距离100%达成率还差",
+        "本季度累计销量实际值"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "距离100%达成率还差",
+      "tertiary_metric": "本季度累计销量实际值",
+      "metric_description": "等于本季度累计销量预算值减本季度累计销量实际值",
+      "metric_nature": "描述性",
+      "rule_text": "需做判断\n1、若本季度累计销量预算值＞本季度累计销量实际值，则报告提示还差**万。\n2、若本季度累计销量预算值≤本季度累计销量实际值，则报告提示：已超过目标。",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "judgement_rule",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第一章已实现距离100%达成率还差判断，`distance_to_100_target()` 同时输出预计奖金。",
+      "evidence_files": [
+        "ReportGenerator/chapter1_generator.py",
+        "tests/test_chapter1.py"
+      ],
+      "next_action": "保留现状。"
+    },
+    {
+      "id": "chapter1_20_12本季度目标达成奖预警_个人季度实际销量距离100达成率还差",
+      "source_excel_row": 20,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "距离100%达成率还差",
+        "本季度累计销量预算值"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "距离100%达成率还差",
+      "tertiary_metric": "本季度累计销量预算值",
+      "metric_description": "",
+      "metric_nature": "描述性",
+      "rule_text": "",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "required_calculation",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第一章已将本季度累计销量预算值解析为 `quarter_bonus.sales_target`，供100%目标差额判断使用。",
+      "evidence_files": [
+        "ReportGenerator/chapter1_generator.py",
+        "tests/test_chapter1.py"
+      ],
+      "next_action": "保留现状。"
+    },
+    {
+      "id": "chapter1_21_12本季度目标达成奖预警_个人季度实际销量距离100达成率还差",
+      "source_excel_row": 21,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "个人季度实际销量",
+        "距离100%达成率还差",
+        "预计奖金"
+      ],
+      "primary_metric": "个人季度实际销量",
+      "secondary_metric": "距离100%达成率还差",
+      "tertiary_metric": "预计奖金",
+      "metric_description": "等于个人季度实际销量×0.6%×个人季度销量达成率",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_22_12本季度目标达成奖预警_发放规则与逾期金额同比挂钩截止月初逾",
+      "source_excel_row": 22,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "发放规则（与逾期金额同比挂钩）",
+        "截止*月初逾期金额"
+      ],
+      "primary_metric": "发放规则（与逾期金额同比挂钩）",
+      "secondary_metric": "截止*月初逾期金额",
+      "tertiary_metric": "",
+      "metric_description": "截止报告月的逾期金额",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_23_12本季度目标达成奖预警_发放规则与逾期金额同比挂钩本季度预计",
+      "source_excel_row": 23,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "发放规则（与逾期金额同比挂钩）",
+        "本季度预计到期款"
+      ],
+      "primary_metric": "发放规则（与逾期金额同比挂钩）",
+      "secondary_metric": "本季度预计到期款",
+      "tertiary_metric": "",
+      "metric_description": "本季度预计到期款",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_24_12本季度目标达成奖预警_发放规则与逾期金额同比挂钩合计潜在逾",
+      "source_excel_row": 24,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "发放规则（与逾期金额同比挂钩）",
+        "合计（潜在逾期总额）"
+      ],
+      "primary_metric": "发放规则（与逾期金额同比挂钩）",
+      "secondary_metric": "合计（潜在逾期总额）",
+      "tertiary_metric": "",
+      "metric_description": "等于截止报告月的逾期金额+本季度预计到期款",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_25_12本季度目标达成奖预警_发放规则与逾期金额同比挂钩25年同期",
+      "source_excel_row": 25,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "发放规则（与逾期金额同比挂钩）",
+        "25年同期逾期金额\n（含法诉，仅考虑25年同期，不考虑交接后的逾期）"
+      ],
+      "primary_metric": "发放规则（与逾期金额同比挂钩）",
+      "secondary_metric": "25年同期逾期金额\n（含法诉，仅考虑25年同期，不考虑交接后的逾期）",
+      "tertiary_metric": "",
+      "metric_description": "25年同期逾期金额\n（含法诉，仅考虑25年同期，不考虑交接后的逾期）",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_26_12本季度目标达成奖预警_发放规则与逾期金额同比挂钩逾期金额同",
+      "source_excel_row": 26,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.2  本季度目标达成奖预警",
+      "metric_path": [
+        "发放规则（与逾期金额同比挂钩）",
+        "逾期金额同比下降30%对应的逾期金额（含法诉，仅考虑25年同期，不考虑交接后的逾期）"
+      ],
+      "primary_metric": "发放规则（与逾期金额同比挂钩）",
+      "secondary_metric": "逾期金额同比下降30%对应的逾期金额（含法诉，仅考虑25年同期，不考虑交接后的逾期）",
+      "tertiary_metric": "",
+      "metric_description": "等于25年同期逾期金额*0.7",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter1_27_13年终利润达成奖预警_本年累计分摊前利润",
+      "source_excel_row": 27,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.3  年终利润达成奖预警",
+      "metric_path": [
+        "本年累计分摊前利润"
+      ],
+      "primary_metric": "本年累计分摊前利润",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "本年累计分摊前利润",
+      "metric_nature": "指标归因",
+      "rule_text": "",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_metric",
+      "internal_note": "",
+      "phase2_status": "partial",
+      "assessment": "第一章已读取本年累计分摊前利润并输出奖金基数判断，但当前 `profit_bonus_base()` 是简化档位，尚未完整对齐 Excel 的“年终利润达成奖奖金基数”表。",
+      "evidence_files": [
+        "ReportGenerator/chapter1_generator.py",
+        "tests/test_chapter1.py",
+        "Data/contracts/attribution_rules.json"
+      ],
+      "next_action": "补齐奖金基数完整档位，最好将奖金基数表固化为 contract 并由函数读取。"
+    },
+    {
+      "id": "chapter1_28_13年终利润达成奖预警_奖金基数",
+      "source_excel_row": 28,
+      "chapter": "一、绩效得分与预警",
+      "chapter_id": "chapter1",
+      "module": "1.3  年终利润达成奖预警",
+      "metric_path": [
+        "奖金基数"
+      ],
+      "primary_metric": "奖金基数",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "根据本年累计分摊前利润所在坎级，判断对应的奖金基数（请见附件1）",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter2_29_metric_表格内所有数据进行描述展示即可",
+      "source_excel_row": 29,
+      "chapter": "二、利润概况",
+      "chapter_id": "chapter2",
+      "module": "-",
+      "metric_path": [
+        "表格内所有数据进行描述展示即可"
+      ],
+      "primary_metric": "表格内所有数据进行描述展示即可",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter3_30_31销量概况_表格内所有数据进行描述展示即可",
+      "source_excel_row": 30,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.1   销量概况",
+      "metric_path": [
+        "表格内所有数据进行描述展示即可"
+      ],
+      "primary_metric": "表格内所有数据进行描述展示即可",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter3_31_32过程指标预警_未达百1月指标包含",
+      "source_excel_row": 31,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.2   过程指标预警",
+      "metric_path": [
+        "未达百（1-*月）指标包含"
+      ],
+      "primary_metric": "未达百（1-*月）指标包含",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "本年累计未达百的项目包括哪些指标",
+      "metric_nature": "描述性",
+      "rule_text": "需要判断\n对招商生效客户、有效落地项目、打样项目数的1-*月的达成率进行判断，若达成率低于100%，则需提示以上三个指标中哪个指标未达标",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "judgement_rule",
+      "internal_note": "",
+      "phase2_status": "partial",
+      "assessment": "第三章已输出未达百指标和20/100缺口，但当前未达百逻辑主要看招商生效客户、有效落地项目固定目标缺口，未完整按招商/有效落地/打样三项达成率<100统一判断。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "补打样项目达成率判断；将“未达百”从固定缺口改成按三项达成率规则汇总。"
+    },
+    {
+      "id": "chapter3_32_32过程指标预警_负增长1月指标包含",
+      "source_excel_row": 32,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.2   过程指标预警",
+      "metric_path": [
+        "负增长（1-*月）指标包含"
+      ],
+      "primary_metric": "负增长（1-*月）指标包含",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "本年累计负增长的项目包括哪些指标",
+      "metric_nature": "描述性",
+      "rule_text": "需要判断\n对招商生效客户、有效落地项目、打样项目数的1-*月的增长率进行判断，若增长率为负数，则需提示以上三个指标中哪个指标负增长",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "judgement_rule",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第三章已通过 `_negative_process_items()` 对招商生效客户、有效落地项目、打样项目数的同比负增长进行识别。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "保留现状；接口需提供有效同期数。"
+    },
+    {
+      "id": "chapter3_33_32过程指标预警_年度20个招商生效客户目标缺口个",
+      "source_excel_row": 33,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.2   过程指标预警",
+      "metric_path": [
+        "年度20个招商生效客户目标缺口*个"
+      ],
+      "primary_metric": "年度20个招商生效客户目标缺口*个",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "距离20个目标的差距",
+      "metric_nature": "描述性",
+      "rule_text": "需计算，缺口=20个减去本年累计完成个数。若缺口小于等于0，则无需提示缺口。",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "judgement_rule",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第三章已内置年度20个招商/存量生效客户目标，并在缺口<=0时隐藏缺口。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "确认文案中的“存量生效客户/招商生效客户”口径是否需统一。"
+    },
+    {
+      "id": "chapter3_34_32过程指标预警_100个出货项目目标缺口个",
+      "source_excel_row": 34,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.2   过程指标预警",
+      "metric_path": [
+        "100个出货项目目标缺口*个"
+      ],
+      "primary_metric": "100个出货项目目标缺口*个",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "距离100个目标的差距",
+      "metric_nature": "描述性",
+      "rule_text": "需计算，缺口=100个减去本年累计完成个数。若缺口小于等于0，则无需提示缺口。",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "judgement_rule",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第三章已内置100个出货项目目标，并在缺口<=0时隐藏缺口。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "保留现状。"
+    },
+    {
+      "id": "chapter3_35_32过程指标预警_表格内所有数据进行描述展示即可",
+      "source_excel_row": 35,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.2   过程指标预警",
+      "metric_path": [
+        "表格内所有数据进行描述展示即可"
+      ],
+      "primary_metric": "表格内所有数据进行描述展示即可",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter3_36_33产品产销客户产销项目及行业_各产品销量真石漆多彩涂料真石质感底漆",
+      "source_excel_row": 36,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.3  产品、产销客户、产销项目及行业",
+      "metric_path": [
+        "各产品销量",
+        "真石漆、多彩涂料、真石质感底漆、无机矿物、内墙乳胶漆面漆、外墙乳胶漆、弹性涂料、外墙腻子、内墙腻子、沥青卷材、高分子卷材、地坪漆、建筑节能产品"
+      ],
+      "primary_metric": "各产品销量",
+      "secondary_metric": "真石漆、多彩涂料、真石质感底漆、无机矿物、内墙乳胶漆面漆、外墙乳胶漆、弹性涂料、外墙腻子、内墙腻子、沥青卷材、高分子卷材、地坪漆、建筑节能产品",
+      "tertiary_metric": "",
+      "metric_description": "总收入=各类产品收入和",
+      "metric_nature": "指标归因",
+      "rule_text": "总收入=各类产品收入和",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "需要对产品进行重分类，三棵树内部解决，无需agent解决",
+      "phase2_status": "partial",
+      "assessment": "第三章已按“各产品销量/收入金额”分组展示和筛选 TOP，但产品重分类尚未接入二期生成器，且未做完整“总收入=各类产品收入和”的校验。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py",
+        "Data/contracts/attribution_rules.json"
+      ],
+      "next_action": "接入产品重分类映射；补总收入与分类合计校验或统计。"
+    },
+    {
+      "id": "chapter3_37_33产品产销客户产销项目及行业_各产品销售量真石漆多彩涂料真石质感底",
+      "source_excel_row": 37,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.3  产品、产销客户、产销项目及行业",
+      "metric_path": [
+        "各产品销售量",
+        "真石漆、多彩涂料、真石质感底漆、无机矿物、内墙乳胶漆面漆、外墙乳胶漆、弹性涂料、外墙腻子、内墙腻子、沥青卷材、高分子卷材、地坪漆、建筑节能产品"
+      ],
+      "primary_metric": "各产品销售量",
+      "secondary_metric": "真石漆、多彩涂料、真石质感底漆、无机矿物、内墙乳胶漆面漆、外墙乳胶漆、弹性涂料、外墙腻子、内墙腻子、沥青卷材、高分子卷材、地坪漆、建筑节能产品",
+      "tertiary_metric": "",
+      "metric_description": "总销售量=各类产品销售量和",
+      "metric_nature": "指标归因",
+      "rule_text": "总销售量=各类产品销售量",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第三章已按“各产品销售量”分组展示，支持产品销售量 TOP/风险分析。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "保留现状；后续可补总销售量合计校验。"
+    },
+    {
+      "id": "chapter3_38_33产品产销客户产销项目及行业_销量产销客户数",
+      "source_excel_row": 38,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.3  产品、产销客户、产销项目及行业",
+      "metric_path": [
+        "销量",
+        "产销客户数"
+      ],
+      "primary_metric": "销量",
+      "secondary_metric": "产销客户数",
+      "tertiary_metric": "",
+      "metric_description": "有出货的客户数",
+      "metric_nature": "指标归因",
+      "rule_text": "销量=产销客户数*客均销量",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "",
+      "phase2_status": "partial",
+      "assessment": "第三章已解析产销客户数和客均销量，但没有显式输出或校验“销量=产销客户数*客均销量”的乘法归因。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "补乘法归因块或在 stats 中输出公式校验结果。"
+    },
+    {
+      "id": "chapter3_39_33产品产销客户产销项目及行业_销量客均销量",
+      "source_excel_row": 39,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.3  产品、产销客户、产销项目及行业",
+      "metric_path": [
+        "销量",
+        "客均销量"
+      ],
+      "primary_metric": "销量",
+      "secondary_metric": "客均销量",
+      "tertiary_metric": "",
+      "metric_description": "平均一个客户的销量",
+      "metric_nature": "指标归因",
+      "rule_text": "",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_metric",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第三章已解析并展示客均销量，风险指标中会使用客均销量同比下降信息。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "保留现状。"
+    },
+    {
+      "id": "chapter3_40_33产品产销客户产销项目及行业_销量产销项目数",
+      "source_excel_row": 40,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.3  产品、产销客户、产销项目及行业",
+      "metric_path": [
+        "销量",
+        "产销项目数"
+      ],
+      "primary_metric": "销量",
+      "secondary_metric": "产销项目数",
+      "tertiary_metric": "",
+      "metric_description": "有出货的项目数",
+      "metric_nature": "指标归因",
+      "rule_text": "销量=产销项目数*单项目销量",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "",
+      "phase2_status": "partial",
+      "assessment": "第三章已解析产销项目数和单项目销量，但没有显式输出或校验“销量=产销项目数*单项目销量”的乘法归因。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "补乘法归因块或在 stats 中输出公式校验结果。"
+    },
+    {
+      "id": "chapter3_41_33产品产销客户产销项目及行业_销量单项目销量",
+      "source_excel_row": 41,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.3  产品、产销客户、产销项目及行业",
+      "metric_path": [
+        "销量",
+        "单项目销量"
+      ],
+      "primary_metric": "销量",
+      "secondary_metric": "单项目销量",
+      "tertiary_metric": "",
+      "metric_description": "平均一个项目的销量",
+      "metric_nature": "指标归因",
+      "rule_text": "",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_metric",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第三章已解析并展示单项目销量，风险指标中会使用单项目销量同比下降信息。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "保留现状。"
+    },
+    {
+      "id": "chapter3_42_33产品产销客户产销项目及行业_各行业销量地产系统工业市政公建教育医",
+      "source_excel_row": 42,
+      "chapter": "三、销量分析",
+      "chapter_id": "chapter3",
+      "module": "3.3  产品、产销客户、产销项目及行业",
+      "metric_path": [
+        "各行业销量",
+        "①地产系统\n②工业\n③市政公建\n④教育、医疗卫生、金融系统\n⑤连锁酒店、商业、餐饮、文体娱乐\n⑥轨道交通"
+      ],
+      "primary_metric": "各行业销量",
+      "secondary_metric": "①地产系统\n②工业\n③市政公建\n④教育、医疗卫生、金融系统\n⑤连锁酒店、商业、餐饮、文体娱乐\n⑥轨道交通",
+      "tertiary_metric": "",
+      "metric_description": "总销售量=各行业销量和",
+      "metric_nature": "指标归因",
+      "rule_text": "总销售量=各行业销量",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第三章已按“各行业销量”和“各行业销量占比”分组，支持行业 TOP、正增长、负增长分析。",
+      "evidence_files": [
+        "ReportGenerator/chapter3_generator.py",
+        "tests/test_chapter3.py"
+      ],
+      "next_action": "保留现状；接口需稳定提供行业销量和占比。"
+    },
+    {
+      "id": "chapter4_43_结构变化_各产品收入占比差异",
+      "source_excel_row": 43,
+      "chapter": "四、毛利率与产品结构",
+      "chapter_id": "chapter4",
+      "module": "结构变化",
+      "metric_path": [
+        "各产品收入占比差异"
+      ],
+      "primary_metric": "各产品收入占比差异",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "各产品收入占比差异",
+      "metric_nature": "指标归因",
+      "rule_text": "产品分类列示范围：占比排名前三的情况",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第四章已按收入占比排序列示结构变化前三产品。",
+      "evidence_files": [
+        "ReportGenerator/chapter4_generator.py",
+        "tests/test_chapter4.py"
+      ],
+      "next_action": "保留现状；后续可补真实方向字段，替代扣分值推断。"
+    },
+    {
+      "id": "chapter4_44_价格变动_各产品的均价差异",
+      "source_excel_row": 44,
+      "chapter": "四、毛利率与产品结构",
+      "chapter_id": "chapter4",
+      "module": "价格变动",
+      "metric_path": [
+        "各产品的均价差异"
+      ],
+      "primary_metric": "各产品的均价差异",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "各产品的均价同比情况",
+      "metric_nature": "指标归因",
+      "rule_text": "列示：价格下降产品中收入占比前3的产品\n价格增长的产品中收入排名前3的产品",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第四章已按“价格下降产品中收入占比前三”列示均价下降产品，并用完整价格样例覆盖；稀疏 raw 只有一条价格记录时，仅展示可用价格产品，不编造缺失价格。",
+      "evidence_files": [
+        "ReportGenerator/chapter4_generator.py",
+        "tests/test_chapter4.py"
+      ],
+      "next_action": "保留现状；接口需稳定提供各产品的均价差异记录，稀疏数据时继续按可用记录降级展示。"
+    },
+    {
+      "id": "chapter5_45_51应收款项概况_应收款项",
+      "source_excel_row": 45,
+      "chapter": "五、应收分析",
+      "chapter_id": "chapter5",
+      "module": "5.1 应收款项概况",
+      "metric_path": [
+        "应收款项"
+      ],
+      "primary_metric": "应收款项",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "个人应收款项",
+      "metric_nature": "指标归因",
+      "rule_text": "需计算，个人应收款项小于等于10万的，第五章节不展示。",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_metric",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第五章已实现个人应收款项小于等于10万省略规则，并支持元/万元换算；已补10万边界和10.01万保留单测。",
+      "evidence_files": [
+        "ReportGenerator/chapter5_generator.py",
+        "tests/test_chapter5.py"
+      ],
+      "next_action": "保留现状；接口需稳定提供个人应收款项总额和单位。"
+    },
+    {
+      "id": "chapter5_46_53财务费用_本月财务费用排名前三的客户",
+      "source_excel_row": 46,
+      "chapter": "五、应收分析",
+      "chapter_id": "chapter5",
+      "module": "5.3 财务费用",
+      "metric_path": [
+        "本月财务费用排名前三的客户"
+      ],
+      "primary_metric": "本月财务费用排名前三的客户",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "列示本月财务费用排名前三的客户",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter6_47_差旅费_差旅费交通费住宿费车辆费其他费用",
+      "source_excel_row": 47,
+      "chapter": "六、费用分析",
+      "chapter_id": "chapter6",
+      "module": "差旅费",
+      "metric_path": [
+        "差旅费",
+        "交通费、住宿费、车辆费、其他费用"
+      ],
+      "primary_metric": "差旅费",
+      "secondary_metric": "交通费、住宿费、车辆费、其他费用",
+      "tertiary_metric": "",
+      "metric_description": "差旅费=各类费用和",
+      "metric_nature": "指标归因",
+      "rule_text": "",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第六章结构化契约已支持差旅费按交通费、住宿费、车辆费、其他费用拆解展示。",
+      "evidence_files": [
+        "ReportGenerator/chapter6_generator.py",
+        "tests/test_chapter6.py"
+      ],
+      "next_action": "保留现状；接口需提供明确 breakdown 字段或稳定路径。"
+    },
+    {
+      "id": "chapter6_48_差旅费_差旅费出差天数",
+      "source_excel_row": 48,
+      "chapter": "六、费用分析",
+      "chapter_id": "chapter6",
+      "module": "差旅费",
+      "metric_path": [
+        "差旅费",
+        "出差天数"
+      ],
+      "primary_metric": "差旅费",
+      "secondary_metric": "出差天数",
+      "tertiary_metric": "",
+      "metric_description": "用于分析出差效率，每天花费金额越低越好",
+      "metric_nature": "指标归因",
+      "rule_text": "差旅费=出差天数*每天花费金额",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第六章已支持出差天数和平均每天花费展示，可支撑“差旅费=出差天数*每天花费金额”的效率分析。",
+      "evidence_files": [
+        "ReportGenerator/chapter6_generator.py",
+        "tests/test_chapter6.py"
+      ],
+      "next_action": "后续可补乘法校验，确认差旅费总额与天数*日均是否一致。"
+    },
+    {
+      "id": "chapter6_49_差旅费_差旅费每天花费金额交通费天住宿费天车",
+      "source_excel_row": 49,
+      "chapter": "六、费用分析",
+      "chapter_id": "chapter6",
+      "module": "差旅费",
+      "metric_path": [
+        "差旅费",
+        "每天花费金额",
+        "交通费/天、住宿费/天、车辆费/天、其他费用/天"
+      ],
+      "primary_metric": "差旅费",
+      "secondary_metric": "每天花费金额",
+      "tertiary_metric": "交通费/天、住宿费/天、车辆费/天、其他费用/天",
+      "metric_description": "",
+      "metric_nature": "指标归因",
+      "rule_text": "",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_metric",
+      "internal_note": "",
+      "phase2_status": "partial",
+      "assessment": "第六章已支持每天花费金额和日均费用 breakdown，但当前依赖接口直接给日均明细，没有从交通/住宿/车辆/其他费用除以天数计算各项/天。",
+      "evidence_files": [
+        "ReportGenerator/chapter6_generator.py",
+        "tests/test_chapter6.py"
+      ],
+      "next_action": "补“费用/天”派生计算，或明确接口直接提供各项日均字段。"
+    },
+    {
+      "id": "chapter6_50_样板样漆费用_样板样漆费用真石漆多彩涂料真石质感底",
+      "source_excel_row": 50,
+      "chapter": "六、费用分析",
+      "chapter_id": "chapter6",
+      "module": "样板样漆费用",
+      "metric_path": [
+        "样板样漆费用",
+        "真石漆、多彩涂料、真石质感底漆、无机矿物、内墙乳胶漆面漆、外墙乳胶漆、弹性涂料、外墙腻子、内墙腻子、沥青卷材、高分子卷材、地坪漆、建筑节能产品"
+      ],
+      "primary_metric": "样板样漆费用",
+      "secondary_metric": "真石漆、多彩涂料、真石质感底漆、无机矿物、内墙乳胶漆面漆、外墙乳胶漆、弹性涂料、外墙腻子、内墙腻子、沥青卷材、高分子卷材、地坪漆、建筑节能产品",
+      "tertiary_metric": "",
+      "metric_description": "样板样漆费用=各类产品费用和",
+      "metric_nature": "指标归因",
+      "rule_text": "样板样漆费用=各类产品费用和",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "attribution_decomposition",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第六章已支持样板样漆费用按产品 TOP3 展示。",
+      "evidence_files": [
+        "ReportGenerator/chapter6_generator.py",
+        "tests/test_chapter6.py"
+      ],
+      "next_action": "保留现状；后续可补各产品费用合计与总费用校验。"
+    },
+    {
+      "id": "chapter7_51_拜访量_月拜访频次",
+      "source_excel_row": 51,
+      "chapter": "七、行销行为诊断",
+      "chapter_id": "chapter7",
+      "module": "拜访量",
+      "metric_path": [
+        "*月拜访频次"
+      ],
+      "primary_metric": "*月拜访频次",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter7_52_拜访量_拜访达成率",
+      "source_excel_row": 52,
+      "chapter": "七、行销行为诊断",
+      "chapter_id": "chapter7",
+      "module": "拜访量",
+      "metric_path": [
+        "拜访达成率"
+      ],
+      "primary_metric": "拜访达成率",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "拜访达成率=拜访频次/目标拜访频次",
+      "metric_nature": "描述性",
+      "rule_text": "无需设置",
+      "requires_attribution_or_judgement": false,
+      "required_flag": "否",
+      "inferred_rule_type": "descriptive_display",
+      "internal_note": "",
+      "phase2_status": "not_assessed"
+    },
+    {
+      "id": "chapter7_53_拜访量_扣绩效分",
+      "source_excel_row": 53,
+      "chapter": "七、行销行为诊断",
+      "chapter_id": "chapter7",
+      "module": "拜访量",
+      "metric_path": [
+        "扣绩效*分"
+      ],
+      "primary_metric": "扣绩效*分",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "拜访达成率未达到100%，需要扣多少绩效分",
+      "metric_nature": "描述性",
+      "rule_text": "需要判断\n若拜访达成率≥100%，则无需提示扣绩效分",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "judgement_rule",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第七章已按拜访达成率判断，达成率>=100时隐藏扣绩效，低于100时展示扣分。",
+      "evidence_files": [
+        "ReportGenerator/chapter7_generator.py",
+        "tests/test_chapter7.py"
+      ],
+      "next_action": "保留现状。"
+    },
+    {
+      "id": "chapter7_54_拜访量_还差次",
+      "source_excel_row": 54,
+      "chapter": "七、行销行为诊断",
+      "chapter_id": "chapter7",
+      "module": "拜访量",
+      "metric_path": [
+        "还差*次"
+      ],
+      "primary_metric": "还差*次",
+      "secondary_metric": "",
+      "tertiary_metric": "",
+      "metric_description": "",
+      "metric_nature": "描述性",
+      "rule_text": "需要判断\n若拜访达成率≥100%，则无需提示。若拜访达成率≤100%，还差*次=目标拜访频次-拜访频次",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "judgement_rule",
+      "internal_note": "",
+      "phase2_status": "supported",
+      "assessment": "第七章已按目标拜访频次-实际拜访频次计算“还差*次”，达成率>=100时隐藏。",
+      "evidence_files": [
+        "ReportGenerator/chapter7_generator.py",
+        "tests/test_chapter7.py"
+      ],
+      "next_action": "保留现状。"
+    },
+    {
+      "id": "chapter7_55_时间分配_各类拜访的次数占比客户拜访项目开发应",
+      "source_excel_row": 55,
+      "chapter": "七、行销行为诊断",
+      "chapter_id": "chapter7",
+      "module": "时间分配",
+      "metric_path": [
+        "各类拜访的次数占比",
+        "客户拜访、项目开发、应收相关、其他"
+      ],
+      "primary_metric": "各类拜访的次数占比",
+      "secondary_metric": "客户拜访、项目开发、应收相关、其他",
+      "tertiary_metric": "",
+      "metric_description": "各类拜访的次数占比",
+      "metric_nature": "描述性",
+      "rule_text": "拜访占比=各类拜访次数/总次数",
+      "requires_attribution_or_judgement": true,
+      "required_flag": "是",
+      "inferred_rule_type": "required_calculation",
+      "internal_note": "需要导出SFA重新分类",
+      "phase2_status": "partial",
+      "assessment": "第七章目前只支持项目拜访占比和客户拜访占比，未覆盖客户拜访、项目开发、应收相关、其他四类，也没有从各类次数/总次数派生占比；Excel 备注还要求 SFA 重新分类。",
+      "evidence_files": [
+        "ReportGenerator/chapter7_generator.py",
+        "tests/test_chapter7.py"
+      ],
+      "next_action": "补四类时间分配数据契约；等待或接入 SFA 重新分类结果。"
+    }
+  ]
+}

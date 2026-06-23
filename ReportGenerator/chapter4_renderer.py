@@ -9,7 +9,8 @@ from pathlib import Path
 from typing import List, Tuple
 import re
 
-from reportlab.lib import colors
+from .report_theme import apply_html_theme, colors
+from .browser_pdf import html_to_pdf
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -32,9 +33,7 @@ def save_final_html(markdown: str, output_path: Path) -> Path:
 
 def save_final_pdf(markdown: str, output_path: Path) -> Path:
     """保存第四章 PDF 文件。"""
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    _markdown_to_pdf(markdown, output_path)
-    return output_path
+    return html_to_pdf(_markdown_to_html(markdown), output_path)
 
 
 def _inline_html(text: str) -> str:
@@ -112,7 +111,7 @@ body {
   margin: 0;
   background: #f4f5f7;
   color: #303236;
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+  font-family: "Microsoft YaHei", "Heiti SC", "PingFang SC", "Noto Sans CJK SC", sans-serif;
   line-height: 1.75;
 }
 .page {
@@ -197,7 +196,7 @@ strong {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第四章毛利率与产品结构报告</title>
-<style>{css}</style>
+<style>{apply_html_theme(css)}</style>
 </head>
 <body><main class="page">{''.join(parts)}</main></body>
 </html>

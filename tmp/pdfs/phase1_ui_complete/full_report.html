@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>经营分析报告</title>
+<style>
+body {
+  margin: 0;
+  background: #f4f6f8;
+  color: #18202a;
+  font-family: "Microsoft YaHei", "Heiti SC", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+  line-height: 1.72;
+}
+.page {
+  box-sizing: border-box;
+  max-width: 980px;
+  margin: 28px auto;
+  padding: 42px 50px 56px;
+  background: #fff;
+  border: 1px solid #d8dee6;
+}
+.report-header {
+  margin: 0 0 28px;
+  padding: 0 0 15px;
+  border-bottom: 3px solid #2E7D32;
+}
+.report-header-main {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+}
+.report-header-left { min-width: 0; }
+.report-header-title {
+  margin: 0 0 7px;
+  color: #2E7D32;
+  font-size: 25px;
+  line-height: 1.3;
+  font-weight: 500;
+}
+.report-header-breadcrumb {
+  color: #2E7D32;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.report-header-meta {
+  flex: 0 0 auto;
+  color: #666666;
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: right;
+}
+h1 { margin: 8px 0 24px; font-size: 28px; line-height: 1.3; color: #15293f; }
+h2 { margin: 32px 0 14px; padding-bottom: 7px; border-bottom: 2px solid #d8e1ea; font-size: 22px; color: #15293f; }
+h3 { margin: 24px 0 10px; font-size: 18px; color: #1f3348; }
+p { margin: 7px 0; font-size: 15px; }
+p.guide { padding-left: 4px; }
+p.comment { color: #6b7280; font-size: 13px; }
+strong { font-weight: 800; color: #0b5cad; }
+.missing { color: #c00000; font-weight: 800; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 12px 0 24px; font-size: 13.5px; }
+th, td { border: 1px solid #ccd6e0; padding: 8px 9px; vertical-align: middle; word-break: break-word; }
+th { background: #eef3f7; color: #132940; font-weight: 800; }
+tr:nth-child(even) td { background: #fbfcfd; }
+.receivable-chart { position: relative; width: 100%; height: 455px; margin: 18px 0 8px; }
+.chart-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.chart-line { stroke: #b8c1ca; stroke-width: 2; fill: none; }
+.chart-node {
+  position: absolute;
+  min-width: 118px;
+  min-height: 52px;
+  padding: 9px 14px;
+  border-radius: 4px;
+  background: #c8f1b8;
+  color: #1c2f1a;
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 800;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: pre-line;
+}
+.chart-node.root { min-width: 145px; min-height: 82px; background: #75dc4f; font-size: 16px; }
+.chart-node.overdue { color: #d64242; }
+.chart-note { position: absolute; right: 128px; bottom: 10px; font-size: 13px; color: #111; }
+.tree-fallback { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
+@media print {
+  body { background: #fff; }
+  .page { margin: 0; max-width: none; border: 0; padding: 0; }
+}
+
+/* Shared phase-one green report theme */
+h1, h2, h3 {
+  color: #2E7D32 !important;
+}
+/*
+ * Chromium 会因应收结构图的固定宽度将整页缩放到约 72%。
+ * 以下字号按 PDF 最终点数反向校准：正文/表格约 9.7pt，报告标题约 16.5pt。
+ */
+p { font-size: 18px !important; }
+table { font-size: 18px !important; }
+.report-header-title { font-size: 30px !important; }
+.report-header-breadcrumb,
+.report-header-meta { font-size: 18px !important; }
+.page > h1 {
+  border-left: 5px solid #66BB6A;
+  padding-left: 12px;
+}
+h2 {
+  border-color: #66BB6A !important;
+}
+table th,
+.data-table th,
+.chapter4-table th {
+  background: #2E7D32 !important;
+  color: #FFFFFF !important;
+  border-color: #DDE7DD !important;
+}
+table td,
+.data-table td,
+.chapter4-table td {
+  border-color: #DDE7DD !important;
+}
+p.bullet::before,
+.bullet::before {
+  color: #66BB6A !important;
+}
+.pending,
+.pending-value,
+.missing {
+  color: #D32F2F !important;
+}
+
+/* 客户范本中的排名摘要表：浅绿整块、无网格、大留白。 */
+table.rank-table {
+  border: 0 !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #F1F8E9;
+  margin: 14px 0 24px;
+}
+.rank-table th,
+.rank-table td {
+  border: 0 !important;
+  background: #F1F8E9 !important;
+  vertical-align: middle;
+}
+.rank-table th {
+  padding: 13px 10px 8px !important;
+  text-align: center !important;
+  font-weight: 800;
+  color: #2E7D32 !important;
+}
+.rank-table td {
+  padding: 10px 10px 13px !important;
+  text-align: center !important;
+}
+.rank-table th:first-child,
+.rank-table td:first-child {
+  width: 18%;
+  text-align: left !important;
+  font-style: normal;
+  font-weight: 400;
+}
+.rank-table td:not(:first-child) {
+  font-size: 26px;
+  font-style: italic;
+}
+
+.action-guide {
+  margin: 12px 0 22px;
+  padding: 11px 15px;
+  border-left: 4px solid #FFA000;
+  border-radius: 4px;
+  background: #FFF8E1;
+  break-inside: avoid;
+}
+.action-guide-title {
+  margin: 0 0 5px;
+  color: #333333;
+  font-weight: 800;
+}
+.action-guide p {
+  margin: 4px 0;
+  font-size: 17.5px !important;
+}
+
+.summary-item {
+  margin: 11px 0;
+  padding: 13px 15px;
+  border-radius: 6px;
+  break-inside: avoid;
+}
+.summary-item h3 {
+  margin: 0 0 7px;
+  font-size: 15px;
+}
+.summary-item p { margin: 4px 0; font-size: 17.5px !important; }
+.summary-group {
+  break-before: page;
+  break-inside: avoid;
+}
+.summary-group > h1 {
+  border-left: 5px solid #66BB6A;
+  padding-left: 12px;
+}
+.summary-advantage { background: #E3F2FD; color: #0D47A1; }
+.summary-advantage h3 { color: #0D47A1 !important; }
+.summary-shortcoming { background: #FFEBEE; color: #B71C1C; }
+.summary-shortcoming h3 { color: #B71C1C !important; }
+.summary-strategy { background: #FFF3E0; color: #E65100; }
+.summary-strategy h3 { color: #E65100 !important; }
+</style>
+</head>
+<body><main class="page"><header class="report-header"><div class="report-header-main"><div class="report-header-left"><div class="report-header-title">2026年1-6月经营分析报告</div><div class="report-header-breadcrumb">城市焕新事业部 &gt; 浙赣大区 &gt; 浙西省区 &gt; 杭州工业厂房经营部 刘晨</div></div><div class="report-header-meta"><div>日期：2026/06/22</div><div>范围：2026年1-6月</div></div></div></header><h1>绩效得分与预警</h1><table class="report-table rank-table"><tr><th></th><th>绩效排名</th><th>销量146万元</th><th>分摊前利润45万元</th></tr><tr><td>省区内排名</td><td>20</td><td>24</td><td>6</td></tr><tr><td>事业部内排名</td><td>565</td><td>486</td><td>177</td></tr></table><p>说明：此处销量含双算，与绩效评分同口径</p><h2>1.1 绩效得分情况</h2><table class="report-table"><tr><th>月度绩效</th><th>完成情况</th><th>关键详情</th></tr><tr><td>月平均绩效得分（不含其他奖惩）</td><td>55.7分（TOP <span class="missing">待补充</span>）</td><td>个人销量、有效出货项目数、招商生效</td></tr><tr><td>个人销量</td><td>达成率：65.0%</td><td>全年总扣分44.9分，月平均得分85.1分（权重130分）</td></tr><tr><td>有效出货项目数</td><td>达成率：73.0%</td><td>全年总扣分8分，月平均得分22分（权重30分）</td></tr><tr><td>招商生效</td><td>达成率：27.0%</td><td>全年总扣分80分，月平均得分30分（权重110分）</td></tr></table><h2>1.2 本季度目标达成奖预警</h2><p>季度目标达成奖=个人季度实际销量×0.6%×个人季度销量达成率</p><table class="report-table"><tr><th>奖金影响因素</th><th>情形</th><th>数值</th></tr><tr><td>个人季度实际销量</td><td>本季度累计销量</td><td>49万</td></tr><tr><td></td><td>当前达成率</td><td><span class="missing">待补充</span></td></tr><tr><td></td><td>距离80.0%达成率（发放硬性条件）</td><td><span class="missing">待补充</span></td></tr><tr><td></td><td>距离同期销量持平（负增长将同比例打折）</td><td><span class="missing">待补充</span></td></tr><tr><td></td><td>距离100.0%达成率还差</td><td><span class="missing">待补充</span></td></tr><tr><td>发放规则（与逾期金额同比挂钩）</td><td>截止6月底逾期金额</td><td><span class="missing">待补充</span></td></tr><tr><td></td><td>本季度预计到期款</td><td>15万</td></tr><tr><td></td><td>合计（潜在逾期总额）</td><td><span class="missing">待补充</span></td></tr><tr><td></td><td>25年同期逾期金额（含法诉，仅考虑25年同期，不考虑交接后的逾期）</td><td>77万</td></tr><tr><td></td><td>逾期金额同比下降30.0%，本季度末逾期金额不超过（含法诉，仅考虑25年同期，不考虑交接后的逾期）</td><td>54万</td></tr><tr><td></td><td>本季度末逾期金额对应的各类情形</td><td>当季度先发50.0%，剩余50.0%奖金与逾期金额挂钩，情形如下：<br>（1）0逾期则奖金100.0%发放；<br>（2）若存在逾期金额且同比下降30.0%以内，剩余奖金按逾期金额同比下降率*3发放。例如:员工A当季度逾期金额同比下降率为20.0%，则奖金发放比例为50.0%+50.0%*20.0%*3=80.0%；<br>（3）若存在逾期金额且同比下降超过30.0%（含），剩余奖金按100.0%发放，例如:员工B当季度逾期金额同比下降率为30.0%，则奖金发放比例为50.0%+50.0%=100.0%；<br>（4）如当季度逾期金额(含法务)占循环12个月销量占比低于2.0%(含)，则剩余奖金100.0%发放；例如:员工C循环12个月销量为800万，当季度逾期金额为15万，则占比为1.9%，对应剩余奖金发放比例为100.0%；<br>（5）如当季度有逾期且同比持平或增长，则剩余奖金延后发放并打折。如剩余奖金延后发放，则剩余奖金金额逐季度按0.85打折，顺延至年底的剩余奖金发放条件参照信用管理制度中年终奖发放条件）</td></tr></table><h2>1.3 年终利润达成奖预警</h2><p>年终利润达成奖=个人年度分摊前利润绝对值对应的奖金基数*个人销量达成率（上限1.2倍）</p><p>截止6月本年累计分摊前利润45万，奖金基数为1万。上一档奖金基数规则待客户补充，暂不进行区间判断。</p><p>请注意：</p><p>若本年销量出现负增长，则年终奖总额=奖金基数*（1+销量达成增长率）。</p><p>对于老员工，当年度个人销量绝对值不低于400万，若低于400万则年终奖清零。</p><h1>二、利润概况</h1><table class="report-table"><tr><th>科目</th><th>6月</th><th>本季度累计</th><th>1-6月累计</th></tr><tr><td>营业收入（不含税）</td><td>14万元</td><td>43万元</td><td>129万元</td></tr><tr><td>毛利率</td><td>16.5%</td><td>19.0%</td><td>21.8%</td></tr><tr><td>毛利额</td><td>2万元</td><td>8万元</td><td>28万元</td></tr><tr><td>个人人工费用</td><td>2万元</td><td>3万元</td><td>8万元</td></tr><tr><td>其中：基本薪酬+提成奖金+年终奖</td><td>1万元</td><td>3万元</td><td>7万元</td></tr><tr><td>差旅费</td><td>1万元</td><td>1万元</td><td>1万元</td></tr><tr><td>减值损失</td><td>0万元</td><td>-8万元</td><td>-28万元</td></tr><tr><td>财务费用</td><td>0万元</td><td>1万元</td><td>1万元</td></tr><tr><td>样板物料</td><td>0万元</td><td>1万元</td><td>1万元</td></tr><tr><td>其他各类费用</td><td>0万元</td><td>0万元</td><td>0万元</td></tr><tr><td>分摊前利润</td><td>-1万元</td><td>12万元</td><td>45万元</td></tr></table><h1>三、销量分析</h1><h2>3.1 销量概况</h2><table class="report-table"><tr><th>销量</th><th>6月</th><th>本季度累计</th><th>1-6月累计</th></tr><tr><td>目标</td><td>54.77</td><td>118.97</td><td>214.48</td></tr><tr><td>实际</td><td>0.000</td><td>0.000</td><td>0.000</td></tr><tr><td>达成率</td><td>0.0%</td><td>0.0%</td><td>0.0%</td></tr><tr><td>达成差额</td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td></tr><tr><td>同比增长率</td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td></tr><tr><td>同比差额</td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td></tr></table><h2>3.2 过程指标预警</h2><p>未达百（1-6月）指标包含：招商生效客户、有效落地项目</p><p>负增长（1-6月）指标包含：打样项目数</p><p>年度20.0个存量生效客户目标已完成3.000个（差距17.0个），100.0个出货项目目标已完成26.000个（差距74.0个）</p><table class="report-table"><tr><th>过程指标</th><th>目标与实际</th><th>6月</th><th>本季度累计</th><th>1-6月累计</th></tr><tr><td>招商生效客户（家）</td><td>目标</td><td>1.0家</td><td>1.0家</td><td>2.0家</td></tr><tr><td></td><td>实际</td><td>0.000家</td><td>1.000家</td><td>1.000家</td></tr><tr><td></td><td>差距</td><td>1.0家</td><td>0.0家</td><td>1.0家</td></tr><tr><td></td><td>达成率</td><td>0.0%</td><td>100.0%</td><td>50.0%</td></tr><tr><td>有效落地项目（个）</td><td>目标</td><td>2.0家</td><td>3.0个</td><td>8.0个</td></tr><tr><td></td><td>实际</td><td>2.000家</td><td>3.000个</td><td>4.000个</td></tr><tr><td></td><td>差距</td><td>0.0家</td><td>0.0个</td><td>4.0个</td></tr><tr><td></td><td>达成率</td><td>100.0%</td><td>100.0%</td><td>50.0%</td></tr><tr><td>打样项目数（个）</td><td>26年</td><td>8.000个</td><td>13.000个</td><td>23.000个</td></tr><tr><td></td><td>25年同期</td><td>11.0个</td><td>19.0个</td><td>29.0个</td></tr><tr><td></td><td>差距</td><td>-3.000个</td><td>-6.000个</td><td>-6.000个</td></tr><tr><td></td><td>增长率</td><td>-27.3%</td><td>-31.6%</td><td>-20.7%</td></tr></table><h2>3.3 产品、产销客户、产销项目及行业</h2><p>- 正向指标（1-6月）</p><p>产品：无机矿物内墙涂料8万（↑1991.4%）、弹性涂料7万（↑80.1%）、其他产品（界面剂、胶粘剂、辅材等）6万（↑149.1%）表现突出</p><p>客户：产销客户数同比增长0.0%（增加0.000个）</p><p>项目：产销项目数同比增长5.1%（增加2.000个）</p><p>行业：地产系统行业收入增长39.9%，占比增长4.9%；连锁酒店、商业、餐饮、文体娱乐行业收入增长235.5%，占比增长2.4%</p><p>- 风险指标（1-6月）</p><p>产品：地坪漆55万（↓7.3%），销售量下降6.4%；内墙乳胶漆面漆20万（↓36.0%），销售量下降32.4%；聚合物水泥防水涂料15万（↓52.0%），销售量下降53.6%</p><p>客户：客均销量9万（↓25.1%）。1-6月销量下降金额前三的客户包含：<span class="missing">待补充</span></p><p>项目：单项目销量4万（↓28.7%）</p><p>行业：市政公建行业收入下降44.7%，占比下降8.9%；教育、医疗卫生、金融系统行业收入下降52.1%，占比下降2.9%</p><section class="action-guide"><div class="action-guide-title">行动指南：</div><p>优先复盘收入与销售量同时下降的产品，同步关注客均销量、单项目销量及收入与占比下降的行业，逐项制定补量动作。</p></section><h2>四、毛利率与产品结构</h2><p>个人毛利率<span class="missing">待补充</span>，主要影响因素<span class="missing">待补充</span>。</p><table class="report-table"><tr><th>指标</th><th>详情</th></tr><tr><td>价格变动</td><td><strong>均价上升：</strong> <span class="missing">待补充</span><br><br><strong>均价下降：</strong> <span class="missing">待补充</span></td></tr><tr><td>结构变化</td><td><strong>收入占比排名前三的产品及占比变动：</strong> <span class="missing">待补充</span></td></tr></table><section class="action-guide"><div class="action-guide-title">行动指南：</div><p><strong>产品结构：</strong> <span class="missing">待补充</span></p><p><strong>价格：</strong> <span class="missing">待补充</span></p></section><h1>五、应收分析</h1><h2>5.1 应收款项概况</h2><p>应收款项总额：99万元</p><p>应收款项结构：</p><div class="receivable-chart"><svg class="chart-lines" viewBox="0 0 1088 455" preserveAspectRatio="none"><path class="chart-line" d="M190,219 L250,219" /><path class="chart-line" d="M250,118 L250,416" /><path class="chart-line" d="M250,118 L300,118" /><path class="chart-line" d="M250,230 L300,230" /><path class="chart-line" d="M250,322 L300,322" /><path class="chart-line" d="M250,412 L300,412" /><path class="chart-line" d="M418,118 L455,118" /><path class="chart-line" d="M455,64 L455,200" /><path class="chart-line" d="M455,64 L478,64" /><path class="chart-line" d="M596,64 L632,64" /><path class="chart-line" d="M455,200 L478,200" /><path class="chart-line" d="M596,200 L610,200" /><path class="chart-line" d="M610,164 L610,276" /><path class="chart-line" d="M610,164 L632,164" /><path class="chart-line" d="M750,164 L795,164" /><path class="chart-line" d="M610,276 L632,276" /><path class="chart-line" d="M750,276 L795,276" /></svg><div class="chart-node root" style="left:45px;top:178px">应收款项
+99万元</div><div class="chart-node " style="left:300px;top:96px">应收账款
+99万元</div><div class="chart-node " style="left:300px;top:208px">应收票据
+0万元</div><div class="chart-node " style="left:300px;top:300px">保证金
+0万元</div><div class="chart-node " style="left:300px;top:390px">供应链票证
+0万元</div><div class="chart-node " style="left:478px;top:42px">经销
+74万元</div><div class="chart-node overdue" style="left:632px;top:42px">逾期（含诉讼）
+22万元</div><div class="chart-node " style="left:478px;top:178px">直销
+25万元</div><div class="chart-node " style="left:632px;top:142px">暴雷直销应收
+25万元</div><div class="chart-node overdue" style="left:795px;top:142px">逾期
+25万元</div><div class="chart-node " style="left:632px;top:254px">非暴雷直销应收
+0万元</div><div class="chart-node overdue" style="left:795px;top:254px">逾期
+0万元</div><div class="chart-note">备注：逾期金额含诉讼，保证金不含保函</div></div><p class="guide">◇ <strong>逾期金额前五客户</strong></p><table class="report-table"><tr><th>客户名称</th><th>应收账款</th><th>其中：逾期账款</th></tr><tr><td>客户名称<span class="missing">待补充</span>（客户3）</td><td>22万元</td><td>22万元</td></tr><tr><td>客户名称<span class="missing">待补充</span>（客户2）</td><td>13万元</td><td>13万元</td></tr><tr><td>客户名称<span class="missing">待补充</span>（客户4）</td><td>6万元</td><td>6万元</td></tr><tr><td>客户名称<span class="missing">待补充</span>（客户1）</td><td>6万元</td><td>6万元</td></tr></table><p>备注：更详细名单请见销售日报应收数据。</p><p class="guide">◇ <strong>7月新增到期款金额排名前五客户：</strong></p><table class="report-table"><tr><th>客户名称</th><th>7月新增到期款</th></tr><tr><td>客户名称<span class="missing">待补充</span>（客户2）</td><td>11万元</td></tr><tr><td>客户名称<span class="missing">待补充</span>（客户1）</td><td>4万元</td></tr></table><h2>5.2 当年增加减值损失</h2><p class="guide">◇ 当年增加减值损失=应收减值-28万元+工抵房减值0万元+其他类型减值0万元（保证金、商票、票证等）。</p><p class="guide">◇ <strong>减值损失影响金额 TOP5 客户</strong></p><table class="report-table"><tr><th>客户名称</th><th>截止5月应收金额</th><th>当年增加减值损失</th><th>其中：应收减值（含坏账）</th><th>工抵房减值</th><th>其他类型减值（保证金、商票、票证等）</th></tr><tr><td>客户名称<span class="missing">待补充</span>（客户3）</td><td><span class="missing">待补充</span></td><td>1万元</td><td>1万元</td><td>0万元</td><td>0万元</td></tr><tr><td>客户名称<span class="missing">待补充</span>（客户2）</td><td>31万元</td><td>1万元</td><td>1万元</td><td>0万元</td><td>0万元</td></tr><tr><td>客户名称<span class="missing">待补充</span>（客户1）</td><td>11万元</td><td>1万元</td><td>1万元</td><td>0万元</td><td>0万元</td></tr><tr><td>客户名称<span class="missing">待补充</span>（客户4）</td><td>22万元</td><td>0万元</td><td>0万元</td><td>0万元</td><td>0万元</td></tr></table><p class="guide">◇ <strong>7月若未清收预计跳账龄的 TOP5 客户</strong></p><p>预计跳账龄客户明细：<span class="missing">待补充</span>。</p><h2>5.3 财务费用</h2><p class="guide">◇ 6月财务费用3100元=利息支出3100元-利息收入0元，其中利息支出3100元=应收账款资金占用费3100元+应收票据资金占用费0元+其他类型资金占用费0元。</p><p class="guide">◇ 6月财务费用排名前三的客户为客户名称<span class="missing">待补充</span>（客户2）（1300元）、客户名称<span class="missing">待补充</span>（客户3）（930元）、客户名称<span class="missing">待补充</span>（客户1）（440元）。</p><table class="report-table"><tr><th>客户名称</th><th>财务费用</th></tr><tr><td>客户名称<span class="missing">待补充</span>（客户2）</td><td>1300元</td></tr><tr><td>客户名称<span class="missing">待补充</span>（客户3）</td><td>930元</td></tr><tr><td>客户名称<span class="missing">待补充</span>（客户1）</td><td>440元</td></tr></table><section class="action-guide"><div class="action-guide-title">行动指南：</div><p>当年补提减值损失，需要减少应收、缩短账龄；针对逾期需加大清收力度，如找担保人催收、发送律师函、诉讼催收等。</p></section><h1>六、费用分析</h1><h2>差旅费</h2><p>6月差旅费<span class="missing">待补充</span>，同比<span class="missing">待补充</span>。其中交通费同比差额<span class="missing">待补充</span>、住宿费同比差额<span class="missing">待补充</span>、车辆费同比差额<span class="missing">待补充</span>、其他同比差额<span class="missing">待补充</span>。</p><p>出差效率：6月出差天数49.000天，平均每天花费<span class="missing">待补充</span>，其中交通费<span class="missing">待补充</span>、住宿费<span class="missing">待补充</span>、车辆费<span class="missing">待补充</span>、其他<span class="missing">待补充</span>。</p><h2>样板样漆费用</h2><p>6月费用4399元，同比差额<span class="missing">待补充</span>。其中产品1及费用<span class="missing">待补充</span>、产品2及费用<span class="missing">待补充</span>、产品3及费用<span class="missing">待补充</span>。</p><section class="action-guide"><div class="action-guide-title">行动指南：</div><p><span class="missing">待补充</span></p><p>固定模板规则：若本月差旅费增长且收入下滑，或本月差旅费增长且本月新增逾期增加，可建议警惕出差效率与出差质量。</p><p>固定模板规则：样板样漆费用增加但对应产品收入下滑的，需要提示样板样漆费用的控制。</p></section><h2>七、行销行为</h2><h3>拜访量</h3><p>6月拜访总频次数据<span class="missing">待补充</span>。 6月项目拜访频次数据<span class="missing">待补充</span>。</p><h3>时间分配</h3><p>时间分配数据<span class="missing">待补充</span>。</p><section class="action-guide"><div class="action-guide-title">行动指南：</div><p>日均拜访量不低于3次，月度达标60次。</p></section><section class="summary-group"><h1>八、总结</h1><section class="summary-item summary-advantage"><h3>核心优势</h3><p>分摊前利润45万元（省区第6）、月度有效项目落地2家（达成100.0%）。</p></section><section class="summary-item summary-shortcoming"><h3>关键短板</h3><p>绩效得分55.7分、年度出货项目达成26.0%、招商生效客户达成50.0%、存量生效客户达成15.0%、逾期应收47万元。</p></section><section class="summary-item summary-strategy"><h3>核心策略</h3><p>产品：持续优化产品结构，关注增长品类。；</p><p>项目：年度出货项目26/100个，加快重点项目转化；</p><p>渠道：招商生效客户1/2家，强化线索转化和过程管理；</p><p>客户：存量生效客户3/20个，聚焦客户激活与复购提升；</p><p>应收：逾期47万元需加大清收，资金费用3100元需降低占用；</p><p>打样：费用4398元，可比同期数据<span class="missing">待补充</span>，需建立转化跟踪。</p></section></section></main></body>
+</html>

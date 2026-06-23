@@ -1,0 +1,179 @@
+{
+  "contract_id": "chapter2_profit_overview_v1",
+  "chapter_id": "chapter2",
+  "chapter_title": "二、利润概况",
+  "source_module": "2",
+  "request": {
+    "ZEMPLOYEE": "{job_id}",
+    "CALMONTH": "{calmonth}",
+    "MOUDLE": "2"
+  },
+  "time_dimensions": [
+    {
+      "raw_date_type": "月",
+      "field_key": "month",
+      "display_label": "报告月"
+    },
+    {
+      "raw_date_type": "季",
+      "field_key": "quarter",
+      "display_label": "本季度累计"
+    },
+    {
+      "raw_date_type": "年",
+      "field_key": "year",
+      "display_label": "1-N月累计"
+    }
+  ],
+  "required_metric_data_keys": [
+    "实际值",
+    "日期类型",
+    "单位"
+  ],
+  "metrics": [
+    {
+      "subject_key": "revenue",
+      "subject_name": "营业收入（不含税）",
+      "path": "二、利润概况-营业收入（不含税）",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "gross_margin_rate",
+      "subject_name": "毛利率",
+      "path": "二、利润概况-毛利率",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "%",
+      "display_format": "percent",
+      "unit_policy": "若接口单位不是%，但数值<=1，则按比例值乘100展示，并记录warning",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "gross_margin_amount",
+      "subject_name": "毛利额",
+      "path": "二、利润概况-毛利额",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "labor_cost",
+      "subject_name": "个人人工费用",
+      "path": "二、利润概况-个人人工费用",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "salary_bonus_cost",
+      "subject_name": "其中：基本薪酬+提成奖金+年终奖",
+      "path": "二、利润概况-其中：基本薪酬+提成奖金+年终奖",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "rollup_policy": "个人人工费用子项，不重复计入费用合计",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "travel_cost",
+      "subject_name": "差旅费",
+      "path": "二、利润概况-差旅费",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "impairment_loss",
+      "subject_name": "减值损失",
+      "path": "二、利润概况-减值损失",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "financial_expense",
+      "subject_name": "财务费用",
+      "path": "二、利润概况-财务费用",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "sample_material",
+      "subject_name": "样板物料",
+      "path": "二、利润概况-样板物料",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "name_policy": "客户范本要求使用样板物料，不使用样板样漆",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "other_expense",
+      "subject_name": "其他各类费用",
+      "path": "二、利润概况-其他各类费用",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "missing_policy": "填—，记录warning"
+    },
+    {
+      "subject_key": "pre_allocation_profit",
+      "subject_name": "分摊前利润",
+      "path": "二、利润概况-分摊前利润",
+      "value_key": "实际值",
+      "required_date_types": ["月", "季", "年"],
+      "target_unit": "万元",
+      "display_format": "amount_wan",
+      "missing_policy": "填—，记录warning"
+    }
+  ],
+  "derived_fields": [
+    {
+      "field_key": "expense_total",
+      "formula": "labor_cost + travel_cost + impairment_loss + financial_expense + sample_material + other_expense",
+      "dimensions": ["month", "quarter", "year"],
+      "unit": "万元"
+    },
+    {
+      "field_key": "expense_income_ratio",
+      "formula": "expense_total / revenue",
+      "dimensions": ["month", "quarter", "year"],
+      "unit": "%",
+      "missing_policy": "营业收入为0或缺失时填—"
+    },
+    {
+      "field_key": "largest_expense_items",
+      "formula": "按费用项金额降序排序",
+      "dimensions": ["month", "quarter", "year"]
+    },
+    {
+      "field_key": "profit_status",
+      "formula": "pre_allocation_profit >= 0 ? 盈利 : 亏损",
+      "dimensions": ["month", "quarter", "year"]
+    }
+  ],
+  "output_shape": {
+    "metadata": {},
+    "profit_table": {},
+    "derived": {},
+    "warnings": []
+  }
+}

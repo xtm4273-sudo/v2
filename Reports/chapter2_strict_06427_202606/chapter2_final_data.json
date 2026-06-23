@@ -1,0 +1,844 @@
+{
+  "metadata": {
+    "chapter": "chapter2",
+    "source_module": 2,
+    "title": "二、利润概况",
+    "month": "202606",
+    "manager_id": "06427",
+    "manager_name": "刘晨",
+    "department_name": "城市焕新事业部",
+    "source_row_count": 33
+  },
+  "cells": {
+    "chapter2.profit_table.revenue.month": {
+      "field_id": "chapter2.profit_table.revenue.month",
+      "report_position": "利润表 / 营业收入（不含税） / 6月",
+      "metric_name": "营业收入（不含税）",
+      "metric_path": "二、利润概况-营业收入（不含税）",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "13.857",
+      "raw_unit": "万元",
+      "report_value": "13.857万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        0
+      ],
+      "candidates": [
+        {
+          "source_index": 0,
+          "实际值": "13.857",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.revenue.quarter": {
+      "field_id": "chapter2.profit_table.revenue.quarter",
+      "report_position": "利润表 / 营业收入（不含税） / 本季度累计",
+      "metric_name": "营业收入（不含税）",
+      "metric_path": "二、利润概况-营业收入（不含税）",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "43.264",
+      "raw_unit": "万元",
+      "report_value": "43.264万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        1
+      ],
+      "candidates": [
+        {
+          "source_index": 1,
+          "实际值": "43.264",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.revenue.year": {
+      "field_id": "chapter2.profit_table.revenue.year",
+      "report_position": "利润表 / 营业收入（不含税） / 1-6月累计",
+      "metric_name": "营业收入（不含税）",
+      "metric_path": "二、利润概况-营业收入（不含税）",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "128.860",
+      "raw_unit": "万元",
+      "report_value": "128.860万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        2
+      ],
+      "candidates": [
+        {
+          "source_index": 2,
+          "实际值": "128.860",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.gross_margin_rate.month": {
+      "field_id": "chapter2.profit_table.gross_margin_rate.month",
+      "report_position": "利润表 / 毛利率 / 6月",
+      "metric_name": "毛利率",
+      "metric_path": "二、利润概况-毛利率",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.165",
+      "raw_unit": "万元",
+      "report_value": "16.5%",
+      "calculation": "指标数据.实际值 × 100",
+      "status": "正常",
+      "source_indexes": [
+        3
+      ],
+      "candidates": [
+        {
+          "source_index": 3,
+          "实际值": "0.165",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.gross_margin_rate.quarter": {
+      "field_id": "chapter2.profit_table.gross_margin_rate.quarter",
+      "report_position": "利润表 / 毛利率 / 本季度累计",
+      "metric_name": "毛利率",
+      "metric_path": "二、利润概况-毛利率",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.190",
+      "raw_unit": "万元",
+      "report_value": "19.0%",
+      "calculation": "指标数据.实际值 × 100",
+      "status": "正常",
+      "source_indexes": [
+        4
+      ],
+      "candidates": [
+        {
+          "source_index": 4,
+          "实际值": "0.190",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.gross_margin_rate.year": {
+      "field_id": "chapter2.profit_table.gross_margin_rate.year",
+      "report_position": "利润表 / 毛利率 / 1-6月累计",
+      "metric_name": "毛利率",
+      "metric_path": "二、利润概况-毛利率",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.218",
+      "raw_unit": "万元",
+      "report_value": "21.8%",
+      "calculation": "指标数据.实际值 × 100",
+      "status": "正常",
+      "source_indexes": [
+        5
+      ],
+      "candidates": [
+        {
+          "source_index": 5,
+          "实际值": "0.218",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.gross_margin_amount.month": {
+      "field_id": "chapter2.profit_table.gross_margin_amount.month",
+      "report_position": "利润表 / 毛利额 / 6月",
+      "metric_name": "毛利额",
+      "metric_path": "二、利润概况-毛利额",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "2.281",
+      "raw_unit": "万元",
+      "report_value": "2.281万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        6
+      ],
+      "candidates": [
+        {
+          "source_index": 6,
+          "实际值": "2.281",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.gross_margin_amount.quarter": {
+      "field_id": "chapter2.profit_table.gross_margin_amount.quarter",
+      "report_position": "利润表 / 毛利额 / 本季度累计",
+      "metric_name": "毛利额",
+      "metric_path": "二、利润概况-毛利额",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "8.236",
+      "raw_unit": "万元",
+      "report_value": "8.236万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        7
+      ],
+      "candidates": [
+        {
+          "source_index": 7,
+          "实际值": "8.236",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.gross_margin_amount.year": {
+      "field_id": "chapter2.profit_table.gross_margin_amount.year",
+      "report_position": "利润表 / 毛利额 / 1-6月累计",
+      "metric_name": "毛利额",
+      "metric_path": "二、利润概况-毛利额",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "28.129",
+      "raw_unit": "万元",
+      "report_value": "28.129万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        8
+      ],
+      "candidates": [
+        {
+          "source_index": 8,
+          "实际值": "28.129",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.labor_cost.month": {
+      "field_id": "chapter2.profit_table.labor_cost.month",
+      "report_position": "利润表 / 个人人工费用 / 6月",
+      "metric_name": "个人人工费用",
+      "metric_path": "二、利润概况-个人人工费用",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "1.777",
+      "raw_unit": "万元",
+      "report_value": "1.777万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        9
+      ],
+      "candidates": [
+        {
+          "source_index": 9,
+          "实际值": "1.777",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.labor_cost.quarter": {
+      "field_id": "chapter2.profit_table.labor_cost.quarter",
+      "report_position": "利润表 / 个人人工费用 / 本季度累计",
+      "metric_name": "个人人工费用",
+      "metric_path": "二、利润概况-个人人工费用",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "3.409",
+      "raw_unit": "万元",
+      "report_value": "3.409万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        10
+      ],
+      "candidates": [
+        {
+          "source_index": 10,
+          "实际值": "3.409",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.labor_cost.year": {
+      "field_id": "chapter2.profit_table.labor_cost.year",
+      "report_position": "利润表 / 个人人工费用 / 1-6月累计",
+      "metric_name": "个人人工费用",
+      "metric_path": "二、利润概况-个人人工费用",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "7.690",
+      "raw_unit": "万元",
+      "report_value": "7.690万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        11
+      ],
+      "candidates": [
+        {
+          "source_index": 11,
+          "实际值": "7.690",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.salary_bonus_cost.month": {
+      "field_id": "chapter2.profit_table.salary_bonus_cost.month",
+      "report_position": "利润表 / 其中：基本薪酬+提成奖金+年终奖 / 6月",
+      "metric_name": "其中：基本薪酬+提成奖金+年终奖",
+      "metric_path": "二、利润概况-其中：基本薪酬+提成奖金+年终奖",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "1.170",
+      "raw_unit": "万元",
+      "report_value": "1.170万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        12
+      ],
+      "candidates": [
+        {
+          "source_index": 12,
+          "实际值": "1.170",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.salary_bonus_cost.quarter": {
+      "field_id": "chapter2.profit_table.salary_bonus_cost.quarter",
+      "report_position": "利润表 / 其中：基本薪酬+提成奖金+年终奖 / 本季度累计",
+      "metric_name": "其中：基本薪酬+提成奖金+年终奖",
+      "metric_path": "二、利润概况-其中：基本薪酬+提成奖金+年终奖",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "2.774",
+      "raw_unit": "万元",
+      "report_value": "2.774万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        13
+      ],
+      "candidates": [
+        {
+          "source_index": 13,
+          "实际值": "2.774",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.salary_bonus_cost.year": {
+      "field_id": "chapter2.profit_table.salary_bonus_cost.year",
+      "report_position": "利润表 / 其中：基本薪酬+提成奖金+年终奖 / 1-6月累计",
+      "metric_name": "其中：基本薪酬+提成奖金+年终奖",
+      "metric_path": "二、利润概况-其中：基本薪酬+提成奖金+年终奖",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "6.567",
+      "raw_unit": "万元",
+      "report_value": "6.567万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        14
+      ],
+      "candidates": [
+        {
+          "source_index": 14,
+          "实际值": "6.567",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.travel_cost.month": {
+      "field_id": "chapter2.profit_table.travel_cost.month",
+      "report_position": "利润表 / 差旅费 / 6月",
+      "metric_name": "差旅费",
+      "metric_path": "二、利润概况-差旅费",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.607",
+      "raw_unit": "万元",
+      "report_value": "0.607万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        15
+      ],
+      "candidates": [
+        {
+          "source_index": 15,
+          "实际值": "0.607",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.travel_cost.quarter": {
+      "field_id": "chapter2.profit_table.travel_cost.quarter",
+      "report_position": "利润表 / 差旅费 / 本季度累计",
+      "metric_name": "差旅费",
+      "metric_path": "二、利润概况-差旅费",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.635",
+      "raw_unit": "万元",
+      "report_value": "0.635万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        16
+      ],
+      "candidates": [
+        {
+          "source_index": 16,
+          "实际值": "0.635",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.travel_cost.year": {
+      "field_id": "chapter2.profit_table.travel_cost.year",
+      "report_position": "利润表 / 差旅费 / 1-6月累计",
+      "metric_name": "差旅费",
+      "metric_path": "二、利润概况-差旅费",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "1.123",
+      "raw_unit": "万元",
+      "report_value": "1.123万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        17
+      ],
+      "candidates": [
+        {
+          "source_index": 17,
+          "实际值": "1.123",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.impairment_loss.month": {
+      "field_id": "chapter2.profit_table.impairment_loss.month",
+      "report_position": "利润表 / 减值损失 / 6月",
+      "metric_name": "减值损失",
+      "metric_path": "二、利润概况-减值损失",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.389",
+      "raw_unit": "万元",
+      "report_value": "0.389万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        18
+      ],
+      "candidates": [
+        {
+          "source_index": 18,
+          "实际值": "0.389",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.impairment_loss.quarter": {
+      "field_id": "chapter2.profit_table.impairment_loss.quarter",
+      "report_position": "利润表 / 减值损失 / 本季度累计",
+      "metric_name": "减值损失",
+      "metric_path": "二、利润概况-减值损失",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "-8.389",
+      "raw_unit": "万元",
+      "report_value": "-8.389万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        19
+      ],
+      "candidates": [
+        {
+          "source_index": 19,
+          "实际值": "-8.389",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.impairment_loss.year": {
+      "field_id": "chapter2.profit_table.impairment_loss.year",
+      "report_position": "利润表 / 减值损失 / 1-6月累计",
+      "metric_name": "减值损失",
+      "metric_path": "二、利润概况-减值损失",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "-27.885",
+      "raw_unit": "万元",
+      "report_value": "-27.885万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        20
+      ],
+      "candidates": [
+        {
+          "source_index": 20,
+          "实际值": "-27.885",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.financial_expense.month": {
+      "field_id": "chapter2.profit_table.financial_expense.month",
+      "report_position": "利润表 / 财务费用 / 6月",
+      "metric_name": "财务费用",
+      "metric_path": "二、利润概况-财务费用",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.310",
+      "raw_unit": "万元",
+      "report_value": "0.310万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        21
+      ],
+      "candidates": [
+        {
+          "source_index": 21,
+          "实际值": "0.310",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.financial_expense.quarter": {
+      "field_id": "chapter2.profit_table.financial_expense.quarter",
+      "report_position": "利润表 / 财务费用 / 本季度累计",
+      "metric_name": "财务费用",
+      "metric_path": "二、利润概况-财务费用",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.585",
+      "raw_unit": "万元",
+      "report_value": "0.585万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        22
+      ],
+      "candidates": [
+        {
+          "source_index": 22,
+          "实际值": "0.585",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.financial_expense.year": {
+      "field_id": "chapter2.profit_table.financial_expense.year",
+      "report_position": "利润表 / 财务费用 / 1-6月累计",
+      "metric_name": "财务费用",
+      "metric_path": "二、利润概况-财务费用",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "1.139",
+      "raw_unit": "万元",
+      "report_value": "1.139万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        23
+      ],
+      "candidates": [
+        {
+          "source_index": 23,
+          "实际值": "1.139",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.sample_material.month": {
+      "field_id": "chapter2.profit_table.sample_material.month",
+      "report_position": "利润表 / 样板物料 / 6月",
+      "metric_name": "样板物料",
+      "metric_path": "二、利润概况-样板物料",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.440",
+      "raw_unit": "万元",
+      "report_value": "0.440万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        24
+      ],
+      "candidates": [
+        {
+          "source_index": 24,
+          "实际值": "0.440",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.sample_material.quarter": {
+      "field_id": "chapter2.profit_table.sample_material.quarter",
+      "report_position": "利润表 / 样板物料 / 本季度累计",
+      "metric_name": "样板物料",
+      "metric_path": "二、利润概况-样板物料",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.645",
+      "raw_unit": "万元",
+      "report_value": "0.645万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        25
+      ],
+      "candidates": [
+        {
+          "source_index": 25,
+          "实际值": "0.645",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.sample_material.year": {
+      "field_id": "chapter2.profit_table.sample_material.year",
+      "report_position": "利润表 / 样板物料 / 1-6月累计",
+      "metric_name": "样板物料",
+      "metric_path": "二、利润概况-样板物料",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "1.199",
+      "raw_unit": "万元",
+      "report_value": "1.199万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        26
+      ],
+      "candidates": [
+        {
+          "source_index": 26,
+          "实际值": "1.199",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.other_expense.month": {
+      "field_id": "chapter2.profit_table.other_expense.month",
+      "report_position": "利润表 / 其他各类费用 / 6月",
+      "metric_name": "其他各类费用",
+      "metric_path": "二、利润概况-其他各类费用",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.074",
+      "raw_unit": "万元",
+      "report_value": "0.074万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        27
+      ],
+      "candidates": [
+        {
+          "source_index": 27,
+          "实际值": "0.074",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.other_expense.quarter": {
+      "field_id": "chapter2.profit_table.other_expense.quarter",
+      "report_position": "利润表 / 其他各类费用 / 本季度累计",
+      "metric_name": "其他各类费用",
+      "metric_path": "二、利润概况-其他各类费用",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.141",
+      "raw_unit": "万元",
+      "report_value": "0.141万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        28
+      ],
+      "candidates": [
+        {
+          "source_index": 28,
+          "实际值": "0.141",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.other_expense.year": {
+      "field_id": "chapter2.profit_table.other_expense.year",
+      "report_position": "利润表 / 其他各类费用 / 1-6月累计",
+      "metric_name": "其他各类费用",
+      "metric_path": "二、利润概况-其他各类费用",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "0.489",
+      "raw_unit": "万元",
+      "report_value": "0.489万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        29
+      ],
+      "candidates": [
+        {
+          "source_index": 29,
+          "实际值": "0.489",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    },
+    "chapter2.profit_table.pre_allocation_profit.month": {
+      "field_id": "chapter2.profit_table.pre_allocation_profit.month",
+      "report_position": "利润表 / 分摊前利润 / 6月",
+      "metric_name": "分摊前利润",
+      "metric_path": "二、利润概况-分摊前利润",
+      "date_type": "月",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "-0.754",
+      "raw_unit": "万元",
+      "report_value": "-0.754万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        30
+      ],
+      "candidates": [
+        {
+          "source_index": 30,
+          "实际值": "-0.754",
+          "单位": "万元",
+          "日期类型": "月"
+        }
+      ]
+    },
+    "chapter2.profit_table.pre_allocation_profit.quarter": {
+      "field_id": "chapter2.profit_table.pre_allocation_profit.quarter",
+      "report_position": "利润表 / 分摊前利润 / 本季度累计",
+      "metric_name": "分摊前利润",
+      "metric_path": "二、利润概况-分摊前利润",
+      "date_type": "季",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "11.685",
+      "raw_unit": "万元",
+      "report_value": "11.685万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        31
+      ],
+      "candidates": [
+        {
+          "source_index": 31,
+          "实际值": "11.685",
+          "单位": "万元",
+          "日期类型": "季"
+        }
+      ]
+    },
+    "chapter2.profit_table.pre_allocation_profit.year": {
+      "field_id": "chapter2.profit_table.pre_allocation_profit.year",
+      "report_position": "利润表 / 分摊前利润 / 1-6月累计",
+      "metric_name": "分摊前利润",
+      "metric_path": "二、利润概况-分摊前利润",
+      "date_type": "年",
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "raw_value": "44.987",
+      "raw_unit": "万元",
+      "report_value": "44.987万元",
+      "calculation": "无；直接取值",
+      "status": "正常",
+      "source_indexes": [
+        32
+      ],
+      "candidates": [
+        {
+          "source_index": 32,
+          "实际值": "44.987",
+          "单位": "万元",
+          "日期类型": "年"
+        }
+      ]
+    }
+  },
+  "warnings": [
+    "chapter2.profit_table.gross_margin_rate.month: 接口单位为 '万元'，已按客户确认的毛利率比例口径将实际值乘 100 并展示为 %。",
+    "chapter2.profit_table.gross_margin_rate.quarter: 接口单位为 '万元'，已按客户确认的毛利率比例口径将实际值乘 100 并展示为 %。",
+    "chapter2.profit_table.gross_margin_rate.year: 接口单位为 '万元'，已按客户确认的毛利率比例口径将实际值乘 100 并展示为 %。"
+  ]
+}

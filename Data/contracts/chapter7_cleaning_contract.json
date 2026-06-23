@@ -1,0 +1,82 @@
+{
+  "contract_id": "chapter7_visit_behavior_v1",
+  "chapter_id": "chapter7",
+  "chapter_title": "七、行销行为",
+  "source_module": "7",
+  "request": {
+    "ZEMPLOYEE": "{job_id}",
+    "CALMONTH": "{calmonth}",
+    "MOUDLE": "7"
+  },
+  "response_shape": {
+    "code": 1,
+    "message": "success",
+    "data": {
+      "月份": "202606",
+      "部门编码": "",
+      "区域经理工号": "",
+      "部门名称": "",
+      "区域经理姓名": "",
+      "岗位名称": "",
+      "客户编码": "",
+      "客户名称": "",
+      "章节名称": "七、行销行为",
+      "章节数据": []
+    }
+  },
+  "metrics": {
+    "visit": {
+      "total": {
+        "field_key": "visit.total",
+        "description": "拜访总频次",
+        "metric_path": "七、行销行为-拜访总频次",
+        "metric_name": "拜访总频次",
+        "date_type": "月",
+        "value_key": "实际值",
+        "target_key": "目标值",
+        "achievement_rate_key": "达成率",
+        "deduction_score_key": "扣分值",
+        "target_unit": "次"
+      },
+      "project": {
+        "field_key": "visit.project",
+        "description": "项目拜访频次",
+        "metric_path": "七、行销行为-项目拜访频次",
+        "metric_name": "项目拜访频次",
+        "date_type": "月",
+        "value_key": "实际值",
+        "target_key": "目标值",
+        "achievement_rate_key": "达成率",
+        "deduction_score_key": "扣分值",
+        "target_unit": "次"
+      }
+    },
+    "time_allocation": {
+      "field_key": "time_allocation",
+      "description": "拜访时间分配",
+      "project_ratio": {
+        "metric_path": "七、行销行为-时间分配-项目拜访占比",
+        "metric_name": "项目拜访占比",
+        "value_key": "实际值",
+        "target_unit": "%"
+      },
+      "customer_ratio": {
+        "metric_path": "七、行销行为-时间分配-客户拜访占比",
+        "metric_name": "客户拜访占比",
+        "value_key": "实际值",
+        "target_unit": "%"
+      }
+    }
+  },
+  "display_rules": [
+    {
+      "rule_id": "hide_over_achievement",
+      "description": "批注[31]: 若达成率超百（≥100%），则不展示扣绩效分与还差多少次",
+      "condition": "achievement_rate >= 100",
+      "action": "隐藏扣绩效分和差额文案"
+    }
+  ],
+  "action_guide_defaults": [
+    "日均拜访量不低于3次，月度达标60次"
+  ]
+}

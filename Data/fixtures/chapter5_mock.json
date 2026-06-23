@@ -1,0 +1,275 @@
+{
+  "code": 1,
+  "message": "success",
+  "data": {
+    "月份": "202606",
+    "部门编码": "L110021",
+    "区域经理工号": "86002542",
+    "部门名称": "城市焕新事业部",
+    "区域经理姓名": "李泽豪",
+    "岗位名称": "区域经理",
+    "客户编码": "",
+    "客户名称": "",
+    "章节名称": "五、应收分析",
+    "receivable_tree": {
+      "name": "应收款项",
+      "amount": 100,
+      "unit": "万元",
+      "children": [
+        {
+          "name": "应收账款",
+          "amount": 90,
+          "unit": "万元",
+          "children": [
+            {
+              "name": "经销",
+              "amount": 30,
+              "unit": "万元",
+              "children": [
+                {
+                  "name": "逾期",
+                  "amount": 10,
+                  "unit": "万元"
+                }
+              ]
+            },
+            {
+              "name": "直销",
+              "amount": 60,
+              "unit": "万元",
+              "children": [
+                {
+                  "name": "暴雷直销应收",
+                  "amount": 40,
+                  "unit": "万元",
+                  "children": [
+                    {
+                      "name": "其中：逾期",
+                      "amount": 40,
+                      "unit": "万元"
+                    }
+                  ]
+                },
+                {
+                  "name": "非暴雷直销应收",
+                  "amount": 20,
+                  "unit": "万元",
+                  "children": [
+                    {
+                      "name": "其中：逾期",
+                      "amount": 10,
+                      "unit": "万元"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "应收票据",
+          "amount": 5,
+          "unit": "万元"
+        },
+        {
+          "name": "保证金",
+          "amount": 3,
+          "unit": "万元"
+        },
+        {
+          "name": "供应链票证",
+          "amount": 2,
+          "unit": "万元"
+        }
+      ]
+    },
+    "overdue_top_customers": [
+      {
+        "customer_name": "A客户",
+        "receivable_amount": 300000,
+        "overdue_amount": 120000,
+        "unit": "元"
+      },
+      {
+        "customer_name": "B客户",
+        "receivable_amount": 260000,
+        "overdue_amount": 90000,
+        "unit": "元"
+      },
+      {
+        "customer_name": "C客户",
+        "receivable_amount": 190000,
+        "overdue_amount": 70000,
+        "unit": "元"
+      },
+      {
+        "customer_name": "D客户",
+        "receivable_amount": 160000,
+        "overdue_amount": 40000,
+        "unit": "元"
+      },
+      {
+        "customer_name": "E客户",
+        "receivable_amount": 90000,
+        "overdue_amount": 30000,
+        "unit": "元"
+      }
+    ],
+    "next_month_due_top_customers": [
+      {
+        "customer_name": "A客户",
+        "due_amount": 3000,
+        "unit": "元"
+      },
+      {
+        "customer_name": "B客户",
+        "due_amount": 2400,
+        "unit": "元"
+      },
+      {
+        "customer_name": "C客户",
+        "due_amount": 1800,
+        "unit": "元"
+      },
+      {
+        "customer_name": "D客户",
+        "due_amount": 1200,
+        "unit": "元"
+      },
+      {
+        "customer_name": "E客户",
+        "due_amount": 900,
+        "unit": "元"
+      }
+    ],
+    "impairment_summary": {
+      "current_year_increase": 26,
+      "receivable_impairment": 16,
+      "offset_house_impairment": 6,
+      "other_type_impairment": 4,
+      "unit": "万元"
+    },
+    "impairment_top_customers": [
+      {
+        "customer_name": "A客户",
+        "current_year_impairment_increase": 8,
+        "receivable_amount": 30,
+        "unit": "万元",
+        "receivable_impairment": 5.0,
+        "offset_house_impairment": 2.0,
+        "other_type_impairment": 1.0
+      },
+      {
+        "customer_name": "B客户",
+        "current_year_impairment_increase": 6,
+        "receivable_amount": 22,
+        "unit": "万元",
+        "receivable_impairment": 4.0,
+        "offset_house_impairment": 1.0,
+        "other_type_impairment": 1.0
+      },
+      {
+        "customer_name": "C客户",
+        "current_year_impairment_increase": 5,
+        "receivable_amount": 18,
+        "unit": "万元",
+        "receivable_impairment": 3.0,
+        "offset_house_impairment": 1.0,
+        "other_type_impairment": 1.0
+      },
+      {
+        "customer_name": "D客户",
+        "current_year_impairment_increase": 4,
+        "receivable_amount": 14,
+        "unit": "万元",
+        "receivable_impairment": 2.5,
+        "offset_house_impairment": 1.0,
+        "other_type_impairment": 0.5
+      },
+      {
+        "customer_name": "E客户",
+        "current_year_impairment_increase": 3,
+        "receivable_amount": 10,
+        "unit": "万元",
+        "receivable_impairment": 1.5,
+        "offset_house_impairment": 1.0,
+        "other_type_impairment": 0.5
+      }
+    ],
+    "aging_jump_top_customers": [
+      {
+        "customer_name": "A客户",
+        "jump_to_age": "1年<=账龄<2年",
+        "net_impairment_increase": 4,
+        "unit": "万元",
+        "aging_buckets": {
+          "1年<=账龄<2年": {
+            "receivable_amount": 12,
+            "impairment_loss": 2.4
+          },
+          "2年<=账龄<3年": {
+            "receivable_amount": 8,
+            "impairment_loss": 3.2
+          },
+          "账龄>=3年": {
+            "receivable_amount": 3,
+            "impairment_loss": 1.8
+          }
+        }
+      },
+      {
+        "customer_name": "B客户",
+        "jump_to_age": "2年<=账龄<3年",
+        "net_impairment_increase": 3,
+        "unit": "万元"
+      },
+      {
+        "customer_name": "C客户",
+        "jump_to_age": "1年<=账龄<2年",
+        "net_impairment_increase": 2.5,
+        "unit": "万元"
+      },
+      {
+        "customer_name": "D客户",
+        "jump_to_age": "账龄>=3年",
+        "net_impairment_increase": 2,
+        "unit": "万元"
+      },
+      {
+        "customer_name": "E客户",
+        "jump_to_age": "1年<=账龄<2年",
+        "net_impairment_increase": 1.5,
+        "unit": "万元"
+      }
+    ],
+    "financial_expense": {
+      "expense": 6,
+      "interest_expense": 8,
+      "interest_income": 2,
+      "receivable_funding_fee": 3,
+      "note_funding_fee": 1,
+      "other_type_funding_fee": 4,
+      "unit": "元"
+    },
+    "financial_expense_top_customers": [
+      {
+        "customer_name": "A客户",
+        "financial_expense": 3000,
+        "unit": "元"
+      },
+      {
+        "customer_name": "B客户",
+        "financial_expense": 2000,
+        "unit": "元"
+      },
+      {
+        "customer_name": "C客户",
+        "financial_expense": 1000,
+        "unit": "元"
+      }
+    ],
+    "章节数据": []
+  },
+  "timestamp": 1781528012359,
+  "executeTime": 10
+}

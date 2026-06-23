@@ -45,14 +45,19 @@ class MetricEvidence:
         }
 
 
-def format_chapter4_data(raw_data: Any, period: str = "") -> Tuple[str, Dict[str, Any]]:
+def format_chapter4_data(
+    raw_data: Any,
+    period: str = "",
+    action_guide_actions: Optional[Dict[str, str]] = None,
+) -> Tuple[str, Dict[str, Any]]:
     """严格清洗第四章数据并生成客户模板 Markdown。"""
     subject = _extract_subject(raw_data)
     _validate_subject(subject, period)
     rows = _extract_chapter_rows(subject)
     evidence, conflicts, warnings = collect_metric_evidence(rows)
-    markdown = build_chapter4_markdown()
+    markdown = build_chapter4_markdown(action_guide_actions=action_guide_actions)
     stats = build_chapter4_stats(subject, evidence, conflicts, warnings, period)
+    stats["行动指南来源"] = "AI" if action_guide_actions else "strict_placeholder"
     return markdown, stats
 
 
@@ -142,8 +147,15 @@ def normalize_chapter4_products(rows: Iterable[Dict[str, Any]]):
     return evidence, warnings
 
 
-def build_chapter4_markdown(*_args: Any, **_kwargs: Any) -> str:
+def build_chapter4_markdown(
+    *_args: Any,
+    action_guide_actions: Optional[Dict[str, str]] = None,
+    **_kwargs: Any,
+) -> str:
     """保留 Word 章节结构，缺少可唯一映射字段时统一标红。"""
+    actions = action_guide_actions or {}
+    structure_action = str(actions.get("structure_action") or MISSING_MARK)
+    price_action = str(actions.get("price_action") or MISSING_MARK)
     lines = [
         "## 四、毛利率与产品结构",
         "",
@@ -156,9 +168,9 @@ def build_chapter4_markdown(*_args: Any, **_kwargs: Any) -> str:
         "",
         "### 行动指南：",
         "",
-        f"◇ **产品结构：** {MISSING_MARK}",
+        f"◇ **产品结构：** {structure_action}",
         "",
-        f"◇ **价格：** {MISSING_MARK}",
+        f"◇ **价格：** {price_action}",
     ]
     return "\n".join(lines) + "\n"
 

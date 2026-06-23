@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "月份": "202606",
+    "部门编码": "001",
+    "区域经理工号": "86002542",
+    "部门名称": "城市焕新事业部-经营部",
+    "区域经理姓名": "张三",
+    "岗位名称": "区域经理",
+    "客户编码": "C001",
+    "客户名称": "",
+    "章节名称": "八、总结"
+  },
+  "performance": {
+    "score": 108.0,
+    "rank_province": "5/26",
+    "rank_bu": "36/1000",
+    "sales": 580.0,
+    "profit": 35.0
+  },
+  "positive_signals": [
+    {
+      "dimension": "产品",
+      "dimension_label": "产品",
+      "metric_name": "真石漆收入",
+      "value_display": "58万",
+      "change_display": "↑58%",
+      "is_outstanding": true
+    },
+    {
+      "dimension": "产品",
+      "dimension_label": "产品",
+      "metric_name": "多彩漆收入",
+      "value_display": "42万",
+      "change_display": "↑35%",
+      "is_outstanding": true
+    },
+    {
+      "dimension": "产品",
+      "dimension_label": "产品",
+      "metric_name": "底漆收入",
+      "value_display": "28万",
+      "change_display": "↑22%",
+      "is_outstanding": false
+    },
+    {
+      "dimension": "客户",
+      "dimension_label": "客户",
+      "metric_name": "产销客户数",
+      "value_display": "18个",
+      "change_display": "↑12.5%",
+      "is_outstanding": false
+    },
+    {
+      "dimension": "项目",
+      "dimension_label": "项目",
+      "metric_name": "产销项目数",
+      "value_display": "32个",
+      "change_display": "↑18.5%",
+      "is_outstanding": true
+    },
+    {
+      "dimension": "渠道",
+      "dimension_label": "渠道",
+      "metric_name": "有效渠道数",
+      "value_display": "8个",
+      "change_display": "↑14.3%",
+      "is_outstanding": false
+    }
+  ],
+  "negative_signals": [
+    {
+      "dimension": "产品",
+      "dimension_label": "产品",
+      "metric_name": "外墙腻子收入",
+      "value_display": "15万",
+      "change_display": "↓18%",
+      "severity": "medium"
+    },
+    {
+      "dimension": "产品",
+      "dimension_label": "产品",
+      "metric_name": "毛利率",
+      "value_display": "23.5%",
+      "change_display": "↓3.2pp",
+      "severity": "high"
+    },
+    {
+      "dimension": "应收",
+      "dimension_label": "应收",
+      "metric_name": "逾期金额",
+      "value_display": "28万",
+      "change_display": "↑15%",
+      "severity": "high"
+    },
+    {
+      "dimension": "应收",
+      "dimension_label": "应收",
+      "metric_name": "当年增加减值损失",
+      "value_display": "5.2万",
+      "change_display": "",
+      "severity": "high"
+    },
+    {
+      "dimension": "客户",
+      "dimension_label": "客户",
+      "metric_name": "客均销量",
+      "value_display": "32.2万",
+      "change_display": "↓8.5%",
+      "severity": "medium"
+    },
+    {
+      "dimension": "项目",
+      "dimension_label": "项目",
+      "metric_name": "单项目销量",
+      "value_display": "18.1万",
+      "change_display": "↓5.3%",
+      "severity": "medium"
+    },
+    {
+      "dimension": "渠道",
+      "dimension_label": "渠道",
+      "metric_name": "招商生效客户",
+      "value_display": "2个",
+      "change_display": "目标5个",
+      "severity": "high"
+    }
+  ],
+  "dimension_summary": {
+    "产品": {
+      "top_growing": [
+        {
+          "product_name": "真石漆",
+          "revenue": 58,
+          "yoy_change_pct": 58.0,
+          "unit": "万元"
+        },
+        {
+          "product_name": "多彩漆",
+          "revenue": 42,
+          "yoy_change_pct": 35.0,
+          "unit": "万元"
+        },
+        {
+          "product_name": "底漆",
+          "revenue": 28,
+          "yoy_change_pct": 22.0,
+          "unit": "万元"
+        }
+      ],
+      "top_declining": [
+        {
+          "product_name": "外墙腻子",
+          "revenue": 15,
+          "yoy_change_pct": -18.0,
+          "unit": "万元"
+        },
+        {
+          "product_name": "内墙乳胶漆面漆",
+          "revenue": 22,
+          "yoy_change_pct": -8.5,
+          "unit": "万元"
+        },
+        {
+          "product_name": "罩面清漆",
+          "revenue": 8,
+          "yoy_change_pct": -12.0,
+          "unit": "万元"
+        }
+      ]
+    },
+    "项目": {
+      "project_count": 32,
+      "single_project_revenue": 18.1,
+      "yoy_change_pct": 18.5
+    },
+    "渠道": {
+      "channel_count": 8,
+      "yoy_change_pct": 14.3
+    },
+    "客户": {
+      "customer_count": 18,
+      "avg_revenue_per_customer": 32.2,
+      "yoy_change_pct": 12.5
+    },
+    "应收": {
+      "overdue_amount": 28.0,
+      "impairment_amount": 5.2,
+      "finance_cost": 3200.0
+    },
+    "打样": {
+      "sample_expense": 4500.0,
+      "yoy_direction": "up"
+    }
+  },
+  "warnings": []
+}

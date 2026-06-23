@@ -1,0 +1,158 @@
+{
+  "person": {
+    "calmonth": "202606",
+    "job_id": "06427",
+    "sale_name": "刘晨",
+    "sale_class": "",
+    "city_operation_department": "杭州工业厂房经营部",
+    "province": "浙西省区",
+    "region": "浙赣大区",
+    "business_department": "城市焕新事业部"
+  },
+  "calmonth": "202606",
+  "chapters": {
+    "1": {
+      "status": "ok",
+      "chapter_name": "一、绩效得分与预警",
+      "raw_message": "数据正常",
+      "source": "api",
+      "stats": {
+        "有效未达百绩效项目数": 0,
+        "绩效得分": 55.7,
+        "季度销量": 48.888,
+        "累计分摊前利润": 44.987,
+        "warnings": []
+      }
+    },
+    "2": {
+      "status": "ok",
+      "chapter_name": "二、利润概况",
+      "raw_message": "数据正常",
+      "source": "api",
+      "stats": {
+        "有效指标数": 33
+      }
+    },
+    "3": {
+      "status": "ok",
+      "chapter_name": "三、销量分析",
+      "raw_message": "数据正常",
+      "source": "api",
+      "stats": {
+        "有效指标数": 72,
+        "销量概况数": 3,
+        "过程指标数": 5,
+        "产品销量金额指标数": 22,
+        "产品销售量指标数": 22,
+        "行业销量指标数": 5,
+        "行业占比指标数": 5,
+        "有有效目标": true,
+        "有有效同期": true
+      }
+    },
+    "4": {
+      "status": "ok",
+      "chapter_name": "四、毛利率与产品结构",
+      "raw_message": "数据正常",
+      "source": "api",
+      "stats": {
+        "有效产品数": 22,
+        "有收入占比产品数": 22,
+        "有价格产品数": 21,
+        "均价上升产品数": 0,
+        "均价下降产品数": 21,
+        "结构前三产品": [
+          "地坪漆",
+          "内墙乳胶漆面漆",
+          "聚合物水泥防水涂料"
+        ],
+        "价格下降展示产品": [
+          "地坪漆",
+          "内墙乳胶漆面漆",
+          "聚合物水泥防水涂料"
+        ],
+        "warnings": [
+          "质感漆 的单位 元/M2 暂未识别，已保留原始记录但不参与展示"
+        ]
+      }
+    },
+    "5": {
+      "status": "ok",
+      "chapter_name": "五、应收分析",
+      "raw_message": "数据正常",
+      "source": "api",
+      "stats": {
+        "省略判断": {
+          "是否省略第五章": false,
+          "判断": "保留",
+          "原因": "个人应收款项大于 10 万",
+          "依据": {
+            "value_wan": 99.162,
+            "source": {
+              "value": 99.162,
+              "unit": "万元"
+            }
+          }
+        },
+        "接口月份": "202606",
+        "逾期客户数": 4,
+        "次月到期客户数": 2,
+        "减值损失客户数": 5,
+        "跳账龄客户数": 0,
+        "财务费用客户数": 3,
+        "warnings": [
+          "第五章 TOP 客户明细接口未提供客户名称，已使用客户序号占位。"
+        ]
+      }
+    },
+    "6": {
+      "status": "ok",
+      "chapter_name": "六、费用分析",
+      "raw_message": "数据正常",
+      "source": "api",
+      "stats": {
+        "接口月份": "202606",
+        "差旅费总额": 14759.53,
+        "差旅费拆解项数": 3,
+        "出差天数": 113,
+        "样板样漆总额": 119930.0,
+        "样板样漆产品数": 3,
+        "warnings": []
+      }
+    },
+    "7": {
+      "status": "ok",
+      "source": "derived",
+      "warnings": [
+        "第七章拜访总频次数据未提供，已保留模板占位。",
+        "第七章项目拜访频次数据未提供，已保留模板占位。"
+      ]
+    },
+    "8": {
+      "status": "ok",
+      "source": "derived",
+      "warnings": []
+    }
+  },
+  "derived": {
+    "chapter7": {
+      "status": "unavailable",
+      "matched_fields": {},
+      "missing_fields": [
+        "拜访总频次",
+        "项目拜访频次",
+        "项目拜访占比",
+        "客户拜访占比"
+      ]
+    },
+    "chapter8": {
+      "status": "ok"
+    }
+  },
+  "status": "completed",
+  "outputs": {
+    "markdown": "/Users/ppp/Desktop/三棵树/SimpleIntellReportV2/Reports/full_report_tests/202606/06427_刘晨/markdown/full_report.md",
+    "html": "/Users/ppp/Desktop/三棵树/SimpleIntellReportV2/Reports/full_report_tests/202606/06427_刘晨/html/full_report.html",
+    "pdf": "/Users/ppp/Desktop/三棵树/SimpleIntellReportV2/Reports/full_report_tests/202606/06427_刘晨/pdf/full_report.pdf"
+  }
+}

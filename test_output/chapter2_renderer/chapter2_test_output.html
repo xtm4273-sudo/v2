@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第二章利润概况报告</title>
+<style>
+:root { color-scheme: light; }
+body {
+  margin: 0;
+  background: #f3f5f7;
+  color: #172033;
+  font-family: "Microsoft YaHei", "Heiti SC", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+  line-height: 1.72;
+}
+.page {
+  max-width: 920px;
+  margin: 32px auto;
+  padding: 44px 56px 56px;
+  background: #fff;
+  border: 1px solid #dbe2ea;
+  box-shadow: 0 10px 26px rgba(23,32,51,.08);
+}
+h1 { margin: 0 0 24px; text-align: center; font-size: 28px; line-height: 1.35; color: #16324f; }
+h2 { margin: 28px 0 12px; font-size: 22px; color: #16324f; border-bottom: 2px solid #d8e2ed; padding-bottom: 7px; }
+p { margin: 7px 0; font-size: 15px; }
+p.bullet { position: relative; padding-left: 18px; }
+p.bullet::before { content: "•"; position: absolute; left: 0; color: #244b73; font-weight: 700; }
+strong { color: #0b5cad; font-weight: 700; }
+.pending-value { color: #c00000; font-weight: 700; }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; table-layout: fixed; }
+th, td { border: 1px solid #cfd8e3; padding: 9px 10px; text-align: left; vertical-align: middle; word-break: break-word; }
+th { background: #edf3f8; color: #16324f; font-weight: 700; }
+tr:nth-child(even) td { background: #fafbfd; }
+@media print {
+  body { background: #fff; }
+  .page { box-shadow: none; border: 0; margin: 0; max-width: none; padding: 0; }
+}
+
+/* Shared phase-one green report theme */
+h1, h2, h3 {
+  color: #2E7D32 !important;
+}
+/*
+ * Chromium 会因应收结构图的固定宽度将整页缩放到约 72%。
+ * 以下字号按 PDF 最终点数反向校准：正文/表格约 9.7pt，报告标题约 16.5pt。
+ */
+p { font-size: 18px !important; }
+table { font-size: 18px !important; }
+.report-header-title { font-size: 30px !important; }
+.report-header-breadcrumb,
+.report-header-meta { font-size: 18px !important; }
+.page > h1 {
+  border-left: 5px solid #66BB6A;
+  padding-left: 12px;
+}
+h2 {
+  border-color: #66BB6A !important;
+}
+table th,
+.data-table th,
+.chapter4-table th {
+  background: #2E7D32 !important;
+  color: #FFFFFF !important;
+  border-color: #DDE7DD !important;
+}
+table td,
+.data-table td,
+.chapter4-table td {
+  border-color: #DDE7DD !important;
+}
+p.bullet::before,
+.bullet::before {
+  color: #66BB6A !important;
+}
+.pending,
+.pending-value,
+.missing {
+  color: #D32F2F !important;
+}
+
+/* 客户范本中的排名摘要表：浅绿整块、无网格、大留白。 */
+table.rank-table {
+  border: 0 !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #F1F8E9;
+  margin: 14px 0 24px;
+}
+.rank-table th,
+.rank-table td {
+  border: 0 !important;
+  background: #F1F8E9 !important;
+  vertical-align: middle;
+}
+.rank-table th {
+  padding: 13px 10px 8px !important;
+  text-align: center !important;
+  font-weight: 800;
+  color: #2E7D32 !important;
+}
+.rank-table td {
+  padding: 10px 10px 13px !important;
+  text-align: center !important;
+}
+.rank-table th:first-child,
+.rank-table td:first-child {
+  width: 18%;
+  text-align: left !important;
+  font-style: normal;
+  font-weight: 400;
+}
+.rank-table td:not(:first-child) {
+  font-size: 26px;
+  font-style: italic;
+}
+
+.action-guide {
+  margin: 12px 0 22px;
+  padding: 11px 15px;
+  border-left: 4px solid #FFA000;
+  border-radius: 4px;
+  background: #FFF8E1;
+  break-inside: avoid;
+}
+.action-guide-title {
+  margin: 0 0 5px;
+  color: #333333;
+  font-weight: 800;
+}
+.action-guide p {
+  margin: 4px 0;
+  font-size: 17.5px !important;
+}
+
+.summary-item {
+  margin: 11px 0;
+  padding: 13px 15px;
+  border-radius: 6px;
+  break-inside: avoid;
+}
+.summary-item h3 {
+  margin: 0 0 7px;
+  font-size: 15px;
+}
+.summary-item p { margin: 4px 0; font-size: 17.5px !important; }
+.summary-group {
+  break-before: page;
+  break-inside: avoid;
+}
+.summary-group > h1 {
+  border-left: 5px solid #66BB6A;
+  padding-left: 12px;
+}
+.summary-advantage { background: #E3F2FD; color: #0D47A1; }
+.summary-advantage h3 { color: #0D47A1 !important; }
+.summary-shortcoming { background: #FFEBEE; color: #B71C1C; }
+.summary-shortcoming h3 { color: #B71C1C !important; }
+.summary-strategy { background: #FFF3E0; color: #E65100; }
+.summary-strategy h3 { color: #E65100 !important; }
+</style>
+</head>
+<body><main class="page"><h1>二、利润概况</h1><table><tr><th>科目</th><th>6月</th><th>本季度累计</th><th>1-6月累计</th></tr><tr><td>营业收入（不含税）</td><td>13.857万元</td><td>43.264万元</td><td>128.860万元</td></tr><tr><td>毛利率</td><td>16.5%</td><td>19.0%</td><td>21.8%</td></tr><tr><td>毛利额</td><td>2.281万元</td><td>8.236万元</td><td>28.129万元</td></tr><tr><td>个人人工费用</td><td>1.777万元</td><td>3.409万元</td><td>7.690万元</td></tr><tr><td>其中：基本薪酬+提成奖金+年终奖</td><td>1.170万元</td><td>2.774万元</td><td>6.567万元</td></tr><tr><td>差旅费</td><td>0.607万元</td><td>0.635万元</td><td>1.123万元</td></tr><tr><td>减值损失</td><td>0.389万元</td><td>-8.389万元</td><td>-27.885万元</td></tr><tr><td>财务费用</td><td>0.310万元</td><td>0.585万元</td><td>1.139万元</td></tr><tr><td>样板物料</td><td>0.440万元</td><td>0.645万元</td><td>1.199万元</td></tr><tr><td>其他各类费用</td><td>0.074万元</td><td>0.141万元</td><td>0.489万元</td></tr><tr><td>分摊前利润</td><td>-0.754万元</td><td>11.685万元</td><td>44.987万元</td></tr></table></main></body>
+</html>

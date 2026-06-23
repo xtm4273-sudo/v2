@@ -1,0 +1,696 @@
+{
+  "metadata": {
+    "月份": "202606",
+    "部门编码": "L110021",
+    "区域经理工号": "06427",
+    "部门名称": "城市焕新事业部",
+    "区域经理姓名": "刘晨",
+    "岗位名称": "",
+    "章节名称": "五、应收分析"
+  },
+  "values": {
+    "chapter5.receivable.total": {
+      "raw_value": "99.162",
+      "unit": "万元",
+      "report_value": "99.162万元"
+    },
+    "chapter5.receivable.notes": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000万元"
+    },
+    "chapter5.receivable.deposit": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000万元"
+    },
+    "chapter5.receivable.supply_chain": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000万元"
+    },
+    "chapter5.receivable.accounts": {
+      "raw_value": "99.162",
+      "unit": "万元",
+      "report_value": "99.162万元"
+    },
+    "chapter5.receivable.distribution": {
+      "raw_value": "74.353",
+      "unit": "万元",
+      "report_value": "74.353万元"
+    },
+    "chapter5.receivable.distribution_overdue": {
+      "raw_value": "22.240",
+      "unit": "万元",
+      "report_value": "22.240万元"
+    },
+    "chapter5.receivable.direct": {
+      "raw_value": "24.809",
+      "unit": "万元",
+      "report_value": "24.809万元"
+    },
+    "chapter5.receivable.risk_direct": {
+      "raw_value": "24.809",
+      "unit": "万元",
+      "report_value": "24.809万元"
+    },
+    "chapter5.receivable.risk_direct_overdue": {
+      "raw_value": "24.809",
+      "unit": "万元",
+      "report_value": "24.809万元"
+    },
+    "chapter5.receivable.normal_direct": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000万元"
+    },
+    "chapter5.receivable.normal_direct_overdue": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000万元"
+    },
+    "chapter5.due.total": {
+      "raw_value": "15.131",
+      "unit": "万元",
+      "report_value": "15.131万元"
+    },
+    "chapter5.impairment.total": {
+      "raw_value": "-27.885",
+      "unit": "万元",
+      "report_value": "-27.885万元"
+    },
+    "chapter5.impairment.receivable": {
+      "raw_value": "-27.885",
+      "unit": "万元",
+      "report_value": "-27.885万元"
+    },
+    "chapter5.impairment.offset_house": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000万元"
+    },
+    "chapter5.impairment.other": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000万元"
+    },
+    "chapter5.impairment.aging_change": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000万元"
+    },
+    "chapter5.impairment.scale_change": {
+      "raw_value": "0.688",
+      "unit": "万元",
+      "report_value": "0.688万元"
+    },
+    "chapter5.impairment.litigation_change": {
+      "raw_value": "-30.000",
+      "unit": "万元",
+      "report_value": "-30.000万元"
+    },
+    "chapter5.finance.expense": {
+      "raw_value": "0.310",
+      "unit": "万元",
+      "report_value": "3100.000元"
+    },
+    "chapter5.finance.interest_expense": {
+      "raw_value": "0.310",
+      "unit": "万元",
+      "report_value": "3100.000元"
+    },
+    "chapter5.finance.interest_income": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000元"
+    },
+    "chapter5.finance.receivable_fee": {
+      "raw_value": "0.310",
+      "unit": "万元",
+      "report_value": "3100.000元"
+    },
+    "chapter5.finance.note_fee": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000元"
+    },
+    "chapter5.finance.other_fee": {
+      "raw_value": "0.000",
+      "unit": "万元",
+      "report_value": "0.000元"
+    }
+  },
+  "field_sources": {
+    "chapter5.receivable.total": {
+      "field_id": "chapter5.receivable.total",
+      "report_position": "5.1/应收款项总额",
+      "match": {
+        "指标名称": "应收款项",
+        "指标路径": "五、应收分析-应收款项"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "99.162万元"
+      ],
+      "status": "正常",
+      "report_value": "99.162万元"
+    },
+    "chapter5.receivable.notes": {
+      "field_id": "chapter5.receivable.notes",
+      "report_position": "5.1/结构/应收票据",
+      "match": {
+        "指标名称": "应收票据",
+        "指标路径": "五、应收分析-应收票据"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000万元"
+    },
+    "chapter5.receivable.deposit": {
+      "field_id": "chapter5.receivable.deposit",
+      "report_position": "5.1/结构/保证金",
+      "match": {
+        "指标名称": "保证金",
+        "指标路径": "五、应收分析-保证金"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000万元"
+    },
+    "chapter5.receivable.supply_chain": {
+      "field_id": "chapter5.receivable.supply_chain",
+      "report_position": "5.1/结构/供应链票证",
+      "match": {
+        "指标名称": "供应链票证",
+        "指标路径": "五、应收分析-供应链票证"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000万元"
+    },
+    "chapter5.receivable.accounts": {
+      "field_id": "chapter5.receivable.accounts",
+      "report_position": "5.1/结构/应收账款",
+      "match": {
+        "指标名称": "应收账款",
+        "指标路径": "五、应收分析-应收账款"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "99.162万元"
+      ],
+      "status": "正常",
+      "report_value": "99.162万元"
+    },
+    "chapter5.receivable.distribution": {
+      "field_id": "chapter5.receivable.distribution",
+      "report_position": "5.1/结构/经销",
+      "match": {
+        "指标名称": "经销",
+        "指标路径": "五、应收分析-应收账款-经销"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "74.353万元"
+      ],
+      "status": "正常",
+      "report_value": "74.353万元"
+    },
+    "chapter5.receivable.distribution_overdue": {
+      "field_id": "chapter5.receivable.distribution_overdue",
+      "report_position": "5.1/结构/经销逾期",
+      "match": {
+        "指标名称": "逾期（含诉讼）",
+        "指标路径": "五、应收分析-应收账款-经销-逾期（含诉讼）"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "22.240万元"
+      ],
+      "status": "正常",
+      "report_value": "22.240万元"
+    },
+    "chapter5.receivable.direct": {
+      "field_id": "chapter5.receivable.direct",
+      "report_position": "5.1/结构/直销",
+      "match": {
+        "指标名称": "直销",
+        "指标路径": "五、应收分析-应收账款-直销"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "24.809万元"
+      ],
+      "status": "正常",
+      "report_value": "24.809万元"
+    },
+    "chapter5.receivable.risk_direct": {
+      "field_id": "chapter5.receivable.risk_direct",
+      "report_position": "5.1/结构/暴雷直销应收",
+      "match": {
+        "指标名称": "暴雷直销应收",
+        "指标路径": "五、应收分析-应收账款-直销-暴雷直销应收"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "24.809万元"
+      ],
+      "status": "正常",
+      "report_value": "24.809万元"
+    },
+    "chapter5.receivable.risk_direct_overdue": {
+      "field_id": "chapter5.receivable.risk_direct_overdue",
+      "report_position": "5.1/结构/暴雷直销逾期",
+      "match": {
+        "指标名称": "逾期",
+        "指标路径": "五、应收分析-应收账款-直销-暴雷直销应收-逾期"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "24.809万元"
+      ],
+      "status": "正常",
+      "report_value": "24.809万元"
+    },
+    "chapter5.receivable.normal_direct": {
+      "field_id": "chapter5.receivable.normal_direct",
+      "report_position": "5.1/结构/非暴雷直销应收",
+      "match": {
+        "指标名称": "非暴雷直销应收",
+        "指标路径": "五、应收分析-应收账款-直销-非暴雷直销应收"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000万元"
+    },
+    "chapter5.receivable.normal_direct_overdue": {
+      "field_id": "chapter5.receivable.normal_direct_overdue",
+      "report_position": "5.1/结构/非暴雷直销逾期",
+      "match": {
+        "指标名称": "逾期",
+        "指标路径": "五、应收分析-应收账款-直销-非暴雷直销应收-逾期"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000万元"
+    },
+    "chapter5.due.total": {
+      "field_id": "chapter5.due.total",
+      "report_position": "5.1/次月新增到期款总额",
+      "match": {
+        "指标名称": "个人本月新增到期款",
+        "指标路径": "五、应收分析-个人本月新增到期款"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "15.131万元"
+      ],
+      "status": "正常",
+      "report_value": "15.131万元"
+    },
+    "chapter5.impairment.total": {
+      "field_id": "chapter5.impairment.total",
+      "report_position": "5.2/当年增加减值损失",
+      "match": {
+        "指标名称": "当年增加减值损失",
+        "指标路径": "五、应收分析-当年增加减值损失"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "-27.885万元"
+      ],
+      "status": "正常",
+      "report_value": "-27.885万元"
+    },
+    "chapter5.impairment.receivable": {
+      "field_id": "chapter5.impairment.receivable",
+      "report_position": "5.2/应收减值",
+      "match": {
+        "指标名称": "应收减值（含坏账）",
+        "指标路径": "五、应收分析-当年增加减值损失-应收减值（含坏账）"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "-27.885万元"
+      ],
+      "status": "正常",
+      "report_value": "-27.885万元"
+    },
+    "chapter5.impairment.offset_house": {
+      "field_id": "chapter5.impairment.offset_house",
+      "report_position": "5.2/工抵房减值",
+      "match": {
+        "指标名称": "工抵房减值",
+        "指标路径": "五、应收分析-当年增加减值损失-工抵房减值"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000万元"
+    },
+    "chapter5.impairment.other": {
+      "field_id": "chapter5.impairment.other",
+      "report_position": "5.2/其他类型减值",
+      "match": {
+        "指标名称": "其他类型减值",
+        "指标路径": "五、应收分析-当年增加减值损失-其他类型减值"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000万元"
+    },
+    "chapter5.impairment.aging_change": {
+      "field_id": "chapter5.impairment.aging_change",
+      "report_position": "5.2/账龄变动增加减值",
+      "match": {
+        "指标名称": "账龄变动增加减值",
+        "指标路径": "五、应收分析-当年增加减值损失-账龄变动增加减值"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000万元"
+    },
+    "chapter5.impairment.scale_change": {
+      "field_id": "chapter5.impairment.scale_change",
+      "report_position": "5.2/规模变动增加减值",
+      "match": {
+        "指标名称": "规模变动增加减值",
+        "指标路径": "五、应收分析-当年增加减值损失-规模变动增加减值"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "0.688万元"
+      ],
+      "status": "正常",
+      "report_value": "0.688万元"
+    },
+    "chapter5.impairment.litigation_change": {
+      "field_id": "chapter5.impairment.litigation_change",
+      "report_position": "5.2/诉讼变动增加减值",
+      "match": {
+        "指标名称": "诉讼变动增加减值",
+        "指标路径": "五、应收分析-当年增加减值损失-诉讼变动增加减值"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "无，直接取值",
+      "matched_count": 1,
+      "raw_values": [
+        "-30.000万元"
+      ],
+      "status": "正常",
+      "report_value": "-30.000万元"
+    },
+    "chapter5.finance.expense": {
+      "field_id": "chapter5.finance.expense",
+      "report_position": "5.3/财务费用",
+      "match": {
+        "指标名称": "本月财务费用",
+        "指标路径": "五、应收分析-本月财务费用"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "指标数据.实际值（万元）×10000，转换为元",
+      "matched_count": 1,
+      "raw_values": [
+        "0.310万元"
+      ],
+      "status": "正常",
+      "report_value": "3100.000元"
+    },
+    "chapter5.finance.interest_expense": {
+      "field_id": "chapter5.finance.interest_expense",
+      "report_position": "5.3/利息支出",
+      "match": {
+        "指标名称": "利息支出",
+        "指标路径": "五、应收分析-本月财务费用-利息支出"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "指标数据.实际值（万元）×10000，转换为元",
+      "matched_count": 1,
+      "raw_values": [
+        "0.310万元"
+      ],
+      "status": "正常",
+      "report_value": "3100.000元"
+    },
+    "chapter5.finance.interest_income": {
+      "field_id": "chapter5.finance.interest_income",
+      "report_position": "5.3/利息收入",
+      "match": {
+        "指标名称": "利息收入",
+        "指标路径": "五、应收分析-本月财务费用-利息收入"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "指标数据.实际值（万元）×10000，转换为元",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000元"
+    },
+    "chapter5.finance.receivable_fee": {
+      "field_id": "chapter5.finance.receivable_fee",
+      "report_position": "5.3/应收账款资金占用费",
+      "match": {
+        "指标名称": "应收账款资金占用费",
+        "指标路径": "五、应收分析-本月财务费用-利息支出-应收账款资金占用费"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "指标数据.实际值（万元）×10000，转换为元",
+      "matched_count": 1,
+      "raw_values": [
+        "0.310万元"
+      ],
+      "status": "正常",
+      "report_value": "3100.000元"
+    },
+    "chapter5.finance.note_fee": {
+      "field_id": "chapter5.finance.note_fee",
+      "report_position": "5.3/应收票据资金占用费",
+      "match": {
+        "指标名称": "应收票据资金占用费",
+        "指标路径": "五、应收分析-本月财务费用-利息支出-应收票据资金占用费"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "指标数据.实际值（万元）×10000，转换为元",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000元"
+    },
+    "chapter5.finance.other_fee": {
+      "field_id": "chapter5.finance.other_fee",
+      "report_position": "5.3/其他类型资金占用费",
+      "match": {
+        "指标名称": "其他类型资金占用费",
+        "指标路径": "五、应收分析-本月财务费用-利息支出-其他类型资金占用费"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "指标数据.实际值（万元）×10000，转换为元",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "status": "正常",
+      "report_value": "0.000元"
+    },
+    "chapter5.overdue_top": {
+      "field_id": "chapter5.overdue_top",
+      "report_position": "5.1/逾期金额前五客户",
+      "match": {
+        "指标名称": "逾期账款",
+        "指标路径": "五、应收分析-逾期金额前五客户-应收账款-逾期账款"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "不计算；缺少客户唯一键，禁止按数组顺序或数值大小归组",
+      "matched_count": 5,
+      "raw_values": [
+        "0.000万元",
+        "6.002万元",
+        "12.533万元",
+        "22.240万元",
+        "6.274万元"
+      ],
+      "report_value": "<span style=\"color:#c00000\">待补充</span>",
+      "status": "重复冲突（且缺客户唯一键）"
+    },
+    "chapter5.due_top": {
+      "field_id": "chapter5.due_top",
+      "report_position": "5.1/次月新增到期款前五客户",
+      "match": {
+        "指标名称": "本月新增到期款",
+        "指标路径": "五、应收分析-本月新增到期款前五客户-本月新增到期款"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "不计算；缺少客户唯一键，禁止按数组顺序或数值大小归组",
+      "matched_count": 5,
+      "raw_values": [
+        "4.082万元",
+        "0.000万元",
+        "11.049万元",
+        "0.000万元",
+        "0.000万元"
+      ],
+      "report_value": "<span style=\"color:#c00000\">待补充</span>",
+      "status": "重复冲突（且缺客户唯一键）"
+    },
+    "chapter5.impairment_top": {
+      "field_id": "chapter5.impairment_top",
+      "report_position": "5.2/减值损失影响金额TOP5客户",
+      "match": {
+        "指标名称": "当年增加减值损失",
+        "指标路径": "五、应收分析-减值损失影响金额TOP5客户-当年增加减值损失"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "不计算；缺少客户唯一键，禁止按数组顺序或数值大小归组",
+      "matched_count": 9,
+      "raw_values": [
+        "0.500万元",
+        "0.530万元",
+        "1.465万元",
+        "0.000万元",
+        "0.000万元",
+        "0.016万元",
+        "0.000万元",
+        "-0.123万元",
+        "0.000万元"
+      ],
+      "report_value": "<span style=\"color:#c00000\">待补充</span>",
+      "status": "重复冲突（且缺客户唯一键）"
+    },
+    "chapter5.aging_top": {
+      "field_id": "chapter5.aging_top",
+      "report_position": "5.2/预计跳账龄TOP5客户",
+      "match": {
+        "指标名称": "净增加减值金额",
+        "指标路径": "五、应收分析-本月若未清收预计跳账龄的TOP5客户-净增加减值金额"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "不计算；缺少客户唯一键，禁止按数组顺序或数值大小归组",
+      "matched_count": 1,
+      "raw_values": [
+        "0.000万元"
+      ],
+      "report_value": "<span style=\"color:#c00000\">待补充</span>",
+      "status": "缺客户唯一键"
+    },
+    "chapter5.finance_top": {
+      "field_id": "chapter5.finance_top",
+      "report_position": "5.3/财务费用排名前三客户",
+      "match": {
+        "指标名称": "财务费用排名前三的客户",
+        "指标路径": "五、应收分析-本月财务费用-财务费用排名前三的客户"
+      },
+      "value_path": "指标数据.实际值",
+      "unit_path": "指标数据.单位",
+      "calculation": "不计算；缺少客户唯一键，禁止按数组顺序或数值大小归组",
+      "matched_count": 3,
+      "raw_values": [
+        "0.044万元",
+        "0.130万元",
+        "0.093万元"
+      ],
+      "report_value": "<span style=\"color:#c00000\">待补充</span>",
+      "status": "重复冲突（且缺客户唯一键）"
+    }
+  },
+  "omit": {
+    "是否省略第五章": false,
+    "判断": "保留",
+    "原因": "应收款项总额99.162万元不低于10万元",
+    "计算公式": "若单位为元：实际值÷10000；再与10万元比较"
+  }
+}

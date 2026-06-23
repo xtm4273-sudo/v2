@@ -1,0 +1,130 @@
+{
+  "contract_id": "chapter8_summary_v2",
+  "chapter_id": "chapter8",
+  "chapter_title": "八、总结",
+  "source_module": "derived_from_chapters_1_to_6",
+  "request": {
+    "ZEMPLOYEE": "{job_id}",
+    "CALMONTH": "{calmonth}",
+    "MOUDLE": ["1", "2", "3", "4", "5", "6"]
+  },
+  "response_shape": {
+    "code": 1,
+    "message": "success",
+    "data": {
+      "月份": "202606",
+      "部门编码": "",
+      "区域经理工号": "",
+      "部门名称": "",
+      "区域经理姓名": "",
+      "岗位名称": "",
+      "客户编码": "",
+      "客户名称": "",
+      "章节名称": "八、总结",
+      "facts": [],
+      "positive_signals": [],
+      "negative_signals": [],
+      "dimension_summary": {}
+    }
+  },
+  "metrics": {
+    "performance": {
+      "绩效得分": {
+        "metric_path": "八、总结-绩效得分",
+        "metric_name": "绩效得分",
+        "value_key": "实际值",
+        "target_unit": "分",
+        "display_format": "score"
+      },
+      "省区内排名": {
+        "metric_path": "八、总结-省区内排名",
+        "metric_name": "省区内排名",
+        "value_key": "实际值",
+        "display_format": "rank"
+      },
+      "事业部内排名": {
+        "metric_path": "八、总结-事业部内排名",
+        "metric_name": "事业部内排名",
+        "value_key": "实际值",
+        "display_format": "rank"
+      }
+    },
+    "positive_signals": {
+      "description": "批注[32]：产品、项目、渠道、客户、应收、打样6个维度的正向信号",
+      "max_items": 10,
+      "item_schema": {
+        "dimension": "",
+        "dimension_label": "",
+        "metric_name": "",
+        "value_display": "",
+        "change_display": "",
+        "is_outstanding": false
+      },
+      "dimensions": ["产品", "项目", "渠道", "客户", "应收", "打样"]
+    },
+    "negative_signals": {
+      "description": "6个维度的负向/风险信号",
+      "max_items": 10,
+      "item_schema": {
+        "dimension": "",
+        "dimension_label": "",
+        "metric_name": "",
+        "value_display": "",
+        "change_display": "",
+        "severity": "high"
+      },
+      "dimensions": ["产品", "项目", "渠道", "客户", "应收", "打样"]
+    },
+    "dimension_summary": {
+      "产品": {
+        "top_growing": {
+          "description": "收入正增长中占比前三的产品",
+          "max_items": 3,
+          "item_schema": { "product_name": "", "revenue": 0, "yoy_change_pct": 0, "unit": "万元" }
+        },
+        "top_declining": {
+          "description": "收入负增长中收入金额前三的产品",
+          "max_items": 3,
+          "item_schema": { "product_name": "", "revenue": 0, "yoy_change_pct": 0, "unit": "万元" }
+        }
+      },
+      "项目": {
+        "project_count": { "metric_name": "出货项目数", "value_key": "实际值" },
+        "single_project_revenue": { "metric_name": "单项目销量", "value_key": "实际值", "unit": "万" },
+        "yoy_change_pct": { "metric_name": "项目数同比变化", "value_key": "同比变化", "unit": "%" }
+      },
+      "渠道": {
+        "channel_count": { "metric_name": "渠道数", "value_key": "实际值" },
+        "yoy_change_pct": { "metric_name": "渠道数同比变化", "value_key": "同比变化", "unit": "%" }
+      },
+      "客户": {
+        "customer_count": { "metric_name": "产销客户数", "value_key": "实际值" },
+        "avg_revenue_per_customer": { "metric_name": "客均销量", "value_key": "实际值", "unit": "万" },
+        "yoy_change_pct": { "metric_name": "客户数同比变化", "value_key": "同比变化", "unit": "%" }
+      },
+      "应收": {
+        "overdue_amount": { "metric_name": "逾期金额", "value_key": "实际值", "unit": "万元" },
+        "impairment_amount": { "metric_name": "当年增加减值损失", "value_key": "实际值", "unit": "万元" },
+        "finance_cost": { "metric_name": "财务费用", "value_key": "实际值", "unit": "元" }
+      },
+      "打样": {
+        "sample_expense": { "metric_name": "样板样漆费用", "value_key": "实际值", "unit": "元" },
+        "yoy_direction": { "description": "样板样漆费用同比方向", "type": "enum", "values": ["up", "down", "flat", "unknown"] }
+      }
+    }
+  },
+  "action_guide_rules": [
+    {
+      "condition": "positive_signals 为空或数量不足",
+      "guide": "优势：本期暂无特别突出的正向指标。"
+    },
+    {
+      "condition": "negative_signals 为空或数量不足",
+      "guide": "短板：数据不足，无法自动生成短板分析。"
+    },
+    {
+      "condition": "AI 不可用或返回空",
+      "guide": "使用规则生成的 fallback 文案（按维度输出通用建议）"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "metadata": {
+    "month": "202606",
+    "department_name": "城市焕新事业部",
+    "operation_department": "闽南经营部",
+    "manager_id": "86002542",
+    "manager_name": "李泽豪",
+    "chapter_name": "一、绩效得分与预警"
+  },
+  "performance_score": {
+    "actual": 108.0,
+    "unit": "分",
+    "province_rank": 5,
+    "province_total": 26,
+    "business_rank": 36,
+    "business_total": 1000
+  },
+  "sales": {
+    "actual": 80.0,
+    "unit": "万",
+    "province_rank": 10,
+    "province_total": 26,
+    "business_rank": 46,
+    "business_total": 1000
+  },
+  "profit": {
+    "actual": 20.0,
+    "unit": "万",
+    "province_rank": 12,
+    "province_total": 26,
+    "business_rank": 65,
+    "business_total": 1000
+  },
+  "underperforming_items": [
+    {
+      "name": "招商生效客户",
+      "actual": 70.0,
+      "target": 100.0,
+      "achievement_rate": 70.0,
+      "deduction": 12.0,
+      "weight": 20.0
+    },
+    {
+      "name": "有效落地项目",
+      "actual": 85.0,
+      "target": 100.0,
+      "achievement_rate": 85.0,
+      "deduction": 8.0,
+      "weight": 20.0
+    }
+  ],
+  "quarter_bonus": {
+    "sales_actual": 80.0,
+    "sales_target": 100.0,
+    "sales_yoy": 90.0,
+    "achievement_rate": 80.0,
+    "overdue_amount": 50.0,
+    "due_amount": 30.0,
+    "same_period_overdue": 60.0
+  },
+  "year_end_profit": {
+    "accumulated_profit": 20.0
+  },
+  "warnings": []
+}

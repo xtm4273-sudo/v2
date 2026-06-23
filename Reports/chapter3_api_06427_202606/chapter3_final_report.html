@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三章销量分析报告</title>
+<style>
+:root { color-scheme: light; }
+body {
+  margin: 0;
+  background: #f4f5f7;
+  color: #222;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+  line-height: 1.7;
+}
+.page {
+  box-sizing: border-box;
+  max-width: 980px;
+  min-height: 100vh;
+  margin: 28px auto;
+  padding: 44px 46px 52px;
+  background: #fff;
+  border: 1px solid #d9dde3;
+}
+h1 {
+  margin: 0 0 26px;
+  font-size: 28px;
+  line-height: 1.25;
+  font-weight: 800;
+  color: #3a3d42;
+}
+h2 {
+  margin: 32px 0 14px;
+  font-size: 22px;
+  line-height: 1.35;
+  font-weight: 800;
+  color: #111;
+}
+h3 {
+  margin: 24px 0 10px;
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 800;
+  color: #222;
+}
+p {
+  margin: 9px 0;
+  font-size: 16px;
+}
+.bullet {
+  position: relative;
+  padding-left: 24px;
+  font-weight: 700;
+  color: #3f4247;
+}
+.bullet::before {
+  content: "\25B6";
+  position: absolute;
+  left: 0;
+  color: #111;
+}
+.bullet-sub {
+  margin-left: 0;
+  padding-left: 28px;
+  font-weight: 600;
+}
+.bullet-sub::before {
+  content: "\2727";
+  top: 0;
+}
+strong {
+  font-weight: 800;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin: 14px 0 34px;
+  font-size: 15px;
+  border-top: 2px solid #111;
+  border-bottom: 2px solid #111;
+}
+.data-table th,
+.data-table td {
+  padding: 8px 10px;
+  text-align: center;
+  vertical-align: middle;
+  word-break: break-word;
+  border: 1px dashed #bfc3c8;
+}
+.data-table th {
+  padding: 12px 10px;
+  font-weight: 800;
+  color: #111;
+  border-bottom: 2px solid #111;
+}
+.data-table tr:last-child td {
+  border-bottom: 0;
+}
+.missing { color: #c00000; font-weight: 800; }
+.sales-table th:first-child,
+.sales-table td:first-child,
+.process-table th:first-child,
+.process-table td:first-child {
+  font-weight: 700;
+}
+@media print {
+  body { background: #fff; }
+  .page { margin: 0; max-width: none; min-height: auto; padding: 0; border: 0; }
+  h1 { margin-top: 0; }
+}
+</style>
+</head>
+<body><main class="page"><h1>三、销量分析</h1><h2>3.1 销量概况</h2><table class="data-table sales-table"><tr><th>销量</th><th>6月</th><th>本季度累计</th><th>1-6月累计</th></tr><tr><td>目标</td><td>54.77</td><td>118.97</td><td>214.48</td></tr><tr><td>实际</td><td>0.000</td><td>0.000</td><td>0.000</td></tr><tr><td>达成率</td><td>0.000%</td><td>0.000%</td><td>0.000%</td></tr><tr><td>达成差额</td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td></tr><tr><td>同比增长率</td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td></tr><tr><td>同比差额</td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td></tr></table><h2>3.2 过程指标预警</h2><p>未达百（1-6月）指标包含：招商生效客户、有效落地项目</p><p>负增长（1-6月）指标包含：<span class="missing">待补充</span></p><p>年度20.0个存量生效客户目标已完成3.000个（差距17.0个），100.0个出货项目目标已完成26.000个（差距74.0个）</p><table class="data-table process-table"><tr><th>过程指标</th><th>目标与实际</th><th>6月</th><th>本季度累计</th><th>1-6月累计</th></tr><tr><td>招商生效客户（家）</td><td>目标</td><td>1.0家</td><td>1.0家</td><td>2.0家</td></tr><tr><td></td><td>实际</td><td>0.000家</td><td>1.000家</td><td>1.000家</td></tr><tr><td></td><td>差距</td><td>1.0家</td><td>0.0家</td><td>1.0家</td></tr><tr><td></td><td>达成率</td><td>0.000%</td><td>100.000%</td><td>50.000%</td></tr><tr><td>有效落地项目（个）</td><td>目标</td><td>2.0家</td><td>3.0个</td><td>8.0个</td></tr><tr><td></td><td>实际</td><td>2.000家</td><td>3.000个</td><td>4.000个</td></tr><tr><td></td><td>差距</td><td>0.0家</td><td>0.0个</td><td>4.0个</td></tr><tr><td></td><td>达成率</td><td>100.000%</td><td>100.000%</td><td>50.000%</td></tr><tr><td>打样项目数（个）</td><td>26年</td><td>8.000个</td><td>13.000个</td><td>23.000个</td></tr><tr><td></td><td>25年同期</td><td>11.0个</td><td>19.0个</td><td>29.0个</td></tr><tr><td></td><td>差距</td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td></tr><tr><td></td><td>增长率</td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td><td><span class="missing">待补充</span></td></tr></table><h2>3.3 产品、产销客户、产销项目及行业</h2><p class="bullet">正向指标（1-6月）</p><p class="bullet bullet-sub">产品：一体板、其他产品（界面剂、胶粘剂、辅材等）、内墙乳胶漆其他产品、内墙腻子、墙清、外墙腻子、小森板、建筑节能砂浆、建筑节能辅材产品、弹性涂料、无机矿物内墙涂料、艺术漆、质感漆。</p><p class="bullet bullet-sub">客户与项目：产销项目数。</p><p class="bullet bullet-sub">行业：地产系统、连锁酒店、商业、餐饮、文体娱乐。</p><p class="bullet">风险指标（1-6月）</p><p class="bullet bullet-sub">产品：内墙乳胶漆面漆、地坪漆、多彩涂料中涂、多彩涂料底面等其他产品、水包水、真石漆、真石质感配套底漆、石膏、聚合物水泥防水涂料。</p><p class="bullet bullet-sub">客户与项目：单项目销量、客均销量。</p><p class="bullet bullet-sub">行业：工业、市政公建、教育、医疗卫生、金融系统。</p><h3>产品收入与销售量明细（接口原始精度）</h3><table class="data-table"><tr><th>产品</th><th>口径</th><th>26年实际</th><th>25年同期</th><th>同比增长率</th></tr><tr><td>一体板</td><td>收入</td><td>7.458万</td><td>0.0万</td><td><span class="missing">待补充</span></td></tr><tr><td>一体板</td><td>销售量</td><td>0.916千平米</td><td>0.0千平米</td><td><span class="missing">待补充</span></td></tr><tr><td>其他产品（界面剂、胶粘剂、辅材等）</td><td>收入</td><td>6.232万</td><td>2.502万</td><td><span class="missing">待补充</span></td></tr><tr><td>其他产品（界面剂、胶粘剂、辅材等）</td><td>销售量</td><td>17.805吨</td><td>7.17吨</td><td><span class="missing">待补充</span></td></tr><tr><td>内墙乳胶漆其他产品</td><td>收入</td><td>0.055万</td><td>0.029万</td><td><span class="missing">待补充</span></td></tr><tr><td>内墙乳胶漆其他产品</td><td>销售量</td><td>0.138吨</td><td>0.06吨</td><td><span class="missing">待补充</span></td></tr><tr><td>内墙乳胶漆面漆</td><td>收入</td><td>19.931万</td><td>31.155万</td><td><span class="missing">待补充</span></td></tr><tr><td>内墙乳胶漆面漆</td><td>销售量</td><td>68.378吨</td><td>101.144吨</td><td><span class="missing">待补充</span></td></tr><tr><td>内墙腻子</td><td>收入</td><td>5.432万</td><td>0.52万</td><td><span class="missing">待补充</span></td></tr><tr><td>内墙腻子</td><td>销售量</td><td>86.500吨</td><td>10.0吨</td><td><span class="missing">待补充</span></td></tr><tr><td>地坪漆</td><td>收入</td><td>55.326万</td><td>59.687万</td><td><span class="missing">待补充</span></td></tr><tr><td>地坪漆</td><td>销售量</td><td>39.316吨</td><td>41.982吨</td><td><span class="missing">待补充</span></td></tr><tr><td>墙清</td><td>收入</td><td>0.252万</td><td>0.095万</td><td><span class="missing">待补充</span></td></tr><tr><td>墙清</td><td>销售量</td><td>0.252吨</td><td>0.151吨</td><td><span class="missing">待补充</span></td></tr><tr><td>外墙腻子</td><td>收入</td><td>3.777万</td><td>2.348万</td><td><span class="missing">待补充</span></td></tr><tr><td>外墙腻子</td><td>销售量</td><td>53.750吨</td><td>36.0吨</td><td><span class="missing">待补充</span></td></tr><tr><td>多彩涂料中涂</td><td>收入</td><td>0.079万</td><td>7.453万</td><td><span class="missing">待补充</span></td></tr><tr><td>多彩涂料中涂</td><td>销售量</td><td>0.100吨</td><td>8.832吨</td><td><span class="missing">待补充</span></td></tr><tr><td>多彩涂料底面等其他产品</td><td>收入</td><td>2.741万</td><td>9.514万</td><td><span class="missing">待补充</span></td></tr><tr><td>多彩涂料底面等其他产品</td><td>销售量</td><td>3.645吨</td><td>10.076吨</td><td><span class="missing">待补充</span></td></tr><tr><td>小森板</td><td>收入</td><td>4.427万</td><td>0.0万</td><td><span class="missing">待补充</span></td></tr><tr><td>小森板</td><td>销售量</td><td>0.507吨</td><td>0.0吨</td><td><span class="missing">待补充</span></td></tr><tr><td>建筑节能砂浆</td><td>收入</td><td>0.085万</td><td>0.0万</td><td><span class="missing">待补充</span></td></tr><tr><td>建筑节能砂浆</td><td>销售量</td><td>1.250吨</td><td>0.0吨</td><td><span class="missing">待补充</span></td></tr><tr><td>建筑节能辅材产品</td><td>收入</td><td>0.050万</td><td>0.0万</td><td><span class="missing">待补充</span></td></tr><tr><td>建筑节能辅材产品</td><td>销售量</td><td>0.027吨</td><td>0.0吨</td><td><span class="missing">待补充</span></td></tr><tr><td>弹性涂料</td><td>收入</td><td>7.372万</td><td>4.093万</td><td><span class="missing">待补充</span></td></tr><tr><td>弹性涂料</td><td>销售量</td><td>9.450吨</td><td>6.363吨</td><td><span class="missing">待补充</span></td></tr><tr><td>无机矿物内墙涂料</td><td>收入</td><td>7.550万</td><td>0.361万</td><td><span class="missing">待补充</span></td></tr><tr><td>无机矿物内墙涂料</td><td>销售量</td><td>13.572吨</td><td>0.562吨</td><td><span class="missing">待补充</span></td></tr><tr><td>水包水</td><td>收入</td><td>0.133万</td><td>1.278万</td><td><span class="missing">待补充</span></td></tr><tr><td>水包水</td><td>销售量</td><td>0.145吨</td><td>1.638吨</td><td><span class="missing">待补充</span></td></tr><tr><td>真石漆</td><td>收入</td><td>7.217万</td><td>21.152万</td><td><span class="missing">待补充</span></td></tr><tr><td>真石漆</td><td>销售量</td><td>33.537吨</td><td>91.007吨</td><td><span class="missing">待补充</span></td></tr><tr><td>真石质感配套底漆</td><td>收入</td><td>0.058万</td><td>1.452万</td><td><span class="missing">待补充</span></td></tr><tr><td>真石质感配套底漆</td><td>销售量</td><td>0.081吨</td><td>1.648吨</td><td><span class="missing">待补充</span></td></tr><tr><td>石膏</td><td>收入</td><td>0.458万</td><td>2.669万</td><td><span class="missing">待补充</span></td></tr><tr><td>石膏</td><td>销售量</td><td>7.500吨</td><td>37.125吨</td><td><span class="missing">待补充</span></td></tr><tr><td>聚合物水泥防水涂料</td><td>收入</td><td>15.190万</td><td>31.669万</td><td><span class="missing">待补充</span></td></tr><tr><td>聚合物水泥防水涂料</td><td>销售量</td><td>40.400吨</td><td>87.0吨</td><td><span class="missing">待补充</span></td></tr><tr><td>艺术漆</td><td>收入</td><td>1.062万</td><td>0.0万</td><td><span class="missing">待补充</span></td></tr><tr><td>艺术漆</td><td>销售量</td><td>0.940吨</td><td>0.0吨</td><td><span class="missing">待补充</span></td></tr><tr><td>质感漆</td><td>收入</td><td>0.729万</td><td>0.056万</td><td><span class="missing">待补充</span></td></tr><tr><td>质感漆</td><td>销售量</td><td>2.277吨</td><td>0.165吨</td><td><span class="missing">待补充</span></td></tr></table><h3>行业销量与占比明细（接口原始精度）</h3><table class="data-table"><tr><th>行业</th><th>销量</th><th>销量同期数</th><th>销量占比</th><th>占比同期数</th></tr><tr><td>地产系统</td><td>15.305万</td><td>10.938万</td><td>10.511%</td><td>5.63%</td></tr><tr><td>工业</td><td>81.732万</td><td>100.184万</td><td>56.131%</td><td>51.568%</td></tr><tr><td>市政公建</td><td>36.497万</td><td>66.046万</td><td>25.064%</td><td>33.996%</td></tr><tr><td>教育、医疗卫生、金融系统</td><td>7.549万</td><td>15.758万</td><td>5.184%</td><td>8.111%</td></tr><tr><td>连锁酒店、商业、餐饮、文体娱乐</td><td>4.529万</td><td>1.35万</td><td>3.110%</td><td>0.695%</td></tr></table><p class="bullet">行动指南：结合上述明确命中的产品、客户、项目与行业数据进行逐项复盘；待增长率字段补齐后再确定优先级。</p></main></body>
+</html>
