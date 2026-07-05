@@ -47,6 +47,28 @@ def _inline_pdf(text: str) -> str:
     return text.replace("待补充", '<font color="#d32f2f">待补充</font>')
 
 
+def _rank_cell_html(cell: str) -> str:
+    match = re.fullmatch(r"\s*(\d+|待补充)/(\d+|待补充)\s*", cell)
+    if not match:
+        return _inline_html(cell)
+    current, total = match.groups()
+    return (
+        f'<span class="rank-current">{escape(current)}</span>'
+        f'<span class="rank-total">/{escape(total)}</span>'
+    )
+
+
+def _rank_cell_pdf(cell: str) -> str:
+    match = re.fullmatch(r"\s*(\d+|待补充)/(\d+|待补充)\s*", cell)
+    if not match:
+        return _inline_pdf(cell)
+    current, total = match.groups()
+    return (
+        f'<font color="#008a3d"><b>{escape(current)}</b></font>'
+        f'<font color="#111111" size="6.2">/{escape(total)}</font>'
+    )
+
+
 def _parse_markdown_table(lines: List[str], start: int) -> Tuple[List[List[str]], int]:
     table_lines = []
     i = start
@@ -90,10 +112,18 @@ def _markdown_to_html(markdown: str) -> str:
 
         if stripped.startswith("|"):
             rows, i = _parse_markdown_table(lines, i)
-            parts.append(f'<table class="{_table_class(rows)}">')
+            table_class = _table_class(rows)
+            parts.append(f'<table class="{table_class}">')
             for row_index, row in enumerate(rows):
                 tag = "th" if row_index == 0 else "td"
-                cells = "".join(f"<{tag}>{_inline_html(cell)}</{tag}>" for cell in row)
+                cells = []
+                for cell_index, cell in enumerate(row):
+                    if "rank-table" in table_class and tag == "td" and cell_index > 0:
+                        cell_html = _rank_cell_html(cell)
+                    else:
+                        cell_html = _inline_html(cell)
+                    cells.append(f"<{tag}>{cell_html}</{tag}>")
+                cells = "".join(cells)
                 parts.append(f"<tr>{cells}</tr>")
             parts.append("</table>")
             continue
@@ -178,6 +208,16 @@ strong {
 }
 .bonus-table td:last-child {
   text-align: left;
+}
+.rank-table .rank-current {
+  color: #2E7D32;
+  font-size: 1em;
+  font-weight: 800;
+}
+.rank-table .rank-total {
+  color: #111111;
+  font-size: 0.82em;
+  font-weight: 500;
 }
 @media print {
   body { background: #fff; }
@@ -314,7 +354,16 @@ def _pdf_table(rows: List[List[str]], styles) -> Table:
 
     small = table_type == "bonus-table"
     para_style = styles["CNTableSmall1"] if small else styles["CNTable1"]
-    data = [[Paragraph(_inline_pdf(cell), para_style) for cell in row] for row in rows]
+    data = []
+    for row_index, row in enumerate(rows):
+        rendered_row = []
+        for cell_index, cell in enumerate(row):
+            if "rank-table" in table_type and row_index > 0 and cell_index > 0:
+                cell_pdf = _rank_cell_pdf(cell)
+            else:
+                cell_pdf = _inline_pdf(cell)
+            rendered_row.append(Paragraph(cell_pdf, para_style))
+        data.append(rendered_row)
     table = Table(data, colWidths=col_widths, repeatRows=1)
     table.setStyle(
         TableStyle(

@@ -10,7 +10,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from Data import ChapterDataError
 from ReportGenerator.chapter2_generator import (
     PENDING_HTML,
     build_apipost_checklist,
@@ -47,17 +46,32 @@ class Chapter2StrictMappingTests(unittest.TestCase):
         self.assertEqual(revenue_month.date_type, "月")
         self.assertEqual(revenue_month.value_path, "指标数据.实际值")
         self.assertEqual(revenue_month.raw_value, "13.857")
-        self.assertEqual(revenue_month.report_value, "13.857万元")
+        self.assertEqual(revenue_month.report_value, "13.9万元")
         self.assertEqual(revenue_month.calculation, "无；直接取值")
         self.assertEqual(revenue_month.status, "正常")
 
-    def test_report_preserves_raw_precision(self):
-        markdown = build_chapter2_markdown(normalize_chapter2_data(self.real_response))
+    def test_path_only_rows_with_trailing_dash_map_cells(self):
+        response = copy.deepcopy(self.real_response)
+        for row in response["data"]["章节数据"]:
+            row["指标名称"] = ""
+            row["指标路径"] = row["指标路径"] + "-"
 
-        self.assertIn("13.857万元", markdown)
-        self.assertIn("128.860万元", markdown)
-        self.assertIn("1.170万元", markdown)
-        self.assertNotIn("13.86万元", markdown)
+        data = normalize_chapter2_data(response, period="202606")
+
+        revenue_month = data.cells["chapter2.profit_table.revenue.month"]
+        self.assertEqual(revenue_month.raw_value, "13.857")
+        self.assertEqual(revenue_month.report_value, "13.9万元")
+        self.assertEqual(revenue_month.status, "正常")
+        self.assertEqual(build_chapter2_stats(data)["正常"], 33)
+
+    def test_report_formats_all_numbers_to_one_decimal(self):
+        markdown = build_chapter2_markdown(normalize_chapter2_data(self.real_response, period="202605"))
+
+        self.assertIn("| 科目 | 5月 | 本季度累计 | 1-5月累计 |", markdown)
+        self.assertIn("13.9万元", markdown)
+        self.assertIn("128.9万元", markdown)
+        self.assertIn("1.2万元", markdown)
+        self.assertIn("说明：此处销量不含双算", markdown)
 
     def test_gross_margin_uses_customer_confirmed_percent_x100_formula(self):
         data = normalize_chapter2_data(self.real_response)
@@ -114,9 +128,18 @@ class Chapter2StrictMappingTests(unittest.TestCase):
         self.assertIn('"月份": "202606"', checklist)
         self.assertIn("1-6月累计", checklist)
 
-    def test_empty_response_fails_visibly(self):
-        with self.assertRaises(ChapterDataError):
-            normalize_chapter2_data({"data": {"章节数据": []}})
+    def test_empty_response_renders_zero_table(self):
+        data = normalize_chapter2_data({"data": {"月份": "202606", "章节数据": []}}, period="202605")
+        markdown = build_chapter2_markdown(data)
+        stats = build_chapter2_stats(data)
+
+        self.assertEqual(data.metadata["source_row_count"], 0)
+        self.assertEqual(data.metadata["data_status"], "empty_fallback")
+        self.assertEqual(stats["数据状态"], "empty_fallback")
+        self.assertEqual(stats["空数组兜底"], 33)
+        self.assertIn("| 营业收入（不含税） | 0.0万元 | 0.0万元 | 0.0万元 |", markdown)
+        self.assertIn("| 毛利率 | 0.0% | 0.0% | 0.0% |", markdown)
+        self.assertNotIn(PENDING_HTML, markdown)
 
     def test_renderer_includes_calculated_margin_and_creates_pdf(self):
         markdown = build_chapter2_markdown(normalize_chapter2_data(self.real_response))

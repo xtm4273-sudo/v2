@@ -1,4 +1,5 @@
 from .fetch_data import (
+    add_ranking_population_totals,
     extract_employee_configs,
     fetch_chapter_data,
     fetch_chapter_data_batch,

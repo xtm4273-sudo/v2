@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 import logging
 
@@ -16,6 +17,7 @@ logger = logging.getLogger(__name__)
 CHAPTER_NAME = "四、毛利率与产品结构"
 PRICE_DIFF_CATEGORY = "各产品的均价差异"
 SHARE_DIFF_CATEGORY = "各产品收入占比差异"
+SHARE_DIFF_PATH_CATEGORIES = (SHARE_DIFF_CATEGORY, "各产品销量占比差异")
 MISSING_MARK = '<span class="missing">待补充</span>'
 
 
@@ -49,15 +51,35 @@ def format_chapter4_data(
     raw_data: Any,
     period: str = "",
     action_guide_actions: Optional[Dict[str, str]] = None,
+    gross_margin_rate: Optional[str] = None,
+    source_period: str = "",
 ) -> Tuple[str, Dict[str, Any]]:
     """严格清洗第四章数据并生成客户模板 Markdown。"""
     subject = _extract_subject(raw_data)
-    _validate_subject(subject, period)
+    _validate_subject(subject, source_period or period)
     rows = _extract_chapter_rows(subject)
+    empty_fallback = not rows
     evidence, conflicts, warnings = collect_metric_evidence(rows)
-    markdown = build_chapter4_markdown(action_guide_actions=action_guide_actions)
-    stats = build_chapter4_stats(subject, evidence, conflicts, warnings, period)
-    stats["行动指南来源"] = "AI" if action_guide_actions else "strict_placeholder"
+    if empty_fallback:
+        warnings.append("第四章接口章节数据为空，报告按0展示。")
+    analysis = analyze_chapter4_products(evidence)
+    markdown = build_chapter4_markdown(
+        evidence=evidence,
+        gross_margin_rate=gross_margin_rate,
+        analysis=analysis,
+        empty_fallback=empty_fallback,
+    )
+    stats = build_chapter4_stats(
+        subject,
+        evidence,
+        conflicts,
+        warnings,
+        period,
+        analysis=analysis,
+        empty_fallback=empty_fallback,
+    )
+    stats["接口校验月份"] = source_period or period
+    stats["行动指南来源"] = "规则模板"
     return markdown, stats
 
 
@@ -65,11 +87,12 @@ async def format_chapter4_data_async(
     raw_data: Any,
     period: str = "",
     action_guide_writer: Optional[Any] = None,
+    source_period: str = "",
 ) -> Tuple[str, Dict[str, Any]]:
     """AI 不参与严格字段映射；保留异步签名以兼容现有调用。"""
     if action_guide_writer is not None:
         logger.info("第四章严格映射模式不使用 AI 补写缺失数据")
-    markdown, stats = format_chapter4_data(raw_data, period=period)
+    markdown, stats = format_chapter4_data(raw_data, period=period, source_period=source_period)
     stats["行动指南来源"] = "strict_placeholder"
     return markdown, stats
 
@@ -85,8 +108,8 @@ def collect_metric_evidence(
         if not isinstance(item, dict):
             warnings.append(f"第{index + 1}条记录不是对象")
             continue
-        name = str(item.get("指标名称") or "").strip()
-        path = str(item.get("指标路径") or "").strip()
+        path = _normalize_metric_path(str(item.get("指标路径") or ""))
+        name = str(item.get("指标名称") or "").strip() or _path_leaf(path)
         metric_data = item.get("指标数据")
         if not name or not path or not isinstance(metric_data, dict):
             warnings.append(f"第{index + 1}条记录缺少指标名称、指标路径或指标数据")
@@ -147,31 +170,180 @@ def normalize_chapter4_products(rows: Iterable[Dict[str, Any]]):
     return evidence, warnings
 
 
+def analyze_chapter4_products(evidence: Iterable[MetricEvidence]) -> Dict[str, Any]:
+    """计算价格升降、结构前三及固定行动指南所需产品集合。"""
+    prices: Dict[str, Dict[str, Any]] = {}
+    shares: Dict[str, Dict[str, Any]] = {}
+    for item in evidence:
+        if not item.raw_items:
+            continue
+        data = item.raw_items[0].get("指标数据") or {}
+        actual, yoy = _decimal(data.get("实际值")), _decimal(data.get("同期数"))
+        if actual is None:
+            continue
+        target = prices if item.category == PRICE_DIFF_CATEGORY else shares
+        target[item.product_name] = {
+            "name": item.product_name,
+            "actual": actual,
+            "yoy": yoy,
+            "unit": item.unit,
+        }
+
+    structure_top3 = sorted(shares.values(), key=lambda item: item["actual"], reverse=True)[:3]
+    comparable_prices = []
+    for name, price in prices.items():
+        share = shares.get(name)
+        if share is None or price["yoy"] in (None, Decimal("0")):
+            continue
+        comparable_prices.append({**price, "share": share["actual"], "change": price["actual"] - price["yoy"]})
+
+    price_up_top3 = sorted(
+        (item for item in comparable_prices if item["change"] > 0),
+        key=lambda item: item["share"],
+        reverse=True,
+    )[:3]
+    price_down_top3 = sorted(
+        (item for item in comparable_prices if item["change"] < 0),
+        key=lambda item: item["share"],
+        reverse=True,
+    )[:3]
+    for item in structure_top3:
+        item["change"] = item["actual"] - item["yoy"] if item["yoy"] is not None else None
+
+    return {
+        "price_up_top3": price_up_top3,
+        "price_down_top3": price_down_top3,
+        "structure_top3": structure_top3,
+    }
+
+
+def build_rule_based_actions(analysis: Dict[str, Any]) -> Dict[str, str]:
+    structure_up = [
+        item["name"] for item in analysis.get("structure_top3", [])
+        if item.get("change") is not None and item["change"] > 0
+    ]
+    price_down = [item["name"] for item in analysis.get("price_down_top3", [])]
+    structure_action = (
+        f"{'、'.join(structure_up)}产品收入占比提升。"
+        if structure_up else "收入占比排名前三的产品中暂无占比提升产品。"
+    )
+    price_action = (
+        f"稳住价格，重点稳住{'、'.join(price_down)}的价格。"
+        if price_down else "稳住价格，当前暂无同比价格下降产品。"
+    )
+    return {"structure_action": structure_action, "price_action": price_action}
+
+
+def extract_chapter2_gross_margin_rate(raw_data: Any) -> Optional[str]:
+    """精确提取第二章本年累计毛利率，接口小数按百分比展示。"""
+    subject = _extract_subject(raw_data)
+    rows = subject.get("章节数据") if isinstance(subject, dict) else None
+    if not isinstance(rows, list):
+        return None
+    matches = [
+        row for row in rows
+        if (str(row.get("指标名称") or "").strip() or _path_leaf(str(row.get("指标路径") or ""))) == "毛利率"
+        and _normalize_metric_path(str(row.get("指标路径") or "")) == "二、利润概况-毛利率"
+        and isinstance(row.get("指标数据"), dict)
+        and row["指标数据"].get("日期类型") == "年"
+    ]
+    values = {_decimal(row["指标数据"].get("实际值")) for row in matches}
+    values.discard(None)
+    if len(values) != 1:
+        return None
+    return f"{_format_decimal(next(iter(values)) * Decimal('100'), 1)}%"
+
+
+def _price_items_text(items: List[Dict[str, Any]], direction: str) -> str:
+    if not items:
+        return f"暂无明显均价{direction}产品"
+    arrow = "↑" if direction == "上升" else "↓"
+    return "、".join(
+        f"{item['name']}{_format_price_value(item['actual'], item['unit'])}{item['unit']}"
+        f"（同比{arrow}{_format_price_value(abs(item['change']), item['unit'])}{item['unit']}）"
+        for item in items
+    )
+
+
+def _format_price_value(value: Decimal, unit: str) -> str:
+    places = 1 if unit.lower() == "元/kg" else 2
+    return _format_decimal(value, places)
+
+
+def _structure_items_text(items: List[Dict[str, Any]]) -> str:
+    if not items:
+        return MISSING_MARK
+    output = []
+    for item in items:
+        change = item.get("change")
+        if change is None:
+            change_text = "占比变化待确认"
+        else:
+            direction = "↑" if change >= 0 else "↓"
+            change_text = f"占比{direction}{_format_decimal(abs(change), 1)}%"
+        output.append(
+            f"{item['name']}收入占比{_format_decimal(item['actual'], 1)}%（{change_text}）"
+        )
+    return "<br>".join(output)
+
+
+def _decimal(value: Any) -> Optional[Decimal]:
+    try:
+        return Decimal(str(value)) if value is not None and str(value).strip() else None
+    except InvalidOperation:
+        return None
+
+
+def _format_decimal(value: Decimal, places: int) -> str:
+    quantizer = Decimal("1").scaleb(-places)
+    return format(value.quantize(quantizer, rounding=ROUND_HALF_UP), f".{places}f")
+
+
+def _json_safe(value: Any) -> Any:
+    if isinstance(value, Decimal):
+        return str(value)
+    if isinstance(value, dict):
+        return {key: _json_safe(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_json_safe(item) for item in value]
+    return value
+
+
 def build_chapter4_markdown(
     *_args: Any,
     action_guide_actions: Optional[Dict[str, str]] = None,
+    evidence: Optional[List[MetricEvidence]] = None,
+    gross_margin_rate: Optional[str] = None,
+    analysis: Optional[Dict[str, Any]] = None,
+    empty_fallback: bool = False,
     **_kwargs: Any,
 ) -> str:
-    """保留 Word 章节结构，缺少可唯一映射字段时统一标红。"""
-    actions = action_guide_actions or {}
-    structure_action = str(actions.get("structure_action") or MISSING_MARK)
-    price_action = str(actions.get("price_action") or MISSING_MARK)
+    """按固定模板生成第四章；AI 参数仅为兼容旧调用，不覆盖规则结果。"""
+    analysis = analysis or analyze_chapter4_products(evidence or [])
+    price_up = _price_items_text(analysis["price_up_top3"], "上升")
+    price_down = _price_items_text(analysis["price_down_top3"], "下降")
+    structure = "暂无产品结构变化数据" if empty_fallback else _structure_items_text(analysis["structure_top3"])
+    actions = build_rule_based_actions(analysis)
+    margin = "0.0%" if empty_fallback else (gross_margin_rate or MISSING_MARK)
     lines = [
         "## 四、毛利率与产品结构",
         "",
-        f"个人毛利率{MISSING_MARK}，主要影响因素{MISSING_MARK}。",
+        f"个人毛利率{margin}，主要受到产品价格下降以及低毛利产品占比增加影响。",
         "",
         "| 指标 | 详情 |",
         "| --- | --- |",
-        f"| 价格变动 | **均价上升：** {MISSING_MARK}<br><br>**均价下降：** {MISSING_MARK} |",
-        f"| 结构变化 | **收入占比排名前三的产品及占比变动：** {MISSING_MARK} |",
-        "",
-        "### 行动指南：",
-        "",
-        f"◇ **产品结构：** {structure_action}",
-        "",
-        f"◇ **价格：** {price_action}",
+        f"| 价格变动 | **均价上升：** {price_up}<br>**均价下降：** {price_down} |",
+        f"| 结构变化 | **收入占比排名前三的产品及占比变动：**<br>{structure} |",
     ]
+    if not empty_fallback:
+        lines.extend([
+            "",
+            "### 行动指南：",
+            "",
+            f"◇ **产品结构：** {actions['structure_action']}",
+            "",
+            f"◇ **价格：** {actions['price_action']}",
+        ])
     return "\n".join(lines) + "\n"
 
 
@@ -181,18 +353,12 @@ def build_chapter4_stats(
     conflicts: List[Dict[str, Any]],
     warnings: List[str],
     period: str = "",
+    analysis: Optional[Dict[str, Any]] = None,
+    empty_fallback: bool = False,
 ) -> Dict[str, Any]:
     price = [item for item in evidence if item.category == PRICE_DIFF_CATEGORY]
     share = [item for item in evidence if item.category == SHARE_DIFF_CATEGORY]
-    missing_fields = [
-        "个人毛利率",
-        "当前产品均价",
-        "均价变动方向",
-        "当前产品收入占比",
-        "收入占比变动方向",
-        "产品收入占比排名",
-        "低毛利产品标识",
-    ]
+    missing_fields = [] if empty_fallback else ["低毛利产品标识"]
     cleaned = {
         "employee_id": str(subject.get("区域经理工号") or ""),
         "month": str(subject.get("月份") or period),
@@ -202,17 +368,24 @@ def build_chapter4_stats(
         "chapter_name": subject.get("章节名称", CHAPTER_NAME),
         "module": 4,
         "metric_evidence": [item.to_dict() for item in evidence],
+        "analysis": _json_safe(analysis or {}),
         "conflicts": conflicts,
         "missing_fields": missing_fields,
-        "calculations": [],
+        "calculations": [
+            "均价变化=当前均价-同期均价",
+            "占比变化=当前占比-同期占比",
+            "均价升降产品按当前收入占比排序取前三",
+        ],
         "warnings": warnings,
+        "data_status": "empty_fallback" if empty_fallback else "normal",
     }
     return {
         "均价差异正常证据数": len(price),
         "收入占比差异正常证据数": len(share),
         "冲突数": len(conflicts),
         "缺失字段": missing_fields,
-        "计算字段": [],
+        "计算字段": cleaned["calculations"],
+        "数据状态": cleaned["data_status"],
         "warnings": warnings,
         "cleaned_data": cleaned,
     }
@@ -288,10 +461,21 @@ class Chapter4Generator:
 
 
 def _exact_category(path: str, name: str) -> Optional[str]:
-    for category in (PRICE_DIFF_CATEGORY, SHARE_DIFF_CATEGORY):
-        if path == f"{CHAPTER_NAME}-{category}-{name}":
-            return category
+    path = _normalize_metric_path(path)
+    if path == f"{CHAPTER_NAME}-{PRICE_DIFF_CATEGORY}-{name}":
+        return PRICE_DIFF_CATEGORY
+    if any(path == f"{CHAPTER_NAME}-{category}-{name}" for category in SHARE_DIFF_PATH_CATEGORIES):
+        return SHARE_DIFF_CATEGORY
     return None
+
+
+def _normalize_metric_path(path: str) -> str:
+    return str(path or "").strip().rstrip("-").strip()
+
+
+def _path_leaf(path: str) -> str:
+    normalized = _normalize_metric_path(path)
+    return normalized.rsplit("-", 1)[-1].strip() if normalized else ""
 
 
 def _extract_subject(raw_data: Any) -> Dict[str, Any]:
@@ -308,8 +492,8 @@ def _extract_subject(raw_data: Any) -> Dict[str, Any]:
 
 def _extract_chapter_rows(subject: Dict[str, Any]) -> List[Dict[str, Any]]:
     rows = subject.get("章节数据")
-    if not isinstance(rows, list) or not rows:
-        raise ChapterDataError(f"第四章数据清洗失败: 章节数据缺失或为空。{EMPTY_DATA_MESSAGE}")
+    if not isinstance(rows, list):
+        raise ChapterDataError(f"第四章数据清洗失败: 章节数据缺失或不是数组。{EMPTY_DATA_MESSAGE}")
     return rows
 
 
@@ -317,5 +501,6 @@ def _validate_subject(subject: Dict[str, Any], period: str) -> None:
     chapter_name = str(subject.get("章节名称") or "")
     if chapter_name and chapter_name != CHAPTER_NAME:
         raise ChapterDataError(f"第四章校验失败: 章节名称为 {chapter_name!r}")
-    if period and str(subject.get("月份") or "") != str(period):
+    source_period = str(subject.get("月份") or "")
+    if period and source_period and source_period != str(period):
         raise ChapterDataError(f"第四章校验失败: 月份不是 {period}")

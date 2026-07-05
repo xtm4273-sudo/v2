@@ -43,10 +43,10 @@ def _print_html(html: str, output_path: Path) -> None:
                 print_background=True,
                 display_header_footer=False,
                 margin={
-                    "top": "15mm",
-                    "bottom": "15mm",
-                    "left": "15mm",
-                    "right": "15mm",
+                    "top": "13mm",
+                    "bottom": "13mm",
+                    "left": "13mm",
+                    "right": "13mm",
                 },
             )
         finally:

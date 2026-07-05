@@ -19,15 +19,39 @@
 | `Reports/` | 管正式报告产物 | 对外交付或准生产报告输出 |
 | `test_output/` | 管测试跑出来的东西 | 测试报告、验证报告、渲染样例 |
 | `tmp/` | 管临时中间文件 | PDF 渲染图、docx 拆解文本等临时缓存 |
+| `archive/` | 管历史和多余产物 | 归档旧输出、临时渲染、手工测试报告，保留原路径结构 |
 
 ## 当前归档口径
 
 - 正式报告留在 `Reports/`。
 - mock、realtest、comment rules、AI action reserved 等验证报告放到 `test_output/report_validation/`。
 - 临时拆解、渲染缓存放到 `tmp/`。
+- 多余或阶段性产物统一归档到 `archive/{日期}_cleanup/`，并补充 `manifest.md` 说明移动范围。
 - `.DS_Store`、`__pycache__`、`.pytest_cache`、`.venv` 不作为项目内容维护。
 
 更细的规则见 `DevelopmentDocs/文件管理手册.md`。
+
+## 环境依赖
+
+运行报告生成脚本：
+
+```bash
+python -m pip install -r requirements.txt
+python -m playwright install chromium
+```
+
+本地开发和跑测试：
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m playwright install chromium
+python -m pytest
+```
+
+依赖分层：
+
+- `requirements.txt`：报告生成运行依赖，包括接口/AI、HTML/PDF 渲染和 PDF 合并。
+- `requirements-dev.txt`：在运行依赖基础上增加测试依赖。
 
 ## 完整报告 AI 文案
 

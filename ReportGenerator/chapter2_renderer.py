@@ -11,6 +11,7 @@ import re
 
 from .report_theme import apply_html_theme, colors
 from .browser_pdf import html_to_pdf
+from .report_period import current_and_ytd_labels
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -22,13 +23,12 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, Tabl
 from .chapter2_generator import build_chapter2_markdown, normalize_chapter2_data
 
 
-def month_labels(period: str) -> Tuple[str, str]:
-    """将接口月份 202605 转为表头 5月 / 1-5 月累计。"""
-    if len(period) < 6 or not period[-2:].isdigit():
-        return "当月", "累计"
+SALES_SCOPE_NOTE = "说明：此处销量不含双算"
 
-    month = int(period[-2:])
-    return f"{month}月", f"1-{month} 月累计"
+
+def month_labels(period: str) -> Tuple[str, str]:
+    """将 report_period 转为表头 5月 / 1-5月累计。"""
+    return current_and_ytd_labels(period)
 
 
 def build_final_markdown(
@@ -113,6 +113,8 @@ def _markdown_to_html(markdown: str) -> str:
             parts.append(f"<h2>{_inline_html(line[3:])}</h2>")
         elif line.startswith("* "):
             parts.append(f'<p class="bullet">{_inline_html(line[2:])}</p>')
+        elif line.strip() == SALES_SCOPE_NOTE:
+            parts.append(f'<p class="table-note">{_inline_html(line)}</p>')
         else:
             parts.append(f"<p>{_inline_html(line)}</p>")
         i += 1
@@ -137,6 +139,7 @@ body {
 h1 { margin: 0 0 24px; text-align: center; font-size: 28px; line-height: 1.35; color: #16324f; }
 h2 { margin: 28px 0 12px; font-size: 22px; color: #16324f; border-bottom: 2px solid #d8e2ed; padding-bottom: 7px; }
 p { margin: 7px 0; font-size: 15px; }
+p.table-note { text-align: right; font-size: 13px; }
 p.bullet { position: relative; padding-left: 18px; }
 p.bullet::before { content: "•"; position: absolute; left: 0; color: #244b73; font-weight: 700; }
 strong { color: #0b5cad; font-weight: 700; }

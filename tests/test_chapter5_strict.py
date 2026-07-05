@@ -45,6 +45,12 @@ class Chapter5StrictMappingTest(unittest.TestCase):
         self.assertNotIn("客户1（接口未提供名称）", self.markdown)
         self.assertIn(PENDING, self.markdown)
 
+    def test_zero_aging_jump_group_uses_no_customer_message(self):
+        self.assertIn("◇ **暂无7月未清收预计跳账龄的客户**", self.markdown)
+        self.assertNotIn("◇ **7月若未清收预计跳账龄的 TOP5 客户**", self.markdown)
+        self.assertNotIn("◇ **7月未清收预计跳账龄的 TOP5 客户**", self.markdown)
+        self.assertEqual(self.stats["field_sources"]["chapter5.aging_top"]["data_status"], "zero")
+
     def test_checklist_has_required_columns_and_copyable_search(self):
         checklist = build_chapter5_apipost_checklist(self.stats)
         self.assertIn("| 报告位置 | ApiPost搜索内容 | 取值字段 | 原始值 | 报告值 | 处理方式 | 状态 |", checklist)

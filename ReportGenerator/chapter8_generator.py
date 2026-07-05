@@ -1,7 +1,8 @@
 """第八章生成器 - 总结。
 
 第八章是综合总结章节，基于前七章的关键信号生成优势归纳、短板识别
-和六维度核心策略。数据来源 MOUDLE 8，与其他章节统一走 POST 接口。
+和六维度核心策略。数据来源为第 1-7 章清洗结果派生的事实包，不请求
+MOUDLE=8。
 """
 from __future__ import annotations
 
@@ -27,9 +28,10 @@ DIMENSION_FALLBACKS: Dict[str, str] = {
     "客户": "维护核心客户关系，提升客均销量。",
     "应收": "加强应收账款管理，控制逾期与减值。",
     "打样": "控制打样费用，提升转化率。",
+    "风控": "保持客户信用动态复核，控制赊销风险。",
 }
 
-DIMENSION_ORDER = ["产品", "项目", "渠道", "客户", "应收", "打样"]
+DIMENSION_ORDER = ["产品", "项目", "渠道", "客户", "应收", "打样", "风控"]
 
 
 # ── 格式化工具 ──────────────────────────────────────────────────────────
@@ -125,6 +127,14 @@ class SamplingDimension:
 
 
 @dataclass
+class RiskControlDimension:
+    overdue_amount: Optional[float] = None
+    impairment_amount: Optional[float] = None
+    finance_cost: Optional[float] = None
+    risk_level: str = "normal"
+
+
+@dataclass
 class DimensionSummary:
     product: ProductDimension = field(default_factory=ProductDimension)
     project: ProjectDimension = field(default_factory=ProjectDimension)
@@ -132,6 +142,7 @@ class DimensionSummary:
     customer: CustomerDimension = field(default_factory=CustomerDimension)
     receivable: ReceivableDimension = field(default_factory=ReceivableDimension)
     sampling: SamplingDimension = field(default_factory=SamplingDimension)
+    risk_control: RiskControlDimension = field(default_factory=RiskControlDimension)
 
 
 @dataclass
@@ -210,6 +221,12 @@ class Chapter8Data:
                 "打样": {
                     "sample_expense": self.dimension_summary.sampling.sample_expense,
                     "yoy_direction": self.dimension_summary.sampling.yoy_direction,
+                },
+                "风控": {
+                    "overdue_amount": self.dimension_summary.risk_control.overdue_amount,
+                    "impairment_amount": self.dimension_summary.risk_control.impairment_amount,
+                    "finance_cost": self.dimension_summary.risk_control.finance_cost,
+                    "risk_level": self.dimension_summary.risk_control.risk_level,
                 },
             },
             "warnings": self.warnings,
@@ -349,7 +366,7 @@ def _extract_metadata(subject: Dict[str, Any], period: str = "") -> Dict[str, An
         "区域经理姓名", "岗位名称", "客户编码", "客户名称", "章节名称",
     ]
     metadata = {key: subject.get(key, "") for key in keys}
-    if period and not metadata.get("月份"):
+    if period:
         metadata["月份"] = period
     return metadata
 
@@ -423,6 +440,7 @@ def _normalize_dimension_summary(subject: Dict[str, Any], warnings: List[str]) -
         customer=_normalize_customer_dim(ds.get("客户"), warnings),
         receivable=_normalize_receivable_dim(ds.get("应收"), warnings),
         sampling=_normalize_sampling_dim(ds.get("打样"), warnings),
+        risk_control=_normalize_risk_control_dim(ds.get("风控") or ds.get("应收"), warnings),
     )
 
 
@@ -492,6 +510,23 @@ def _normalize_sampling_dim(data: Any, warnings: List[str]) -> SamplingDimension
     )
 
 
+def _normalize_risk_control_dim(data: Any, warnings: List[str]) -> RiskControlDimension:
+    if not isinstance(data, dict):
+        return RiskControlDimension()
+    overdue = _extract_nested_float(data, "overdue_amount", "实际值")
+    impairment = _extract_nested_float(data, "impairment_amount", "实际值")
+    finance_cost = _extract_nested_float(data, "finance_cost", "实际值")
+    risk_level = str(data.get("risk_level") or "").strip()
+    if not risk_level:
+        risk_level = "high" if overdue is not None and overdue > 0 else "normal"
+    return RiskControlDimension(
+        overdue_amount=overdue,
+        impairment_amount=impairment,
+        finance_cost=finance_cost,
+        risk_level=risk_level,
+    )
+
+
 def _extract_nested_float(data: Any, outer_key: str, inner_key: str) -> Optional[float]:
     if not isinstance(data, dict):
         return None
@@ -525,13 +560,18 @@ def build_chapter8_markdown(
         weakness_text = _build_rule_weakness(chapter_data)
 
     lines = [
-        "## 八、总结",
+        "# 八、总结",
         "",
-        f"优势：{advantage_text}",
+        "## 8.1 核心优势",
         "",
-        f"短板：{weakness_text}",
+        advantage_text,
         "",
-        "核心策略：",
+        "## 8.2 关键短板",
+        "",
+        weakness_text,
+        "",
+        "## 8.3 核心策略",
+        "",
     ]
 
     for s in strategy_lines:
@@ -559,28 +599,40 @@ def _build_rule_advantage(chapter_data: Chapter8Data) -> str:
     others = [s for s in chapter_data.positive_signals if not s.is_outstanding]
 
     parts = []
+    seen_metrics = set()
 
     # 绩效
     perf = chapter_data.performance
     if perf.score is not None and perf.score >= 100:
         parts.append(f"绩效优秀（{int(perf.score)}分）")
+        seen_metrics.add("绩效得分")
 
     # 特别突出的信号优先
     for s in outstanding[:4]:
         label = _build_signal_label(s)
-        if label:
+        if label and _is_new_advantage_signal(s, seen_metrics):
             parts.append(label)
 
     # 其他正向信号
     for s in others[:3]:
         label = _build_signal_label(s)
-        if label and label not in parts:
+        if label and label not in parts and _is_new_advantage_signal(s, seen_metrics):
             parts.append(label)
 
     if not parts:
         return DEFAULT_ADVANTAGE_FALLBACK
 
     return "、".join(parts[:6]) + "。"
+
+
+def _is_new_advantage_signal(s: Chapter8Signal, seen_metrics: set) -> bool:
+    metric = str(s.metric_name or "")
+    if not metric:
+        return True
+    if metric in seen_metrics:
+        return False
+    seen_metrics.add(metric)
+    return True
 
 
 def _build_rule_weakness(chapter_data: Chapter8Data) -> str:
@@ -629,13 +681,14 @@ def _build_negative_label(s: Chapter8Signal) -> str:
 
 
 def _build_rule_strategies(chapter_data: Chapter8Data) -> List[str]:
-    """基于维度汇总生成六维度核心策略（规则版）。"""
+    """基于维度汇总生成核心策略（规则版）。"""
     ds = chapter_data.dimension_summary
     strategies = []
 
     for dim in DIMENSION_ORDER:
         s = _build_dim_strategy(dim, ds)
-        strategies.append(s)
+        if s:
+            strategies.append(s)
 
     return strategies
 
@@ -654,6 +707,8 @@ def _build_dim_strategy(dim: str, ds: DimensionSummary) -> str:
         return _receivable_strategy(ds.receivable)
     if dim == "打样":
         return _sampling_strategy(ds.sampling)
+    if dim == "风控":
+        return _risk_control_strategy(ds.risk_control)
     return f"{dim}：{DIMENSION_FALLBACKS.get(dim, '持续优化。')}"
 
 
@@ -714,23 +769,25 @@ def _customer_strategy(cd: CustomerDimension) -> str:
 def _receivable_strategy(rd: ReceivableDimension) -> str:
     parts = ["应收："]
     if rd.overdue_amount is not None:
-        parts.append(f"逾期{rd.overdue_amount}万元需加大清收")
+        parts.append(f"逾期{_fmt_wan(rd.overdue_amount)}万元需加大清收")
         if rd.impairment_amount is not None and rd.impairment_amount > 0:
-            parts.append(f"，减值{rd.impairment_amount}万需控制新增")
+            parts.append(f"，减值{_fmt_wan(rd.impairment_amount)}万元需控制新增")
     elif rd.impairment_amount is not None:
-        parts.append(f"控制减值损失，当前{rd.impairment_amount}万")
+        parts.append(f"控制减值损失，当前{_fmt_wan(rd.impairment_amount)}万元")
     else:
         parts.append(DIMENSION_FALLBACKS["应收"])
     if rd.finance_cost is not None:
-        parts.append(f"，资金费用{int(rd.finance_cost)}元需降低占用")
+        parts.append(f"，资金费用{_fmt_yuan(rd.finance_cost)}元需降低占用")
     return "".join(parts)
 
 
 def _sampling_strategy(sd: SamplingDimension) -> str:
     parts = ["打样："]
     if sd.sample_expense is not None:
-        parts.append(f"费用{int(sd.sample_expense)}元")
-        if sd.yoy_direction == "up":
+        parts.append(f"费用{_fmt_yuan(sd.sample_expense)}元")
+        if sd.yoy_direction == "new":
+            parts.append("同比新增，需评估转化效率")
+        elif sd.yoy_direction == "up":
             parts.append("同比增加，需评估转化效率")
         elif sd.yoy_direction == "down":
             parts.append("同比下降，保持效率")
@@ -741,6 +798,42 @@ def _sampling_strategy(sd: SamplingDimension) -> str:
     else:
         parts.append(DIMENSION_FALLBACKS["打样"])
     return "".join(parts)
+
+
+def _risk_control_strategy(rd: RiskControlDimension) -> str:
+    actions = []
+
+    if rd.overdue_amount is not None and rd.overdue_amount > 0:
+        actions.append(f"逾期{_fmt_wan(rd.overdue_amount)}万元客户按清收清单推进，超期客户启动法务催收")
+
+    if rd.impairment_amount is not None and rd.impairment_amount > 0:
+        actions.append(f"新增减值{_fmt_wan(rd.impairment_amount)}万元客户收紧授信，暂停新增赊销")
+
+    if rd.finance_cost is not None and rd.finance_cost > 0:
+        actions.append(f"资金费用{_fmt_yuan(rd.finance_cost)}元压降赊销占用，优先回款后发货")
+
+    if not actions and rd.risk_level == "high":
+        actions.append("高风险客户先复核授信额度，再安排新增订单")
+
+    if not actions:
+        return ""
+
+    if rd.overdue_amount is not None and rd.overdue_amount > 0:
+        actions.append("后续新增订单优先采用现款现货或授信复核")
+
+    return "风控：" + "；".join(actions)
+
+
+def _fmt_amount(value: float) -> str:
+    return f"{value:.3f}".rstrip("0").rstrip(".")
+
+
+def _fmt_wan(value: float) -> str:
+    return f"{Decimal(str(value)).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP):.1f}"
+
+
+def _fmt_yuan(value: float) -> str:
+    return f"{Decimal(str(value)).quantize(Decimal('1'), rounding=ROUND_HALF_UP):.0f}"
 
 
 # ── 行动上下文 ─────────────────────────────────────────────────────────

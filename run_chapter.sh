@@ -79,10 +79,11 @@ run_one() {
 }
 
 case "$CHAPTER" in
-  2|3|4|5|6|7|8)
+  1|2|3|4|5|6|7|8)
     run_one "$CHAPTER" "$@"
     ;;
   all)
+    run_one 1 "$@"
     run_one 2 "$@"
     run_one 3 "$@"
     run_one 4 "$@"
@@ -95,7 +96,7 @@ case "$CHAPTER" in
     usage
     ;;
   *)
-    echo "章节号只能是 2、3、4、5、6、7、8 或 all。" >&2
+    echo "章节号只能是 1、2、3、4、5、6、7、8 或 all。" >&2
     usage
     exit 1
     ;;

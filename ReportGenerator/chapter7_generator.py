@@ -1,8 +1,7 @@
 """第七章生成器 - 行销行为。
 
-第七章分析拜访量和时间分配。当前接口 MOUDLE 7 尚在开发中，
-本文件先定义内部数据契约、条件展示逻辑和模板填充，后续只需要
-把接口原始 JSON 转换到该契约即可继续复用渲染与报告生成逻辑。
+第七章分析拜访量和时间分配。主流程读取 MOUDLE=7 接口指标行，
+同时保留内部 visit/time_allocation 契约用于旧 fixture 和单测。
 """
 from __future__ import annotations
 
@@ -14,7 +13,7 @@ from Data import EMPTY_DATA_MESSAGE, ChapterDataError
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_CHAPTER7_ACTION_GUIDE = "日均拜访量不低于3次，月度达标60次。"
+DEFAULT_CHAPTER7_ACTION_GUIDE = ""
 
 
 def _fmt_int(value: Optional[float]) -> str:
@@ -26,7 +25,7 @@ def _fmt_int(value: Optional[float]) -> str:
 def _fmt_percent(value: Optional[float]) -> str:
     if value is None:
         return "—"
-    return f"{value:.1f}%"
+    return f"{value:.0f}%"
 
 
 def _to_float(value: Any) -> Optional[float]:
@@ -114,7 +113,7 @@ async def format_chapter7_data_with_ai(
 ) -> Tuple[str, Dict[str, Any]]:
     chapter_data = normalize_chapter7_data(raw_data, period=period)
     action_context = build_chapter7_action_context(chapter_data)
-    action_guide_text = DEFAULT_CHAPTER7_ACTION_GUIDE
+    action_guide_text = ""
 
     if action_writer is not None:
         action_guide_text = await action_writer.generate(
@@ -132,7 +131,7 @@ async def format_chapter7_data_with_ai(
 
     markdown = build_chapter7_markdown(chapter_data, action_guide_text=action_guide_text)
     stats = build_chapter7_stats(chapter_data, action_context=action_context)
-    stats["行动指南来源"] = "AI" if action_guide_text != DEFAULT_CHAPTER7_ACTION_GUIDE else "规则"
+    stats["行动指南来源"] = "AI" if action_guide_text else "规则"
     return markdown, stats
 
 
@@ -141,6 +140,14 @@ async def format_chapter7_data_with_ai(
 
 def normalize_chapter7_data(raw_data: Any, period: str = "") -> Chapter7Data:
     subject = _extract_subject(raw_data)
+    rows = subject.get("章节数据")
+    if isinstance(rows, list) and rows:
+        return _normalize_chapter7_from_metric_rows(subject, rows, period=period)
+
+    return _normalize_chapter7_from_internal_contract(subject, period=period)
+
+
+def _normalize_chapter7_from_internal_contract(subject: Dict[str, Any], period: str = "") -> Chapter7Data:
     metadata = _extract_metadata(subject, period=period)
     warnings: List[str] = []
 
@@ -154,8 +161,8 @@ def normalize_chapter7_data(raw_data: Any, period: str = "") -> Chapter7Data:
 
     alloc_data = subject.get("time_allocation") if isinstance(subject.get("time_allocation"), dict) else {}
     time_allocation = TimeAllocation(
-        project_ratio=_to_float(alloc_data.get("项目拜访占比")),
-        customer_ratio=_to_float(alloc_data.get("客户拜访占比")),
+        project_ratio=_normalize_percent_value(_to_float(alloc_data.get("项目拜访占比"))),
+        customer_ratio=_normalize_percent_value(_to_float(alloc_data.get("客户拜访占比"))),
     )
 
     return Chapter7Data(
@@ -163,6 +170,76 @@ def normalize_chapter7_data(raw_data: Any, period: str = "") -> Chapter7Data:
         total_visit=total_visit,
         project_visit=project_visit,
         time_allocation=time_allocation,
+        warnings=warnings,
+    )
+
+
+def _normalize_chapter7_from_metric_rows(
+    subject: Dict[str, Any],
+    rows: List[Any],
+    period: str = "",
+) -> Chapter7Data:
+    metadata = _extract_metadata(subject, period=period)
+    warnings: List[str] = []
+    metric_rows = [row for row in rows if isinstance(row, dict)]
+
+    total_row = _find_metric_row(
+        metric_rows,
+        candidates=("拜访总频次", "拜访总次数", "总拜访频次", "总拜访次数", "拜访总数", "总拜访量", "拜访量"),
+        include_groups=(("拜访", "总"), ("拜访量",)),
+        exclude=("项目", "客户", "占比", "时间"),
+        unit="次",
+    )
+    total_rate_row = _find_metric_row(
+        metric_rows,
+        candidates=("拜访总达成率", "总拜访达成率", "拜访达成率", "拜访量"),
+        include_groups=(("拜访", "达成"), ("拜访量",)),
+        exclude=("项目", "客户", "占比", "时间"),
+        unit="%",
+    )
+    project_row = _find_metric_row(
+        metric_rows,
+        candidates=("项目拜访频次", "项目拜访次数", "项目拜访量", "项目拜访"),
+        include_groups=(("项目", "拜访"),),
+        exclude=("占比", "时间"),
+        unit="次",
+    )
+    project_rate_row = _find_metric_row(
+        metric_rows,
+        candidates=("项目拜访达成率", "项目拜访"),
+        include_groups=(("项目", "拜访", "达成"),),
+        exclude=("占比", "时间"),
+        unit="%",
+    )
+    project_ratio_row = _find_metric_row(
+        metric_rows,
+        candidates=("项目拜访占比", "项目时间占比"),
+        include_groups=(("项目", "占比"),),
+        exclude=(),
+    )
+    customer_ratio_row = _find_metric_row(
+        metric_rows,
+        candidates=("客户拜访占比", "客户时间占比"),
+        include_groups=(("客户", "占比"),),
+        exclude=(),
+    )
+    if project_ratio_row is None or customer_ratio_row is None:
+        allocation_rows = [
+            row for row in metric_rows
+            if "时间分配" in _row_search_text(row) and _unit_of(row) == "%"
+        ]
+        if len(allocation_rows) >= 2:
+            customer_ratio_row = customer_ratio_row or allocation_rows[0]
+            project_ratio_row = project_ratio_row or allocation_rows[1]
+
+    return Chapter7Data(
+        metadata=metadata,
+        total_visit=_normalize_visit_metric_from_rows(total_row, total_rate_row, warnings, "拜访总频次"),
+        project_visit=_normalize_visit_metric_from_rows(project_row, project_rate_row, warnings, "项目拜访频次"),
+        time_allocation=TimeAllocation(
+            project_ratio=_extract_percent_metric_value(project_ratio_row),
+            customer_ratio=_extract_percent_metric_value(customer_ratio_row),
+        ),
         warnings=warnings,
     )
 
@@ -183,7 +260,7 @@ def _extract_metadata(subject: Dict[str, Any], period: str = "") -> Dict[str, An
         "区域经理姓名", "岗位名称", "客户编码", "客户名称", "章节名称",
     ]
     metadata = {key: subject.get(key, "") for key in keys}
-    if period and not metadata.get("月份"):
+    if period:
         metadata["月份"] = period
     return metadata
 
@@ -198,6 +275,114 @@ def _normalize_visit_metric(data: Dict[str, Any], warnings: List[str], label: st
         achievement_rate=_to_float(data.get("达成率")),
         deduction_score=_to_float(data.get("扣分值")),
     )
+
+
+def _normalize_visit_metric_from_rows(
+    actual_row: Optional[Dict[str, Any]],
+    rate_row: Optional[Dict[str, Any]],
+    warnings: List[str],
+    label: str,
+) -> VisitMetric:
+    actual_data = _metric_data(actual_row)
+    rate_data = _metric_data(rate_row)
+    if not actual_data:
+        warnings.append(f"第七章{label}数据未提供，已保留模板占位。")
+    if rate_row is not None and rate_row is not actual_row:
+        rate_value = _to_float(rate_data.get("实际值"))
+    else:
+        rate_value = _to_float(actual_data.get("达成率"))
+    return VisitMetric(
+        actual=_to_float(actual_data.get("实际值")),
+        target=_to_float(actual_data.get("目标值")),
+        achievement_rate=_normalize_percent_value(rate_value),
+        deduction_score=_to_float(actual_data.get("扣分值")),
+    )
+
+
+def _find_metric_row(
+    rows: List[Dict[str, Any]],
+    candidates: Tuple[str, ...],
+    include_groups: Tuple[Tuple[str, ...], ...],
+    exclude: Tuple[str, ...],
+    unit: Optional[str] = None,
+) -> Optional[Dict[str, Any]]:
+    matched = []
+    for row in rows:
+        if unit and _unit_of(row) not in ("", unit):
+            continue
+        text = _row_search_text(row)
+        if any(word in text for word in exclude):
+            continue
+        if any(candidate and candidate in text for candidate in candidates):
+            matched.append(row)
+    if matched:
+        return _prefer_informative_metric_row(matched)
+
+    matched = []
+    for row in rows:
+        if unit and _unit_of(row) not in ("", unit):
+            continue
+        text = _row_search_text(row)
+        if any(word in text for word in exclude):
+            continue
+        if any(all(word in text for word in group) for group in include_groups):
+            matched.append(row)
+    return _prefer_informative_metric_row(matched)
+
+
+def _prefer_informative_metric_row(rows: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+    if not rows:
+        return None
+    return max(
+        rows,
+        key=lambda row: (
+            _metric_abs_value(row) > 0,
+            _metric_abs_value(row),
+        ),
+    )
+
+
+def _metric_abs_value(row: Dict[str, Any]) -> float:
+    value = _to_float(_metric_data(row).get("实际值"))
+    return abs(value) if value is not None else 0.0
+
+
+def _row_search_text(row: Dict[str, Any]) -> str:
+    return " ".join(
+        str(row.get(key) or "")
+        for key in ("指标名称", "指标路径", "指标口径", "指标说明")
+    )
+
+
+def _metric_data(row: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    if not isinstance(row, dict):
+        return {}
+    metric = row.get("指标数据")
+    return metric if isinstance(metric, dict) else {}
+
+
+def _unit_of(row: Dict[str, Any]) -> str:
+    return str(_metric_data(row).get("单位") or "").strip()
+
+
+def _extract_metric_value(row: Optional[Dict[str, Any]]) -> Optional[float]:
+    metric = _metric_data(row)
+    for key in ("实际值", "占比", "比率", "达成率"):
+        value = _to_float(metric.get(key))
+        if value is not None:
+            return value
+    return None
+
+
+def _extract_percent_metric_value(row: Optional[Dict[str, Any]]) -> Optional[float]:
+    return _normalize_percent_value(_extract_metric_value(row))
+
+
+def _normalize_percent_value(value: Optional[float]) -> Optional[float]:
+    if value is None:
+        return None
+    normalized = value * 100 if abs(value) <= 10 else value
+    return round(normalized, 1)
 
 
 # ── Markdown 生成 ─────────────────────────────────────────────────────
@@ -221,23 +406,22 @@ def build_chapter7_markdown(
     ta = chapter_data.time_allocation
 
     lines = [
-        "## 七、行销行为",
+        "# 七、行销行为",
         "",
-        "### 拜访量",
+        "## 7.1 拜访量",
         "",
         _build_visit_text(tv, pv, m_label),
         "",
-        "### 时间分配",
+        "## 7.2 时间分配",
         "",
         _build_time_allocation_text(ta),
     ]
 
-    guide = action_guide_text or DEFAULT_CHAPTER7_ACTION_GUIDE
-    if guide:
+    if action_guide_text:
         lines.append("")
-        lines.append("### 行动指南：")
+        lines.append("## 7.3 行动指南")
         lines.append("")
-        lines.append(f"◇ {guide}")
+        lines.append(f"◇ {action_guide_text}")
 
     if chapter_data.warnings:
         lines.extend(["", "<!-- " + "；".join(chapter_data.warnings) + " -->"])
@@ -246,35 +430,21 @@ def build_chapter7_markdown(
 
 
 def _build_visit_line(m: VisitMetric, label: str, m_label: str) -> str:
-    """构建单条拜访指标文本，处理批注[31]的隐藏规则。"""
     if m.actual is None:
-        return f"{m_label}{label}数据暂未提供。"
+        return f"{m_label}{label}待补充"
 
     parts = [f"{m_label}{label} {_fmt_int(m.actual)}次"]
 
     if m.achievement_rate is not None:
         parts.append(f"，拜访达成率{_fmt_percent(m.achievement_rate)}")
 
-    # 批注[31]: 达成率超百则不展示扣分和差额
-    if m.achievement_rate is not None and m.achievement_rate >= 100:
-        return "".join(parts) + "。"
-
-    if m.deduction_score is not None:
-        score = m.deduction_score
-        parts.append(f"（扣绩效{_fmt_int(abs(score))}分）")
-
-    if m.actual is not None and m.target is not None:
-        gap = m.target - m.actual
-        if gap > 0:
-            parts.append(f"，还差{_fmt_int(gap)}次")
-
-    return "".join(parts) + "。"
+    return "".join(parts)
 
 
 def _build_visit_text(tv: VisitMetric, pv: VisitMetric, m_label: str) -> str:
     total_text = _build_visit_line(tv, "拜访总频次", m_label)
-    project_text = _build_visit_line(pv, "项目拜访频次", m_label)
-    return total_text + " " + project_text
+    project_text = _build_visit_line(pv, "项目拜访频次", "")
+    return total_text + "。" + project_text + "。"
 
 
 def _build_time_allocation_text(ta: TimeAllocation) -> str:
@@ -283,9 +453,9 @@ def _build_time_allocation_text(ta: TimeAllocation) -> str:
 
     parts = []
     if ta.project_ratio is not None:
-        parts.append(f"{_fmt_percent(ta.project_ratio * 100) if ta.project_ratio <= 1 else _fmt_percent(ta.project_ratio)}用于项目拜访")
+        parts.append(f"{_fmt_percent(ta.project_ratio)}用于项目拜访")
     if ta.customer_ratio is not None:
-        parts.append(f"{_fmt_percent(ta.customer_ratio * 100) if ta.customer_ratio <= 1 else _fmt_percent(ta.customer_ratio)}用于客户拜访")
+        parts.append(f"{_fmt_percent(ta.customer_ratio)}用于客户拜访")
 
     return "，".join(parts) + "。"
 

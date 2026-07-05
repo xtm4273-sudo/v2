@@ -74,10 +74,113 @@ class ReportAIWriterTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(bundle.manifest["repair_calls"], 1)
         self.assertIn("12万", bundle.chapter3_action.text)
 
+    async def test_unrepaired_unsupported_number_is_sanitized(self):
+        invalid = valid_payload(number="99")
+        invalid["chapter8"]["strategies"][0]["text"] = "产品维度围绕37.9%增长继续推进。"
+        model = FakeModel([invalid, invalid])
+
+        bundle = await ReportAIWriter(model, self.settings).generate(self.fact_pack)
+
+        self.assertEqual(model.calls, 2)
+        self.assertIn("相关数值", bundle.chapter8_strategies[0].text)
+        self.assertNotIn("37.9", bundle.chapter8_strategies[0].text)
+
+    async def test_unrepaired_invalid_evidence_id_is_sanitized(self):
+        invalid = valid_payload()
+        invalid["chapter8"]["advantage"]["evidence_ids"] = ["C8-369"]
+        model = FakeModel([invalid, invalid])
+
+        bundle = await ReportAIWriter(model, self.settings).generate(self.fact_pack)
+
+        self.assertEqual(model.calls, 2)
+        self.assertEqual(bundle.chapter8_advantage.evidence_ids, ["C8-001"])
+
+    async def test_month_label_number_does_not_require_metric_evidence(self):
+        payload = valid_payload()
+        payload["chapter7"]["action"]["text"] = "5月继续补齐拜访频次缺口。"
+        model = FakeModel([payload])
+        bundle = await ReportAIWriter(model, self.settings).generate(self.fact_pack)
+        self.assertEqual(model.calls, 1)
+        self.assertIn("5月", bundle.chapter7_action.text)
+
+    async def test_structural_chapter_number_does_not_require_metric_evidence(self):
+        payload = valid_payload()
+        payload["chapter8"]["strategies"][0]["text"] = "产品维度按第8章总结继续优化结构。"
+        model = FakeModel([payload])
+        bundle = await ReportAIWriter(model, self.settings).generate(self.fact_pack)
+        self.assertEqual(model.calls, 1)
+        self.assertIn("第8章", bundle.chapter8_strategies[0].text)
+
+    async def test_display_rounded_number_can_bind_to_decimal_evidence(self):
+        fact_pack = build_fact_pack({
+            "chapter3": {"销量": "12万"},
+            "chapter4": {"数据状态": "待补充"},
+            "chapter5": {"风险": "逾期"},
+            "chapter7": {"拜访总达成率": 173.3},
+            "chapter8": {"总结事实": "销量稳健，应收需关注"},
+        })
+        payload = valid_payload()
+        payload["chapter7"]["action"] = {
+            "text": "围绕拜访达成率173%沉淀有效动作。",
+            "evidence_ids": ["C7-001"],
+        }
+        model = FakeModel([payload])
+        bundle = await ReportAIWriter(model, self.settings).generate(fact_pack)
+        self.assertEqual(model.calls, 1)
+        self.assertIn("173%", bundle.chapter7_action.text)
+
+    async def test_chapter8_concrete_zero_value_cannot_be_called_missing(self):
+        fact_pack = build_fact_pack({
+            "chapter3": {"销量": "12万"},
+            "chapter4": {"数据状态": "待补充"},
+            "chapter5": {"风险": "逾期"},
+            "chapter7": {"风险": "拜访不足"},
+            "chapter8": {"dimension_summary": {"应收": {"overdue_amount": 0.0}}},
+        })
+        invalid = valid_payload()
+        invalid["chapter8"]["weakness"] = {
+            "text": "逾期应收数据待补充。",
+            "evidence_ids": ["C8-001"],
+        }
+        repaired = valid_payload()
+        repaired["chapter8"]["weakness"] = {
+            "text": "逾期应收0万元，继续按清收纪律跟踪。",
+            "evidence_ids": ["C8-001"],
+        }
+        model = FakeModel([invalid, repaired])
+
+        bundle = await ReportAIWriter(model, self.settings).generate(fact_pack)
+
+        self.assertEqual(model.calls, 2)
+        self.assertIn("逾期应收0万元", bundle.chapter8_weakness.text)
+        self.assertNotIn("待补充", bundle.chapter8_weakness.text)
+
+    async def test_unrepaired_false_missing_claim_is_sanitized(self):
+        fact_pack = build_fact_pack({
+            "chapter3": {"销量": "12万"},
+            "chapter4": {"数据状态": "待补充"},
+            "chapter5": {"风险": "逾期"},
+            "chapter7": {"风险": "拜访不足"},
+            "chapter8": {"dimension_summary": {"应收": {"overdue_amount": 0.0}}},
+        })
+        invalid = valid_payload()
+        invalid["chapter8"]["weakness"] = {
+            "text": "逾期应收数据待补充。",
+            "evidence_ids": ["C8-001"],
+        }
+        model = FakeModel([invalid, invalid])
+
+        bundle = await ReportAIWriter(model, self.settings).generate(fact_pack)
+
+        self.assertEqual(model.calls, 2)
+        self.assertIn("逾期应收按现有数据纳入跟踪", bundle.chapter8_weakness.text)
+        self.assertNotIn("待补充", bundle.chapter8_weakness.text)
+
 
 class AISettingsTest(unittest.TestCase):
     def test_loads_key_from_env_file(self):
         old = os.environ.pop("AI_API_KEY", None)
+        old_model = os.environ.pop("AI_MODEL", None)
         try:
             with tempfile.TemporaryDirectory() as directory:
                 Path(directory, ".env").write_text("AI_API_KEY=local-secret\nAI_MODEL=test-model\n", encoding="utf-8")
@@ -89,4 +192,5 @@ class AISettingsTest(unittest.TestCase):
             os.environ.pop("AI_MODEL", None)
             if old is not None:
                 os.environ["AI_API_KEY"] = old
-
+            if old_model is not None:
+                os.environ["AI_MODEL"] = old_model

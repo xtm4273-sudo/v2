@@ -62,6 +62,8 @@ class TestChapter8DataNormalization:
         assert ds.receivable.finance_cost == 3200.0
         assert ds.sampling.sample_expense == 4500.0
         assert ds.sampling.yoy_direction == "up"
+        assert ds.risk_control.overdue_amount == 28.0
+        assert ds.risk_control.risk_level == "high"
 
     def test_normalize_empty_data(self):
         from ReportGenerator.chapter8_generator import normalize_chapter8_data
@@ -90,18 +92,19 @@ class TestChapter8Markdown:
         data = normalize_chapter8_data(fixture, period="202606")
         md = build_chapter8_markdown(data)
 
-        assert "## 八、总结" in md
-        assert "优势：" in md
-        assert "短板：" in md
-        assert "核心策略：" in md
+        assert "# 八、总结" in md
+        assert "## 8.1 核心优势" in md
+        assert "## 8.2 关键短板" in md
+        assert "## 8.3 核心策略" in md
 
-        # 6 个维度策略必须出现
+        # 经营维度和风控策略必须出现
         assert "产品：" in md
         assert "项目：" in md
         assert "渠道：" in md
         assert "客户：" in md
         assert "应收：" in md
         assert "打样：" in md
+        assert "风控：" in md
 
         # 最后一个策略应以句号结尾
         assert md.rstrip().endswith("。")
@@ -112,7 +115,7 @@ class TestChapter8Markdown:
         data = normalize_chapter8_data({"月份": "202606"})
         md = build_chapter8_markdown(data)
 
-        assert "## 八、总结" in md
+        assert "# 八、总结" in md
         assert "数据不足" in md
 
     def test_format_chapter8_data(self):
@@ -121,7 +124,7 @@ class TestChapter8Markdown:
         fixture = _load_fixture()
         md, stats = format_chapter8_data(fixture, period="202606")
 
-        assert "## 八、总结" in md
+        assert "# 八、总结" in md
         assert stats["正向信号数"] == 6
         assert stats["负向信号数"] == 7
         assert stats["绩效得分"] == 108.0
@@ -164,6 +167,40 @@ class TestChapter8AdvantageRule:
 
         # is_outstanding 的应该排在前面
         assert text.index("明星产品") < text.index("普通产品")
+
+    def test_advantage_deduplicates_same_metric(self):
+        from ReportGenerator.chapter8_generator import Chapter8Data, Chapter8Signal, _build_rule_advantage
+
+        data = Chapter8Data(
+            positive_signals=[
+                Chapter8Signal(
+                    dimension="绩效",
+                    metric_name="分摊前利润",
+                    value_display="44.987万元",
+                    change_display="省区第6",
+                    is_outstanding=True,
+                ),
+                Chapter8Signal(
+                    dimension="利润",
+                    metric_name="分摊前利润",
+                    value_display="44.987万元",
+                    is_outstanding=True,
+                ),
+                Chapter8Signal(
+                    dimension="行销",
+                    metric_name="拜访总频次",
+                    value_display="104次",
+                    change_display="达成173%",
+                    is_outstanding=False,
+                ),
+            ],
+        )
+
+        text = _build_rule_advantage(data)
+
+        assert text.count("分摊前利润") == 1
+        assert "分摊前利润44.987万元（省区第6）" in text
+        assert "拜访总频次104次（达成173%）" in text
 
 
 class TestChapter8WeaknessRule:
@@ -212,13 +249,14 @@ class TestChapter8StrategiesRule:
         data = normalize_chapter8_data(fixture, period="202606")
         strategies = _build_rule_strategies(data)
 
-        assert len(strategies) == 6
+        assert len(strategies) == 7
         assert any("产品：" in s for s in strategies)
         assert any("项目：" in s for s in strategies)
         assert any("渠道：" in s for s in strategies)
         assert any("客户：" in s for s in strategies)
         assert any("应收：" in s for s in strategies)
         assert any("打样：" in s for s in strategies)
+        assert any("风控：逾期" in s and "法务催收" in s for s in strategies)
 
     def test_product_strategy_growing_and_declining(self):
         from ReportGenerator.chapter8_generator import normalize_chapter8_data
@@ -272,10 +310,10 @@ class TestChapter8StrategiesRule:
         from ReportGenerator.chapter8_generator import _build_dim_strategy
 
         ds = DimensionSummary(
-            sampling=SamplingDimension(sample_expense=4500, yoy_direction="up")
+            sampling=SamplingDimension(sample_expense=4398.5, yoy_direction="up")
         )
         text = _build_dim_strategy("打样", ds)
-        assert "4500元" in text
+        assert "4399元" in text
         assert "增加" in text or "转化" in text
 
     def test_sampling_strategy_down(self):
@@ -297,6 +335,42 @@ class TestChapter8StrategiesRule:
 
         for i, dim in enumerate(DIMENSION_ORDER):
             assert dim + "：" in strategies[i]
+
+    def test_risk_control_strategy_hidden_without_overdue(self):
+        from ReportGenerator.chapter8_generator import Chapter8Data, DimensionSummary, _build_rule_strategies
+
+        data = Chapter8Data(dimension_summary=DimensionSummary())
+        strategies = _build_rule_strategies(data)
+
+        assert not any("风控：" in s for s in strategies)
+
+    def test_risk_control_strategy_uses_specific_data(self):
+        from ReportGenerator.chapter8_generator import (
+            Chapter8Data,
+            DimensionSummary,
+            RiskControlDimension,
+            _build_rule_strategies,
+        )
+
+        data = Chapter8Data(
+            dimension_summary=DimensionSummary(
+                risk_control=RiskControlDimension(
+                    overdue_amount=47.049,
+                    impairment_amount=12.5,
+                    finance_cost=3100,
+                    risk_level="high",
+                )
+            )
+        )
+
+        strategies = _build_rule_strategies(data)
+        text = next(s for s in strategies if s.startswith("风控："))
+
+        assert "逾期47.0万元" in text
+        assert "新增减值12.5万元" in text
+        assert "资金费用3100元" in text
+        assert "现款现货" in text
+        assert "现款现货 + 超期客户法律催收" not in text
 
 
 class TestChapter8AIWriter:
@@ -401,6 +475,7 @@ class TestChapter8DataDict:
         assert len(d["negative_signals"]) == 7
         assert len(d["dimension_summary"]["产品"]["top_growing"]) == 3
         assert d["dimension_summary"]["应收"]["overdue_amount"] == 28.0
+        assert d["dimension_summary"]["风控"]["risk_level"] == "high"
 
 
 class TestChapter8GeneratorClass:
@@ -410,8 +485,8 @@ class TestChapter8GeneratorClass:
         fixture = _load_fixture()
         gen = Chapter8Generator(data=fixture, period="202606")
         md = gen.run()
-        assert "## 八、总结" in md
-        assert "核心策略：" in md
+        assert "# 八、总结" in md
+        assert "## 8.3 核心策略" in md
 
     @pytest.mark.asyncio
     async def test_run_async_without_ai(self):
@@ -420,8 +495,8 @@ class TestChapter8GeneratorClass:
         fixture = _load_fixture()
         gen = Chapter8Generator(data=fixture, period="202606")
         md = await gen.run_async()
-        assert "## 八、总结" in md
-        assert "核心策略：" in md
+        assert "# 八、总结" in md
+        assert "## 8.3 核心策略" in md
 
 
 class TestChapter8DisplayRules:
@@ -436,17 +511,14 @@ class TestChapter8DisplayRules:
         md = build_chapter8_markdown(data)
 
         lines = md.strip().split("\n")
-        # 第1行：## 八、总结
-        assert lines[0] == "## 八、总结"
-        # 第3行：优势：
-        assert lines[2].startswith("优势：")
-        # 第5行：短板：
-        assert lines[4].startswith("短板：")
-        # 第7行：核心策略：
-        assert lines[6] == "核心策略："
-        # 后续6行：六维度策略
-        strategy_lines = [l for l in lines[7:] if l.strip() and not l.strip().startswith("<!--")]
-        assert len(strategy_lines) == 6
+        # 第1行：# 八、总结
+        assert lines[0] == "# 八、总结"
+        assert lines[2] == "## 8.1 核心优势"
+        assert lines[6] == "## 8.2 关键短板"
+        assert lines[10] == "## 8.3 核心策略"
+        # 后续7行：六维度策略 + 风控
+        strategy_lines = [l for l in lines[11:] if l.strip() and not l.strip().startswith("<!--")]
+        assert len(strategy_lines) == 7
 
     def test_no_dangling_punctuation(self):
         """验证没有多余标点。"""

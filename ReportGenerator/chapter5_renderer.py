@@ -11,7 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from html import escape
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 import re
 
 from reportlab.graphics.shapes import Drawing, Line, Rect, String
@@ -222,29 +222,24 @@ strong {
   font-size: 14px;
   color: #333;
 }
-.receivable-chart {
-  position: relative;
-  width: 100%;
-  height: 455px;
-  margin: 18px 0 8px;
-}
-.chart-lines {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
+.receivable-chart { width: 1088px; margin: 8px 0 6px; }
+.receivable-diagram { display: block; width: 1088px; height: 430px; }
 .chart-line {
   stroke: #b8c1ca;
   stroke-width: 2;
   fill: none;
 }
+.chart-node-svg rect { fill: #c8f1b8; stroke: #c8f1b8; }
+.chart-node-svg.root rect { fill: #75dc4f; stroke: #75dc4f; }
+.chart-node-svg text { fill: #1c2f1a; font-weight: 800; }
+.chart-node-svg.overdue text { fill: #d64242; }
+.chart-note-svg { fill: #111; font-size: 13px; }
 .chart-node {
   position: absolute;
-  min-width: 118px;
-  min-height: 52px;
-  padding: 9px 14px;
+  width: 118px;
+  height: 45px;
+  padding: 0 8px;
+  box-sizing: border-box;
   border-radius: 4px;
   background: #c8f1b8;
   color: #1c2f1a;
@@ -258,8 +253,8 @@ strong {
   white-space: pre-line;
 }
 .chart-node.root {
-  min-width: 145px;
-  min-height: 82px;
+  width: 145px;
+  height: 70px;
   background: #75dc4f;
   font-size: 16px;
 }
@@ -406,62 +401,88 @@ def _fixed_receivable_chart(root: TreeNode) -> str:
         "暴雷直销应收",
         "非暴雷直销应收",
     )}
-    overdue_nodes = [node.text for node in nodes if "逾期" in node.text]
+    overdue_labels = _receivable_overdue_labels(root)
     if not labels["应收款项"] or not labels["应收账款"]:
         return ""
 
-    positions = {
-        "root": (45, 178, labels["应收款项"], "root"),
-        "receivable": (300, 96, labels["应收账款"], ""),
-        "note": (300, 208, labels["应收票据"], ""),
-        "deposit": (300, 300, labels["保证金"], ""),
-        "supply": (300, 390, labels["供应链票证"], ""),
-        "dealer": (478, 42, labels["经销"], ""),
-        "dealer_overdue": (632, 42, _pick_overdue(overdue_nodes, 0), "overdue"),
-        "direct": (478, 178, labels["直销"], ""),
-        "storm": (632, 142, labels["暴雷直销应收"], ""),
-        "storm_overdue": (795, 142, _pick_overdue(overdue_nodes, 1), "overdue"),
-        "normal": (632, 254, labels["非暴雷直销应收"], ""),
-        "normal_overdue": (795, 254, _pick_overdue(overdue_nodes, 2), "overdue"),
-    }
-    lines = [
-        (190, 219, 250, 219),
-        (250, 118, 250, 416),
-        (250, 118, 300, 118),
-        (250, 230, 300, 230),
-        (250, 322, 300, 322),
-        (250, 412, 300, 412),
-        (418, 118, 455, 118),
-        (455, 64, 455, 200),
-        (455, 64, 478, 64),
-        (596, 64, 632, 64),
-        (455, 200, 478, 200),
-        (596, 200, 610, 200),
-        (610, 164, 610, 276),
-        (610, 164, 632, 164),
-        (750, 164, 795, 164),
-        (610, 276, 632, 276),
-        (750, 276, 795, 276),
-    ]
+    positions, lines = _receivable_chart_geometry(labels, overdue_labels)
     svg_lines = "".join(
         f'<path class="chart-line" d="M{x1},{y1} L{x2},{y2}" />'
         for x1, y1, x2, y2 in lines
     )
-    node_html = []
-    for left, top, text, class_name in positions.values():
+    svg_nodes = []
+    for left, top, width, height, text, class_name in positions.values():
         if not text:
             continue
-        node_html.append(
-            f'<div class="chart-node {class_name}" style="left:{left}px;top:{top}px">'
-            f"{_inline_html(_chart_label(text))}</div>"
+        label_lines = _chart_label(text).split("\n")
+        font_size = 19 if class_name == "root" else 17
+        line_height = font_size * 1.18
+        first_y = top + height / 2 - (len(label_lines) - 1) * line_height / 2 + font_size * 0.34
+        tspans = "".join(
+            f'<tspan x="{left + width / 2}" y="{first_y + index * line_height}">{escape(label)}</tspan>'
+            for index, label in enumerate(label_lines)
+        )
+        svg_nodes.append(
+            f'<g class="chart-node-svg {class_name}">'
+            f'<rect x="{left}" y="{top}" width="{width}" height="{height}" rx="5" ry="5" />'
+            f'<text text-anchor="middle" font-size="{font_size}">{tspans}</text></g>'
         )
     return (
         '<div class="receivable-chart">'
-        f'<svg class="chart-lines" viewBox="0 0 1088 455" preserveAspectRatio="none">{svg_lines}</svg>'
-        + "".join(node_html)
-        + '<div class="chart-note">备注：逾期金额含诉讼，保证金不含保函</div>'
+        f'<svg class="receivable-diagram" viewBox="0 0 1088 430" preserveAspectRatio="xMidYMid meet">'
+        f'{svg_lines}{"".join(svg_nodes)}'
+        '<text class="chart-note-svg" x="650" y="418">备注：逾期金额含诉讼，保证金不含保函</text>'
+        '</svg>'
         + "</div>"
     )
+
+
+def _receivable_chart_geometry(labels: Dict[str, str], overdue_labels: Dict[str, str]):
+    """返回5.1共享布局；节点尺寸与连线锚点使用同一坐标系。"""
+    positions = {
+        "root": (20, 176, 170, 78, labels["应收款项"], "root"),
+        "receivable": (245, 74, 145, 58, labels["应收账款"], ""),
+        "note": (245, 164, 145, 58, labels["应收票据"], ""),
+        "deposit": (245, 254, 145, 58, labels["保证金"], ""),
+        "supply": (245, 344, 145, 58, labels["供应链票证"], ""),
+        "dealer": (450, 30, 135, 58, labels["经销"], ""),
+        "dealer_overdue": (615, 30, 150, 58, overdue_labels.get("dealer", ""), "overdue"),
+        "direct": (450, 164, 135, 58, labels["直销"], ""),
+        "storm": (615, 134, 150, 58, labels["暴雷直销应收"], ""),
+        "storm_overdue": (805, 134, 130, 58, overdue_labels.get("storm", ""), "overdue"),
+        "normal": (615, 264, 150, 58, labels["非暴雷直销应收"], ""),
+        "normal_overdue": (805, 264, 130, 58, overdue_labels.get("normal", ""), "overdue"),
+    }
+
+    def left(key):
+        return positions[key][0]
+
+    def right(key):
+        return positions[key][0] + positions[key][2]
+
+    def center_y(key):
+        return positions[key][1] + positions[key][3] / 2
+
+    primary_trunk = 220
+    account_trunk = 420
+    direct_trunk = 600
+    lines = [
+        (right("root"), center_y("root"), primary_trunk, center_y("root")),
+        (primary_trunk, center_y("receivable"), primary_trunk, center_y("supply")),
+        *[(primary_trunk, center_y(key), left(key), center_y(key)) for key in ("receivable", "note", "deposit", "supply")],
+        (right("receivable"), center_y("receivable"), account_trunk, center_y("receivable")),
+        (account_trunk, center_y("dealer"), account_trunk, center_y("direct")),
+        (account_trunk, center_y("dealer"), left("dealer"), center_y("dealer")),
+        (account_trunk, center_y("direct"), left("direct"), center_y("direct")),
+        (right("dealer"), center_y("dealer"), left("dealer_overdue"), center_y("dealer_overdue")),
+        (right("direct"), center_y("direct"), direct_trunk, center_y("direct")),
+        (direct_trunk, center_y("storm"), direct_trunk, center_y("normal")),
+        (direct_trunk, center_y("storm"), left("storm"), center_y("storm")),
+        (direct_trunk, center_y("normal"), left("normal"), center_y("normal")),
+        (right("storm"), center_y("storm"), left("storm_overdue"), center_y("storm_overdue")),
+        (right("normal"), center_y("normal"), left("normal_overdue"), center_y("normal_overdue")),
+    ]
+    return positions, lines
 
 
 def _flatten_tree(root: TreeNode) -> List[TreeNode]:
@@ -473,15 +494,36 @@ def _flatten_tree(root: TreeNode) -> List[TreeNode]:
 
 def _node_text(nodes: List[TreeNode], keyword: str) -> str:
     for node in nodes:
-        if keyword in node.text:
+        if _node_label(node.text) == keyword:
             return node.text
     return ""
 
 
-def _pick_overdue(overdue_nodes: List[str], index: int) -> str:
-    if index < len(overdue_nodes):
-        return overdue_nodes[index]
-    return ""
+def _receivable_overdue_labels(root: TreeNode) -> Dict[str, str]:
+    return {
+        "dealer": _node_text_by_path(root, ("应收款项", "应收账款", "经销", "逾期（含诉讼）")),
+        "storm": _node_text_by_path(root, ("应收款项", "应收账款", "直销", "暴雷直销应收", "逾期")),
+        "normal": _node_text_by_path(root, ("应收款项", "应收账款", "直销", "非暴雷直销应收", "逾期")),
+    }
+
+
+def _node_text_by_path(root: TreeNode, path: Tuple[str, ...]) -> str:
+    if not path or _node_label(root.text) != path[0]:
+        return ""
+    node = root
+    for label in path[1:]:
+        next_node = next((child for child in node.children if _node_label(child.text) == label), None)
+        if next_node is None:
+            return ""
+        node = next_node
+    return node.text
+
+
+def _node_label(text: str) -> str:
+    parts = text.rsplit(" ", 1)
+    if len(parts) == 2 and re.search(r"\d", parts[1]):
+        return parts[0]
+    return text
 
 
 def _chart_label(text: str) -> str:
@@ -699,13 +741,14 @@ def _build_pdf_receivable_chart(root: TreeNode, font: str, available_width: Opti
         "暴雷直销应收",
         "非暴雷直销应收",
     )}
-    overdue_nodes = [node.text for node in nodes if "逾期" in node.text]
+    overdue_labels = _receivable_overdue_labels(root)
+    positions, lines = _receivable_chart_geometry(labels, overdue_labels)
 
     page_width = available_width if available_width is not None else PAGE_SIZE[0] - 2 * PDF_MARGIN
     width = page_width * 0.96
-    height = 94 * mm
+    height = 89 * mm
     scale_x = width / 1088
-    scale_y = height / 455
+    scale_y = height / 430
 
     drawing = Drawing(width, height)
 
@@ -718,11 +761,9 @@ def _build_pdf_receivable_chart(root: TreeNode, font: str, available_width: Opti
     def add_line(x1, y1, x2, y2):
         drawing.add(Line(sx(x1), sy(y1), sx(x2), sy(y2), strokeColor=colors.HexColor("#b8c1ca"), strokeWidth=1.2))
 
-    def add_node(left, top, text, class_name=""):
+    def add_node(left, top, node_width, node_height, text, class_name=""):
         if not text:
             return
-        node_width = 132 if class_name == "root" else 106
-        node_height = 70 if class_name == "root" else 45
         x = sx(left)
         y = sy(top + node_height)
         fill = colors.HexColor("#75dc4f") if class_name == "root" else colors.HexColor("#c8f1b8")
@@ -755,47 +796,16 @@ def _build_pdf_receivable_chart(root: TreeNode, font: str, available_width: Opti
                 )
             )
 
-    for x1, y1, x2, y2 in [
-        (190, 219, 250, 219),
-        (250, 118, 250, 416),
-        (250, 118, 300, 118),
-        (250, 230, 300, 230),
-        (250, 322, 300, 322),
-        (250, 412, 300, 412),
-        (418, 118, 455, 118),
-        (455, 64, 455, 200),
-        (455, 64, 478, 64),
-        (596, 64, 632, 64),
-        (455, 200, 478, 200),
-        (596, 200, 610, 200),
-        (610, 164, 610, 276),
-        (610, 164, 632, 164),
-        (750, 164, 795, 164),
-        (610, 276, 632, 276),
-        (750, 276, 795, 276),
-    ]:
+    for x1, y1, x2, y2 in lines:
         add_line(x1, y1, x2, y2)
 
-    for left, top, text, class_name in [
-        (45, 178, labels["应收款项"], "root"),
-        (300, 96, labels["应收账款"], ""),
-        (300, 208, labels["应收票据"], ""),
-        (300, 300, labels["保证金"], ""),
-        (300, 390, labels["供应链票证"], ""),
-        (478, 42, labels["经销"], ""),
-        (632, 42, _pick_overdue(overdue_nodes, 0), "overdue"),
-        (478, 178, labels["直销"], ""),
-        (632, 142, labels["暴雷直销应收"], ""),
-        (795, 142, _pick_overdue(overdue_nodes, 1), "overdue"),
-        (632, 254, labels["非暴雷直销应收"], ""),
-        (795, 254, _pick_overdue(overdue_nodes, 2), "overdue"),
-    ]:
-        add_node(left, top, text, class_name)
+    for left, top, node_width, node_height, text, class_name in positions.values():
+        add_node(left, top, node_width, node_height, text, class_name)
 
     drawing.add(
         String(
             sx(650),
-            sy(430),
+            sy(414),
             "备注：逾期金额含诉讼，保证金不含保函",
             fontName=font,
             fontSize=8.2,

@@ -6,13 +6,15 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from Data import EMPTY_DATA_MESSAGE, ChapterDataError
+from ReportGenerator.report_period import month_number
 
 
 PENDING_HTML = '<span class="pending-value">待补充</span>'
+SALES_SCOPE_NOTE = "说明：此处销量不含双算"
 DATE_DIMENSIONS: Tuple[Tuple[str, str], ...] = (
     ("month", "月"),
     ("quarter", "季"),
@@ -82,21 +84,23 @@ class Chapter2Data:
 def normalize_chapter2_data(raw_data: Any, period: str = "") -> Chapter2Data:
     """将完整接口响应或 data.章节数据数组清洗为可追溯结构。"""
     subject, rows = _extract_subject_and_rows(raw_data)
-    if not rows:
-        raise ChapterDataError(f"第二章数据清洗失败: 原始章节数据为空。{EMPTY_DATA_MESSAGE}")
+    empty_fallback = not rows
 
     metadata = {
         "chapter": "chapter2",
         "source_module": 2,
         "title": subject.get("章节名称") or "二、利润概况",
-        "month": subject.get("月份") or period,
+        "month": period or subject.get("月份"),
         "manager_id": subject.get("区域经理工号", ""),
         "manager_name": subject.get("区域经理姓名", ""),
         "department_name": subject.get("部门名称", ""),
         "source_row_count": len(rows),
+        "data_status": "empty_fallback" if empty_fallback else "normal",
     }
     cells: Dict[str, CellEvidence] = {}
     warnings: List[str] = []
+    if empty_fallback:
+        warnings.append("第二章接口章节数据为空，报告按0展示。")
 
     for spec in METRIC_SPECS:
         for dimension_key, date_type in DATE_DIMENSIONS:
@@ -109,6 +113,10 @@ def normalize_chapter2_data(raw_data: Any, period: str = "") -> Chapter2Data:
                 metric_path=spec.path,
                 date_type=date_type,
             )
+            if empty_fallback:
+                _apply_empty_fallback(evidence, spec)
+                cells[field_id] = evidence
+                continue
             matches = [
                 (index, row)
                 for index, row in enumerate(rows)
@@ -124,7 +132,7 @@ def normalize_chapter2_data(raw_data: Any, period: str = "") -> Chapter2Data:
 
 def build_chapter2_markdown(chapter_data: Chapter2Data) -> str:
     """按客户 Word 第二章的标题和 11×4 利润表结构生成 Markdown。"""
-    month = _month_number(chapter_data.metadata.get("month", ""))
+    month = _reporting_month_number(chapter_data.metadata.get("month", ""))
     month_label = f"{month}月" if month else "当月"
     ytd_label = f"1-{month}月累计" if month else "累计"
     lines = [
@@ -139,6 +147,7 @@ def build_chapter2_markdown(chapter_data: Chapter2Data) -> str:
             for dimension_key, _date_type in DATE_DIMENSIONS
         ]
         lines.append(f"| {spec.name} | {' | '.join(values)} |")
+    lines.extend(["", SALES_SCOPE_NOTE])
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -159,11 +168,13 @@ def build_chapter2_stats(chapter_data: Chapter2Data) -> Dict[str, Any]:
     statuses = [cell.status for cell in chapter_data.cells.values()]
     return {
         "正常": sum(status == "正常" for status in statuses),
+        "空数组兜底": sum(status == "空数组兜底" for status in statuses),
         "缺失": sum(status == "缺失" for status in statuses),
         "重复": sum(status.startswith("重复") for status in statuses),
         "冲突": sum("冲突" in status for status in statuses),
         "单位冲突": sum(status == "单位冲突" for status in statuses),
         "计算字段": sum(cell.calculation != "无；直接取值" for cell in chapter_data.cells.values()),
+        "数据状态": chapter_data.metadata.get("data_status", "normal"),
         "cleaned_data": chapter_data.to_dict(),
         "warnings": chapter_data.warnings,
     }
@@ -259,12 +270,23 @@ def _extract_subject_and_rows(raw_data: Any) -> Tuple[Dict[str, Any], List[Dict[
 
 def _is_exact_match(row: Dict[str, Any], spec: MetricSpec, date_type: str) -> bool:
     metric_data = row.get("指标数据")
+    path = _normalize_metric_path(str(row.get("指标路径") or ""))
+    name = str(row.get("指标名称") or "").strip()
     return (
-        row.get("指标名称") == spec.name
-        and row.get("指标路径") == spec.path
+        (name == spec.name or (not name and _path_leaf(path) == spec.name))
+        and path == spec.path
         and isinstance(metric_data, dict)
         and metric_data.get("日期类型") == date_type
     )
+
+
+def _normalize_metric_path(path: str) -> str:
+    return path.strip().rstrip("-").strip()
+
+
+def _path_leaf(path: str) -> str:
+    normalized = _normalize_metric_path(path)
+    return normalized.split("-")[-1].strip() if normalized else ""
 
 
 def _resolve_cell(
@@ -303,7 +325,7 @@ def _resolve_cell(
         return
     if spec.transform == "percent_x100":
         evidence.calculation = "指标数据.实际值 × 100"
-        evidence.report_value = f"{_format_percent_x100(numeric_value, raw_value)}%"
+        evidence.report_value = f"{_format_percent_x100(numeric_value)}%"
         evidence.status = "重复（值一致）" if len(matches) > 1 else "正常"
         if raw_unit != spec.expected_unit:
             warnings.append(
@@ -317,10 +339,18 @@ def _resolve_cell(
         )
         return
 
-    evidence.report_value = f"{raw_value}{raw_unit}"
+    evidence.report_value = f"{_format_one_decimal(numeric_value)}{raw_unit}"
     evidence.status = "重复（值一致）" if len(matches) > 1 else "正常"
     if len(matches) > 1:
         warnings.append(f"{evidence.field_id}: 命中 {len(matches)} 条重复记录，数值和单位一致。")
+
+
+def _apply_empty_fallback(evidence: CellEvidence, spec: MetricSpec) -> None:
+    evidence.raw_value = "0"
+    evidence.raw_unit = spec.expected_unit
+    evidence.report_value = "0.0%" if spec.transform == "percent_x100" else f"0.0{spec.expected_unit}"
+    evidence.calculation = "接口章节数据为空，按0展示"
+    evidence.status = "空数组兜底"
 
 
 def _candidate_summary(index: int, row: Dict[str, Any]) -> Dict[str, Any]:
@@ -333,25 +363,25 @@ def _candidate_summary(index: int, row: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def _format_percent_x100(value: Decimal, raw_value: str) -> str:
-    """比例乘 100 后保留对应精度：0.190 -> 19.0，不丢失有意义的尾零。"""
-    decimal_places = max(0, -Decimal(raw_value).as_tuple().exponent)
-    result_places = max(0, decimal_places - 2)
-    quantizer = Decimal(1).scaleb(-result_places)
-    return format(value * Decimal("100"), f".{result_places}f") if result_places else format((value * Decimal("100")).quantize(quantizer), "f")
+def _format_one_decimal(value: Decimal) -> str:
+    return format(value.quantize(Decimal("0.1"), rounding=ROUND_HALF_UP), ".1f")
+
+
+def _format_percent_x100(value: Decimal) -> str:
+    return _format_one_decimal(value * Decimal("100"))
 
 
 def _month_number(period: Any) -> Optional[int]:
-    text = str(period or "")
-    if len(text) >= 6 and text[-2:].isdigit():
-        month = int(text[-2:])
-        if 1 <= month <= 12:
-            return month
-    return None
+    return month_number(period)
+
+
+def _reporting_month_number(period: Any) -> Optional[int]:
+    """正文月份直接跟随 report_period，不在章节内自行减月。"""
+    return _month_number(period)
 
 
 def _dimension_report_label(date_type: str, period: Any) -> str:
-    month = _month_number(period)
+    month = _reporting_month_number(period)
     if date_type == "月":
         return f"{month}月" if month else "当月"
     if date_type == "季":

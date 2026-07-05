@@ -12,6 +12,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 import logging
 
 from Data import EMPTY_DATA_MESSAGE, ChapterDataError
+from ReportGenerator.report_period import current_and_next_labels, previous_label
 
 logger = logging.getLogger(__name__)
 
@@ -71,11 +72,13 @@ class CustomerAmountRecord:
 class Chapter5Data:
     metadata: Dict[str, Any]
     receivable_tree: Optional[ReceivableTreeNode] = None
+    next_month_due_total: Amount = field(default_factory=lambda: Amount(None, "万元"))
     overdue_top_customers: List[CustomerAmountRecord] = field(default_factory=list)
     next_month_due_top_customers: List[CustomerAmountRecord] = field(default_factory=list)
     impairment_summary: Dict[str, Any] = field(default_factory=dict)
     impairment_top_customers: List[CustomerAmountRecord] = field(default_factory=list)
     aging_jump_top_customers: List[CustomerAmountRecord] = field(default_factory=list)
+    aging_jump_data_status: str = "missing"
     financial_expense: Dict[str, Any] = field(default_factory=dict)
     financial_expense_top_customers: List[CustomerAmountRecord] = field(default_factory=list)
     raw_items: List[Dict[str, Any]] = field(default_factory=list)
@@ -85,11 +88,13 @@ class Chapter5Data:
         return {
             "metadata": self.metadata,
             "receivable_tree": self.receivable_tree.to_dict() if self.receivable_tree else None,
+            "next_month_due_total": self.next_month_due_total.to_dict(),
             "overdue_top_customers": [row.to_dict() for row in self.overdue_top_customers],
             "next_month_due_top_customers": [row.to_dict() for row in self.next_month_due_top_customers],
             "impairment_summary": self.impairment_summary,
             "impairment_top_customers": [row.to_dict() for row in self.impairment_top_customers],
             "aging_jump_top_customers": [row.to_dict() for row in self.aging_jump_top_customers],
+            "aging_jump_data_status": self.aging_jump_data_status,
             "financial_expense": self.financial_expense,
             "financial_expense_top_customers": [row.to_dict() for row in self.financial_expense_top_customers],
             "raw_items": self.raw_items,
@@ -162,6 +167,7 @@ def normalize_chapter5_data(raw_data: Any, period: str = "") -> Chapter5Data:
     warnings: List[str] = []
 
     receivable_tree = _parse_receivable_tree(subject)
+    next_month_due_total = _normalize_amount(subject.get("next_month_due_total"))
     overdue_top = _sort_customer_records(
         _customer_records_from_list(
             subject.get("overdue_top_customers"),
@@ -194,6 +200,7 @@ def normalize_chapter5_data(raw_data: Any, period: str = "") -> Chapter5Data:
         ),
         limit=TOP_CUSTOMER_LIMIT,
     )
+    aging_jump_data_status = _aging_jump_structured_status(subject.get("aging_jump_top_customers"))
     financial_expense_top = _sort_customer_records(
         _customer_records_from_list(
             subject.get("financial_expense_top_customers"),
@@ -211,6 +218,8 @@ def normalize_chapter5_data(raw_data: Any, period: str = "") -> Chapter5Data:
         flat = _normalize_from_metric_rows(rows, warnings)
         if flat.get("receivable_tree") and not receivable_tree:
             receivable_tree = flat["receivable_tree"]
+        if next_month_due_total.value is None:
+            next_month_due_total = flat.get("next_month_due_total", Amount(None, "万元"))
         if not overdue_top:
             overdue_top = flat.get("overdue_top_customers", [])
         if not next_month_due:
@@ -219,6 +228,7 @@ def normalize_chapter5_data(raw_data: Any, period: str = "") -> Chapter5Data:
             impairment_top = flat.get("impairment_top_customers", [])
         if not aging_jump_top:
             aging_jump_top = flat.get("aging_jump_top_customers", [])
+        aging_jump_data_status = flat.get("aging_jump_data_status", aging_jump_data_status)
         if not financial_expense_top:
             financial_expense_top = flat.get("financial_expense_top_customers", [])
         impairment_summary = _normalize_impairment_summary(subject.get("impairment_summary")) or flat.get("impairment_summary", {})
@@ -227,14 +237,19 @@ def normalize_chapter5_data(raw_data: Any, period: str = "") -> Chapter5Data:
         impairment_summary = _normalize_impairment_summary(subject.get("impairment_summary"))
         financial_expense = _normalize_financial_expense(subject.get("financial_expense"))
 
+    if aging_jump_data_status == "zero":
+        aging_jump_top = []
+
     return Chapter5Data(
         metadata=metadata,
         receivable_tree=receivable_tree,
+        next_month_due_total=next_month_due_total,
         overdue_top_customers=overdue_top,
         next_month_due_top_customers=next_month_due,
         impairment_summary=impairment_summary,
         impairment_top_customers=impairment_top,
         aging_jump_top_customers=aging_jump_top,
+        aging_jump_data_status=aging_jump_data_status,
         financial_expense=financial_expense,
         financial_expense_top_customers=financial_expense_top,
         raw_items=rows,
@@ -277,11 +292,24 @@ def build_chapter5_markdown(
 ) -> str:
     """生成第五章正式 Markdown。"""
     if omit.get("是否省略第五章"):
-        return ""
+        basis = omit.get("依据", {}) if isinstance(omit, dict) else {}
+        value_wan = basis.get("value_wan") if isinstance(basis, dict) else None
+        amount_text = _format_amount(Amount(value_wan, "万元")) if value_wan is not None else "待补充"
+        reason = str(omit.get("原因") or "个人应收款项满足省略规则")
+        return "\n".join(
+            [
+                "# 五、应收分析",
+                "",
+                "## 5.1 应收款项概况",
+                "",
+                f"个人应收款项总额：{amount_text}。",
+                "",
+                f"本章按规则省略：{reason}。",
+            ]
+        ).rstrip() + "\n"
 
     period = str(chapter_data.metadata.get("月份") or "")
     month_label, next_month_label = month_labels(period)
-    previous_month_label = previous_month(period)
     lines = [
         "# 五、应收分析",
         "",
@@ -291,16 +319,10 @@ def build_chapter5_markdown(
         "",
         "备注：逾期金额含诉讼，保证金不含保函。",
         "",
-        "◇ **逾期金额前五客户**",
-        "",
-        _build_overdue_table(chapter_data.overdue_top_customers),
-        "",
-        "备注：更详细名单请见销售日报应收数据。",
-        "",
-        f"◇ **{next_month_label}新增到期款金额排名前五客户：**",
-        "",
-        _build_next_month_due_table(chapter_data.next_month_due_top_customers, next_month_label),
     ]
+    lines.extend(_build_overdue_top_block(chapter_data.overdue_top_customers))
+    lines.append("")
+    lines.extend(_build_next_month_due_block(chapter_data, next_month_label))
 
     impairment_text = _build_impairment_summary_text(chapter_data.impairment_summary)
     lines.extend(
@@ -312,11 +334,13 @@ def build_chapter5_markdown(
             "",
             "◇ **减值损失影响金额 TOP5 客户**",
             "",
-            _build_impairment_top_table(chapter_data.impairment_top_customers, previous_month_label),
+            _build_impairment_top_table(chapter_data.impairment_top_customers, month_label),
             "",
-            f"◇ **{next_month_label}若未清收预计跳账龄的 TOP5 客户**",
-            "",
-            _build_aging_jump_table(chapter_data.aging_jump_top_customers),
+            _build_aging_jump_section(
+                chapter_data.aging_jump_top_customers,
+                chapter_data.aging_jump_data_status,
+                next_month_label,
+            ),
         ]
     )
 
@@ -335,7 +359,7 @@ def build_chapter5_markdown(
     lines.extend(
         [
             "",
-            "### 行动指南：",
+            "## 5.4 行动指南",
             "",
             f"◇ {action_guide_text or DEFAULT_CHAPTER5_ACTION_GUIDE_TEXT}",
         ]
@@ -359,6 +383,7 @@ def build_chapter5_stats(
         "次月到期客户数": len(chapter_data.next_month_due_top_customers),
         "减值损失客户数": len(chapter_data.impairment_top_customers),
         "跳账龄客户数": len(chapter_data.aging_jump_top_customers),
+        "跳账龄数据状态": chapter_data.aging_jump_data_status,
         "财务费用客户数": len(chapter_data.financial_expense_top_customers),
         "warnings": chapter_data.warnings,
         "cleaned_data": chapter_data.to_dict(),
@@ -378,6 +403,7 @@ def build_chapter5_action_context(chapter_data: Chapter5Data, omit: Dict[str, An
         },
         "省略判断": omit,
         "应收款项总额": _action_amount(total),
+        "次月新增到期款总额": _action_amount(_effective_next_month_due_total(chapter_data)),
         "逾期金额前五客户": [
             _action_record(row, extra_amount_keys=("receivable_amount",), extra_text_keys=())
             for row in chapter_data.overdue_top_customers
@@ -417,6 +443,7 @@ def build_chapter5_action_context(chapter_data: Chapter5Data, omit: Dict[str, An
             _action_aging_jump_record(row)
             for row in chapter_data.aging_jump_top_customers
         ],
+        "预计跳账龄数据状态": chapter_data.aging_jump_data_status,
         "财务费用": {
             key: _action_amount(Amount(value, chapter_data.financial_expense.get("unit", "元")))
             for key, value in chapter_data.financial_expense.items()
@@ -509,19 +536,11 @@ class Chapter5Generator:
 
 
 def month_labels(period: str) -> Tuple[str, str]:
-    if len(period) >= 6 and period[-2:].isdigit():
-        month = int(period[-2:])
-        next_month = 1 if month == 12 else month + 1
-        return f"{month}月", f"{next_month}月"
-    return "当月", "次月"
+    return current_and_next_labels(period)
 
 
 def previous_month(period: str) -> str:
-    if len(period) >= 6 and period[-2:].isdigit():
-        month = int(period[-2:])
-        prev_month = 12 if month == 1 else month - 1
-        return f"{prev_month}月"
-    return "报告月"
+    return previous_label(period)
 
 
 def amount_to_wan(value: Optional[float], unit: str) -> Optional[float]:
@@ -533,6 +552,16 @@ def amount_to_wan(value: Optional[float], unit: str) -> Optional[float]:
     if normalized_unit == "元":
         return float(value) / 10000
     return None
+
+
+def _normalize_amount(value: Any, default_unit: str = "万元") -> Amount:
+    if isinstance(value, Amount):
+        return value
+    if isinstance(value, dict):
+        raw_value = value.get("value", value.get("实际值"))
+        unit = str(value.get("unit") or value.get("单位") or default_unit)
+        return Amount(_to_float(raw_value), unit)
+    return Amount(_to_float(value), default_unit)
 
 
 def _extract_subject(raw_data: Any) -> Dict[str, Any]:
@@ -558,7 +587,7 @@ def _extract_metadata(subject: Dict[str, Any], period: str = "") -> Dict[str, An
         "章节名称",
     ]
     metadata = {key: subject.get(key, "") for key in keys}
-    if period and not metadata.get("月份"):
+    if period:
         metadata["月份"] = period
     return metadata
 
@@ -590,8 +619,8 @@ def _parse_receivable_tree_from_metric_rows(
     candidates = []
     indexed_rows: Dict[Tuple[str, ...], Dict[str, Any]] = {}
     for row in row_list:
-        name = str(row.get("指标名称") or "")
-        path = str(row.get("指标路径") or "")
+        name = _metric_name(row)
+        path = _metric_path(row)
         metric_data = row.get("指标数据") if isinstance(row.get("指标数据"), dict) else {}
         if any(keyword in name or keyword in path for keyword in ("应收款项", "应收款项总额", "个人应收")):
             candidates.append((name, metric_data))
@@ -613,7 +642,7 @@ def _parse_receivable_tree_from_metric_rows(
 
 
 def _receivable_metric_path_parts(path: str) -> Tuple[str, ...]:
-    parts = [part.strip() for part in path.split("-") if part.strip()]
+    parts = [part.strip() for part in _normalize_metric_path(path).split("-") if part.strip()]
     if len(parts) < 2 or parts[0] != "五、应收分析":
         return ()
 
@@ -670,8 +699,8 @@ def _normalize_from_metric_rows(rows: List[Dict[str, Any]], warnings: List[str])
     """适配真实接口的扁平 章节数据 指标行。"""
     by_name: Dict[str, Dict[str, Any]] = {}
     for row in rows:
-        name = str(row.get("指标名称") or "")
-        path = str(row.get("指标路径") or "")
+        name = _metric_name(row)
+        path = _metric_path(row)
         key = f"{path}|{name}"
         by_name[key] = row
 
@@ -679,6 +708,7 @@ def _normalize_from_metric_rows(rows: List[Dict[str, Any]], warnings: List[str])
 
     impairment_summary = _impairment_summary_from_rows(rows)
     financial_expense = _financial_expense_from_rows(rows)
+    next_month_due_total = _row_amount(_find_row(rows, name="个人本月新增到期款", path_contains="五、应收分析-个人本月新增到期款")) or Amount(None, "万元")
 
     overdue = _parse_pair_customer_rows(
         rows,
@@ -698,6 +728,7 @@ def _normalize_from_metric_rows(rows: List[Dict[str, Any]], warnings: List[str])
     )
     impairment_top = _parse_impairment_customer_rows(rows)
     aging_jump_top = _parse_aging_jump_customer_rows(rows)
+    aging_jump_data_status = _aging_jump_metric_status(rows)
     financial_top = _parse_single_customer_rows(
         rows,
         section="财务费用排名前三的客户",
@@ -712,23 +743,43 @@ def _normalize_from_metric_rows(rows: List[Dict[str, Any]], warnings: List[str])
 
     return {
         "receivable_tree": receivable_root,
+        "next_month_due_total": next_month_due_total,
         "impairment_summary": impairment_summary,
         "financial_expense": financial_expense,
         "overdue_top_customers": overdue,
         "next_month_due_top_customers": next_due,
         "impairment_top_customers": impairment_top,
         "aging_jump_top_customers": aging_jump_top,
+        "aging_jump_data_status": aging_jump_data_status,
         "financial_expense_top_customers": financial_top,
     }
 
 
+def _normalize_metric_path(path: str) -> str:
+    return str(path or "").strip().rstrip("-").strip()
+
+
+def _metric_path(row: Dict[str, Any]) -> str:
+    return _normalize_metric_path(str(row.get("指标路径") or ""))
+
+
+def _path_leaf(path: str) -> str:
+    normalized = _normalize_metric_path(path)
+    return normalized.rsplit("-", 1)[-1].strip() if normalized else ""
+
+
+def _metric_name(row: Dict[str, Any]) -> str:
+    name = str(row.get("指标名称") or "").strip()
+    return name or _path_leaf(_metric_path(row))
+
+
 def _find_row(rows: List[Dict[str, Any]], name: str = "", path_contains: str = "") -> Optional[Dict[str, Any]]:
     for row in rows:
-        row_name = str(row.get("指标名称") or "")
-        path = str(row.get("指标路径") or "")
+        row_name = _metric_name(row)
+        path = _metric_path(row)
         if name and row_name != name:
             continue
-        if path_contains and path_contains not in path:
+        if path_contains and _normalize_metric_path(path_contains) not in path:
             continue
         return row
     return None
@@ -796,20 +847,23 @@ def _parse_pair_customer_rows(
 ) -> List[CustomerAmountRecord]:
     records: List[CustomerAmountRecord] = []
     pending: Optional[Amount] = None
+    pending_row: Optional[Dict[str, Any]] = None
     for row in rows:
-        path = str(row.get("指标路径") or "")
-        name = str(row.get("指标名称") or "")
+        path = _metric_path(row)
+        name = _metric_name(row)
         if section not in path:
             continue
         if name == first_name:
             pending = _row_amount(row)
+            pending_row = row
             continue
         if name == second_name:
             amount = _row_amount(row)
             if amount and amount.value not in (None, 0):
                 extra = {extra_first_key: pending.value if pending else None}
-                records.append(_customer_record(len(records) + 1, amount, extra))
+                records.append(_customer_record(len(records) + 1, amount, extra, row=row, fallback_row=pending_row))
             pending = None
+            pending_row = None
     return _sort_customer_records(records, limit)
 
 
@@ -823,18 +877,65 @@ def _parse_single_customer_rows(
 ) -> List[CustomerAmountRecord]:
     records: List[CustomerAmountRecord] = []
     for row in rows:
-        path = str(row.get("指标路径") or "")
-        row_name = str(row.get("指标名称") or "")
+        path = _metric_path(row)
+        row_name = _metric_name(row)
         if section not in path or row_name != name:
             continue
         amount = _row_amount(row, convert_wan_to_yuan=convert_wan_to_yuan)
         if amount and amount.value not in (None, 0):
-            records.append(_customer_record(len(records) + 1, amount, {amount_key: amount.value}))
+            records.append(_customer_record(len(records) + 1, amount, {amount_key: amount.value}, row=row))
     return _sort_customer_records(records, limit)
 
 
 def _parse_impairment_customer_rows(rows: List[Dict[str, Any]]) -> List[CustomerAmountRecord]:
     section = "减值损失影响金额TOP5客户"
+    section_rows = [
+        row for row in rows
+        if section in _metric_path(row)
+    ]
+    if not any(_customer_identity_key(row) for row in section_rows):
+        return _parse_impairment_customer_rows_by_sequence(section_rows)
+
+    groups: Dict[Tuple[str, str], Dict[str, Any]] = {}
+    for row in section_rows:
+        key = _customer_identity_key(row)
+        if key is None:
+            continue
+        group = groups.setdefault(key, {"extra": {}, "row": row})
+        if _customer_name(row):
+            group["row"] = row
+        amount = _row_amount(row)
+        name = _metric_name(row)
+        extra = group.setdefault("extra", {})
+        if name == "当年增加减值损失":
+            group["amount"] = amount
+            group["amount_row"] = row
+        elif name == "应收金额":
+            extra["receivable_amount"] = amount.value if amount else None
+        elif name == "应收减值（含坏账）":
+            extra["receivable_impairment"] = amount.value if amount else None
+        elif name == "工抵房减值":
+            extra["offset_house_impairment"] = amount.value if amount else None
+        elif name == "其他类型减值":
+            extra["other_type_impairment"] = amount.value if amount else None
+
+    records: List[CustomerAmountRecord] = []
+    for group in groups.values():
+        amount = group.get("amount")
+        if isinstance(amount, Amount) and amount.value not in (None, 0):
+            records.append(
+                _customer_record(
+                    len(records) + 1,
+                    amount,
+                    group.get("extra", {}),
+                    row=group.get("amount_row"),
+                    fallback_row=group.get("row"),
+                )
+            )
+    return _sort_customer_records(records, TOP_CUSTOMER_LIMIT)
+
+
+def _parse_impairment_customer_rows_by_sequence(rows: List[Dict[str, Any]]) -> List[CustomerAmountRecord]:
     records: List[CustomerAmountRecord] = []
     current: Dict[str, Any] = {}
 
@@ -843,20 +944,19 @@ def _parse_impairment_customer_rows(rows: List[Dict[str, Any]]) -> List[Customer
             return
         amount = current.get("amount")
         if isinstance(amount, Amount) and amount.value not in (None, 0):
-            records.append(_customer_record(len(records) + 1, amount, current.get("extra", {})))
+            records.append(_customer_record(len(records) + 1, amount, current.get("extra", {}), row=current.get("row")))
 
     for row in rows:
-        path = str(row.get("指标路径") or "")
-        name = str(row.get("指标名称") or "")
-        if section not in path:
-            continue
+        name = _metric_name(row)
         amount = _row_amount(row)
         if name == "当年增加减值损失":
             flush()
-            current = {"amount": amount, "extra": {}}
+            current = {"amount": amount, "extra": {}, "row": row}
             continue
         if not current:
-            current = {"amount": Amount(None, "万元"), "extra": {}}
+            current = {"amount": Amount(None, "万元"), "extra": {}, "row": row}
+        elif not current.get("row") and _customer_name(row):
+            current["row"] = row
         extra = current.setdefault("extra", {})
         if name == "应收金额":
             extra["receivable_amount"] = amount.value if amount else None
@@ -870,26 +970,178 @@ def _parse_impairment_customer_rows(rows: List[Dict[str, Any]]) -> List[Customer
     return _sort_customer_records(records, TOP_CUSTOMER_LIMIT)
 
 
+def _customer_identity_key(row: Dict[str, Any]) -> Optional[Tuple[str, str]]:
+    customer_code = _customer_code(row)
+    if customer_code:
+        return ("code", customer_code)
+    customer_name = _customer_name(row)
+    if customer_name:
+        return ("name", customer_name)
+    return None
+
+
 def _parse_aging_jump_customer_rows(rows: List[Dict[str, Any]]) -> List[CustomerAmountRecord]:
     section = "本月若未清收预计跳账龄的TOP5客户"
+    section_rows = [
+        row for row in rows
+        if section in _metric_path(row)
+    ]
+    if any(_customer_identity_key(row) for row in section_rows):
+        return _parse_aging_jump_customer_rows_by_identity(section_rows)
+
     records: List[CustomerAmountRecord] = []
-    for row in rows:
-        path = str(row.get("指标路径") or "")
-        name = str(row.get("指标名称") or "")
-        if section not in path or name != "净增加减值金额":
+    for row in section_rows:
+        name = _metric_name(row)
+        if name != "净增加减值金额":
             continue
         amount = _row_amount(row)
         if amount and amount.value not in (None, 0):
-            records.append(_customer_record(len(records) + 1, amount, {}))
+            records.append(_customer_record(len(records) + 1, amount, {}, row=row))
     return _sort_customer_records(records, TOP_CUSTOMER_LIMIT)
 
 
-def _customer_record(index: int, amount: Amount, extra: Dict[str, Any]) -> CustomerAmountRecord:
+def _parse_aging_jump_customer_rows_by_identity(rows: List[Dict[str, Any]]) -> List[CustomerAmountRecord]:
+    groups: Dict[Tuple[str, str], Dict[str, Any]] = {}
+    for row in rows:
+        key = _customer_identity_key(row)
+        if key is None:
+            continue
+        group = groups.setdefault(key, {"extra": {"aging_buckets": {}}, "row": row})
+        if _customer_name(row):
+            group["row"] = row
+        name = _metric_name(row)
+        path = _metric_path(row)
+        amount = _row_amount(row)
+        if name == "净增加减值金额":
+            group["amount"] = amount
+            group["amount_row"] = row
+            continue
+        bucket = _aging_jump_bucket_from_row(name, path)
+        amount_kind = _aging_jump_amount_kind(path)
+        if bucket and amount_kind:
+            buckets = group.setdefault("extra", {}).setdefault("aging_buckets", {})
+            bucket_data = buckets.setdefault(bucket, {})
+            bucket_data[amount_kind] = amount.value if amount else None
+
+    records: List[CustomerAmountRecord] = []
+    for group in groups.values():
+        amount = group.get("amount")
+        if isinstance(amount, Amount) and amount.value not in (None, 0):
+            records.append(
+                _customer_record(
+                    len(records) + 1,
+                    amount,
+                    group.get("extra", {}),
+                    row=group.get("amount_row"),
+                    fallback_row=group.get("row"),
+                )
+            )
+    return _sort_customer_records(records, TOP_CUSTOMER_LIMIT)
+
+
+def _aging_jump_bucket_from_row(name: str, path: str) -> str:
+    candidates = [name]
+    if "-" in path:
+        candidates.extend(part.strip() for part in _normalize_metric_path(path).split("-"))
+    for candidate in candidates:
+        bucket = _normalize_aging_jump_bucket(candidate)
+        if bucket:
+            return bucket
+    return ""
+
+
+def _normalize_aging_jump_bucket(text: str) -> str:
+    compact = str(text or "").replace(" ", "")
+    compact = compact.replace("≤", "<=").replace("＜", "<").replace("≥", ">=")
+    compact = compact.replace("１", "1").replace("２", "2").replace("３", "3")
+    if "1年<=账龄<2年" in compact:
+        return "1年<=账龄<2年"
+    if "2年<=账龄<3年" in compact:
+        return "2年<=账龄<3年"
+    if "账龄>=3年" in compact:
+        return "账龄>=3年"
+    return ""
+
+
+def _aging_jump_amount_kind(path: str) -> str:
+    if "应收金额" in path:
+        return "receivable_amount"
+    if "减值损失" in path:
+        return "impairment_loss"
+    return ""
+
+
+def _aging_jump_metric_status(rows: List[Dict[str, Any]]) -> str:
+    section = "本月若未清收预计跳账龄的TOP5客户"
+    net_amounts: List[Amount] = []
+    section_seen = False
+    for row in rows:
+        path = _metric_path(row)
+        name = _metric_name(row)
+        if section not in path:
+            continue
+        section_seen = True
+        if name == "净增加减值金额":
+            amount = _row_amount(row)
+            if amount is not None:
+                net_amounts.append(amount)
+
+    if not section_seen:
+        return "missing"
+    values = [amount.value for amount in net_amounts if amount.value is not None]
+    if any(value != 0 for value in values):
+        return "nonzero"
+    if values:
+        return "zero"
+    return "missing"
+
+
+def _aging_jump_structured_status(rows: Any) -> str:
+    if not isinstance(rows, list) or not rows:
+        return "missing"
+    values = [
+        _to_float(row.get("net_impairment_increase", row.get("amount")))
+        for row in rows
+        if isinstance(row, dict)
+    ]
+    values = [value for value in values if value is not None]
+    if any(value != 0 for value in values):
+        return "nonzero"
+    if values:
+        return "zero"
+    return "missing"
+
+
+def _customer_record(
+    index: int,
+    amount: Amount,
+    extra: Dict[str, Any],
+    row: Optional[Dict[str, Any]] = None,
+    fallback_row: Optional[Dict[str, Any]] = None,
+) -> CustomerAmountRecord:
+    source_row = row if _customer_name(row) else fallback_row
+    customer_name = _customer_name(source_row) or f"客户{index}（接口未提供名称）"
+    customer_code = _customer_code(source_row)
+    record_extra = dict(extra)
+    if customer_code:
+        record_extra["customer_code"] = customer_code
     return CustomerAmountRecord(
-        customer_name=f"客户{index}（接口未提供名称）",
+        customer_name=customer_name,
         amount=amount,
-        extra=extra,
+        extra=record_extra,
     )
+
+
+def _customer_name(row: Optional[Dict[str, Any]]) -> str:
+    if not isinstance(row, dict):
+        return ""
+    return str(row.get("客户名称") or row.get("customer_name") or "").strip()
+
+
+def _customer_code(row: Optional[Dict[str, Any]]) -> str:
+    if not isinstance(row, dict):
+        return ""
+    return str(row.get("客户编码") or row.get("customer_code") or "").strip()
 
 
 def _customer_records_from_list(
@@ -1007,7 +1259,7 @@ def _receivable_tree_lines(node: ReceivableTreeNode, depth: int = 0) -> List[str
 
 def _build_overdue_table(records: List[CustomerAmountRecord]) -> str:
     if not records:
-        return "当前数据未提供逾期客户明细。"
+        return "◇ **暂无逾期金额前五客户**"
 
     rows = [["客户名称", "应收账款", "其中：逾期账款"]]
     for record in records:
@@ -1023,12 +1275,47 @@ def _build_overdue_table(records: List[CustomerAmountRecord]) -> str:
 
 def _build_next_month_due_table(records: List[CustomerAmountRecord], next_month_label: str) -> str:
     if not records:
-        return "当前数据未提供次月新增到期款客户明细。"
+        return f"◇ **暂无{next_month_label}新增到期款**"
 
     rows = [["客户名称", f"{next_month_label}新增到期款"]]
     for record in records:
         rows.append([record.customer_name, _format_amount(record.amount)])
     return _markdown_table(rows)
+
+
+def _build_next_month_due_heading(chapter_data: Chapter5Data, next_month_label: str) -> str:
+    total = _effective_next_month_due_total(chapter_data)
+    total_text = _format_amount(total) if total.value is not None else ""
+    if total_text:
+        return f"◇ **{next_month_label}新增到期款{total_text}，金额排名前五客户：**"
+    return f"◇ **{next_month_label}新增到期款金额排名前五客户：**"
+
+
+def _build_overdue_top_block(records: List[CustomerAmountRecord]) -> List[str]:
+    if not records:
+        return [_build_overdue_table(records)]
+    return [
+        "◇ **逾期金额前五客户**",
+        "",
+        _build_overdue_table(records),
+        "",
+        "备注：更详细名单请见销售日报应收数据。",
+    ]
+
+
+def _build_next_month_due_block(chapter_data: Chapter5Data, next_month_label: str) -> List[str]:
+    records = chapter_data.next_month_due_top_customers
+    if not records:
+        return [_build_next_month_due_table(records, next_month_label)]
+    return [
+        _build_next_month_due_heading(chapter_data, next_month_label),
+        "",
+        _build_next_month_due_table(records, next_month_label),
+    ]
+
+
+def _effective_next_month_due_total(chapter_data: Chapter5Data) -> Amount:
+    return chapter_data.next_month_due_total
 
 
 def _build_impairment_top_table(records: List[CustomerAmountRecord], previous_month_label: str) -> str:
@@ -1048,20 +1335,28 @@ def _build_impairment_top_table(records: List[CustomerAmountRecord], previous_mo
         rows.append(
             [
                 record.customer_name,
-                _format_amount(_extra_amount(record, "receivable_amount")),
-                _format_amount(record.amount),
-                _format_amount(_extra_amount(record, "receivable_impairment")),
-                _format_amount(_extra_amount(record, "offset_house_impairment")),
-                _format_amount(_extra_amount(record, "other_type_impairment")),
+                _format_amount_zero_if_missing(_extra_amount(record, "receivable_amount")),
+                _format_amount_zero_if_missing(record.amount),
+                _format_amount_zero_if_missing(_extra_amount(record, "receivable_impairment")),
+                _format_amount_zero_if_missing(_extra_amount(record, "offset_house_impairment")),
+                _format_amount_zero_if_missing(_extra_amount(record, "other_type_impairment")),
             ]
         )
     return _markdown_table(rows)
 
 
-def _build_aging_jump_table(records: List[CustomerAmountRecord]) -> str:
-    if not records:
-        return "当前数据未提供预计跳账龄客户明细。"
+def _build_aging_jump_section(records: List[CustomerAmountRecord], data_status: str, next_month_label: str) -> str:
+    if data_status == "zero" and not records:
+        return f"◇ **暂无{next_month_label}未清收预计跳账龄的客户**"
 
+    title = f"◇ **{next_month_label}未清收预计跳账龄的 TOP5 客户**"
+    if not records:
+        return f"{title}\n\n预计跳账龄客户明细：待补充。"
+
+    return f"{title}\n\n预计跳账龄客户明细：\n\n{_build_aging_jump_table(records)}"
+
+
+def _build_aging_jump_table(records: List[CustomerAmountRecord]) -> str:
     rows = [
         [
             "账龄跳到",
@@ -1142,6 +1437,12 @@ def _format_amount(amount: Amount) -> str:
     if amount.unit == "元":
         return f"{_format_decimal(amount.value, 0)}元"
     return f"{_format_decimal(amount.value, 1)}{amount.unit or '万元'}"
+
+
+def _format_amount_zero_if_missing(amount: Amount, default_unit: str = "万元") -> str:
+    if amount.value is None:
+        return _format_amount(Amount(0, amount.unit or default_unit))
+    return _format_amount(amount)
 
 
 def _format_decimal(value: float, precision: int) -> str:

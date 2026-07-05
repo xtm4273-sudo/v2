@@ -7,11 +7,42 @@ from __future__ import annotations
 import asyncio
 import json
 import os
-from urllib import parse, request
+import socket
+from urllib import error, parse, request
 from typing import Dict, Any, List, Optional
 
 DEFAULT_API_BASE_URL = "https://apidev.skshu.com/test/skshu-bi-api/biapitoxt/getEmployeeIndexAiCcq"
 DEFAULT_EMPLOYEE_ORG_API_BASE_URL = "https://apidev.skshu.com/test/skshu-bi-api/biapitoxt/getAiEmployeeOrgGcq"
+
+
+def _limit_text(value: str, limit: int = 2000) -> str:
+    if len(value) <= limit:
+        return value
+    return value[:limit] + "...<truncated>"
+
+
+def _api_error_response(
+    error_code: str,
+    message: str,
+    failure_type: str,
+    failure_stage: str,
+    **details: Any,
+) -> Dict[str, Any]:
+    payload: Dict[str, Any] = {
+        "error": error_code,
+        "message": message,
+        "failure_type": failure_type,
+        "failure_stage": failure_stage,
+    }
+    payload.update({key: value for key, value in details.items() if value not in (None, "")})
+    return payload
+
+
+def _http_error_body(exc: error.HTTPError) -> str:
+    try:
+        return _limit_text(exc.read().decode("utf-8", errors="replace"))
+    except Exception:
+        return ""
 
 
 def resolve_api_key(api_key: Optional[str] = None) -> Optional[str]:
@@ -74,14 +105,21 @@ async def fetch_chapter_data(
     :return: API 响应 JSON
     """
     resolved_api_key = resolve_api_key(api_key)
+    failure_stage = "fetch_chapter_api"
     if not resolved_api_key:
-        return {
-            "error": "missing_api_key",
-            "message": "Missing API key. Pass api_key or set SKSHU_BI_API_KEY.",
-        }
+        return _api_error_response(
+            "missing_api_key",
+            "Missing API key. Pass api_key or set SKSHU_BI_API_KEY.",
+            "configuration_error",
+            failure_stage,
+            job_id=job_id,
+            calmonth=time,
+            module=module,
+        )
 
     query = parse.urlencode({"apikey": resolved_api_key})
-    url = f"{resolve_api_url(api_url)}?{query}"
+    base_url = resolve_api_url(api_url)
+    url = f"{base_url}?{query}"
     body = {
         "ZEMPLOYEE": job_id,
         "CALMONTH": time,
@@ -90,10 +128,67 @@ async def fetch_chapter_data(
 
     try:
         return await asyncio.to_thread(_post_json, url, body, timeout, verify_ssl)
+    except error.HTTPError as e:
+        return _api_error_response(
+            "http_error",
+            f"HTTP {e.code}: {e.reason}",
+            "interface_error",
+            failure_stage,
+            status_code=e.code,
+            reason=str(e.reason),
+            response_text=_http_error_body(e),
+            api_url=base_url,
+            job_id=job_id,
+            calmonth=time,
+            module=module,
+        )
+    except error.URLError as e:
+        reason = getattr(e, "reason", e)
+        return _api_error_response(
+            "connection_error",
+            str(reason),
+            "interface_error",
+            failure_stage,
+            api_url=base_url,
+            job_id=job_id,
+            calmonth=time,
+            module=module,
+        )
+    except (TimeoutError, socket.timeout) as e:
+        return _api_error_response(
+            "timeout",
+            f"Request timed out after {timeout}s: {e}",
+            "interface_error",
+            failure_stage,
+            api_url=base_url,
+            job_id=job_id,
+            calmonth=time,
+            module=module,
+            timeout=timeout,
+        )
     except json.JSONDecodeError as e:
-        return {"error": "json_decode_error", "message": f"Invalid JSON response: {e}"}
+        return _api_error_response(
+            "json_decode_error",
+            f"Invalid JSON response: {e}",
+            "interface_error",
+            failure_stage,
+            api_url=base_url,
+            job_id=job_id,
+            calmonth=time,
+            module=module,
+        )
     except Exception as e:
-        return {"error": type(e).__name__, "message": str(e)}
+        return _api_error_response(
+            type(e).__name__,
+            str(e),
+            "program_error",
+            failure_stage,
+            exception_type=type(e).__name__,
+            api_url=base_url,
+            job_id=job_id,
+            calmonth=time,
+            module=module,
+        )
 
 
 async def fetch_chapter_data_batch(
@@ -150,21 +245,67 @@ async def fetch_employee_org_data(
     :return: API 响应 JSON
     """
     resolved_api_key = resolve_api_key(api_key)
+    failure_stage = "fetch_employee_org_api"
     if not resolved_api_key:
-        return {
-            "error": "missing_api_key",
-            "message": "Missing API key. Pass api_key or set SKSHU_BI_API_KEY.",
-        }
+        return _api_error_response(
+            "missing_api_key",
+            "Missing API key. Pass api_key or set SKSHU_BI_API_KEY.",
+            "configuration_error",
+            failure_stage,
+        )
 
     query = parse.urlencode({"apikey": resolved_api_key})
-    url = f"{resolve_employee_org_api_url(api_url)}?{query}"
+    base_url = resolve_employee_org_api_url(api_url)
+    url = f"{base_url}?{query}"
 
     try:
         return await asyncio.to_thread(_post_json, url, {}, timeout, verify_ssl)
+    except error.HTTPError as e:
+        return _api_error_response(
+            "http_error",
+            f"HTTP {e.code}: {e.reason}",
+            "interface_error",
+            failure_stage,
+            status_code=e.code,
+            reason=str(e.reason),
+            response_text=_http_error_body(e),
+            api_url=base_url,
+        )
+    except error.URLError as e:
+        reason = getattr(e, "reason", e)
+        return _api_error_response(
+            "connection_error",
+            str(reason),
+            "interface_error",
+            failure_stage,
+            api_url=base_url,
+        )
+    except (TimeoutError, socket.timeout) as e:
+        return _api_error_response(
+            "timeout",
+            f"Request timed out after {timeout}s: {e}",
+            "interface_error",
+            failure_stage,
+            api_url=base_url,
+            timeout=timeout,
+        )
     except json.JSONDecodeError as e:
-        return {"error": "json_decode_error", "message": f"Invalid JSON response: {e}"}
+        return _api_error_response(
+            "json_decode_error",
+            f"Invalid JSON response: {e}",
+            "interface_error",
+            failure_stage,
+            api_url=base_url,
+        )
     except Exception as e:
-        return {"error": type(e).__name__, "message": str(e)}
+        return _api_error_response(
+            type(e).__name__,
+            str(e),
+            "program_error",
+            failure_stage,
+            exception_type=type(e).__name__,
+            api_url=base_url,
+        )
 
 
 def transform_employee_record(record: Dict[str, Any]) -> Dict[str, Any]:
@@ -194,3 +335,31 @@ def extract_employee_configs(response: Dict[str, Any], calmonth: Optional[str] =
     if calmonth:
         configs = [config for config in configs if config.get("calmonth") in ("", calmonth)]
     return configs
+
+
+def add_ranking_population_totals(
+    person: Dict[str, Any],
+    employee_configs: List[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """按工号去重，补充省区和事业部排名分母。"""
+    result = dict(person)
+    province = str(result.get("province") or "").strip()
+    business_department = str(result.get("business_department") or "").strip()
+
+    unique_people: Dict[str, Dict[str, Any]] = {}
+    for config in employee_configs:
+        job_id = str(config.get("job_id") or "").strip()
+        if job_id:
+            unique_people[job_id] = config
+
+    if province:
+        result["province_ranking_total"] = sum(
+            1 for config in unique_people.values()
+            if str(config.get("province") or "").strip() == province
+        ) or None
+    if business_department:
+        result["business_ranking_total"] = sum(
+            1 for config in unique_people.values()
+            if str(config.get("business_department") or "").strip() == business_department
+        ) or None
+    return result

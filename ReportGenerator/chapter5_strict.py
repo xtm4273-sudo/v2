@@ -165,7 +165,22 @@ def _audit_group(rows: List[Dict[str, Any]], field_id: str, position: str, name:
         source["status"] = "重复冲突（且缺客户唯一键）"
     else:
         source["status"] = "缺客户唯一键"
+    values = [_decimal_or_none(value) for value, _unit in map(_raw, matched)]
+    values = [value for value in values if value is not None]
+    if values:
+        source["data_status"] = "nonzero" if any(value != 0 for value in values) else "zero"
+    else:
+        source["data_status"] = "missing"
     return source
+
+
+def _decimal_or_none(value: Optional[str]) -> Optional[Decimal]:
+    if value is None:
+        return None
+    try:
+        return Decimal(value)
+    except InvalidOperation:
+        return None
 
 
 def _source_base(field_id: str, position: str, name: str, path: str, calculation: str) -> Dict[str, Any]:
@@ -190,6 +205,7 @@ def _build_markdown(values: Dict[str, Optional[Dict[str, str]]], sources: Dict[s
     d = lambda field_id: _display(values, field_id)
     pending_row_3 = f"| {PENDING} | {PENDING} | {PENDING} |"
     pending_row_2 = f"| {PENDING} | {PENDING} |"
+    aging_jump_block = _strict_aging_jump_block(sources.get("chapter5.aging_top", {}), next_month, PENDING)
     lines = [
         "# 五、应收分析", "", "## 5.1 应收款项概况", "",
         f"应收款项总额：{d('chapter5.receivable.total')}", "", "应收款项结构：",
@@ -216,15 +232,26 @@ def _build_markdown(values: Dict[str, Optional[Dict[str, str]]], sources: Dict[s
         "◇ **减值损失影响金额 TOP5 客户**", "",
         f"| 客户名称 | 截止{previous_month}月应收金额 | 当年增加减值损失 | 其中：应收减值（含坏账） | 工抵房减值 | 其他类型减值（保证金、商票、票证等） |",
         "| --- | --- | --- | --- | --- | --- |", f"| {PENDING} | {PENDING} | {PENDING} | {PENDING} | {PENDING} | {PENDING} |", "",
-        f"◇ **{next_month}月若未清收预计跳账龄的 TOP5 客户**", "",
-        "| 账龄跳到 | 净增加减值金额 | 1 年≤账龄＜2 年（应收金额/减值损失） | 2 年≤账龄＜3 年（应收金额/减值损失） | 账龄≥3 年（应收金额/减值损失） |",
-        "| --- | --- | --- | --- | --- |", f"| {PENDING} | {PENDING} | {PENDING} | {PENDING} | {PENDING} |", "",
+        aging_jump_block, "",
         "## 5.3 财务费用", "",
         f"◇ {month}月财务费用{d('chapter5.finance.expense')}=利息支出{d('chapter5.finance.interest_expense')}-利息收入{d('chapter5.finance.interest_income')}，其中利息支出{d('chapter5.finance.interest_expense')}=应收账款资金占用费{d('chapter5.finance.receivable_fee')}+应收票据资金占用费{d('chapter5.finance.note_fee')}+其他类型资金占用费{d('chapter5.finance.other_fee')}。", "",
         f"◇ {month}月财务费用排名前三的客户为{PENDING}。", "", "| 客户名称 | 财务费用 |", "| --- | --- |", pending_row_2, "",
-        "### 行动指南：", "", "◇ 当年补提减值损失，需要减少应收、缩短账龄；针对逾期需加大清收力度，如找担保人催收、发送律师函、诉讼催收等。",
+        "## 5.4 行动指南", "", "◇ 当年补提减值损失，需要减少应收、缩短账龄；针对逾期需加大清收力度，如找担保人催收、发送律师函、诉讼催收等。",
     ]
     return "\n".join(lines) + "\n"
+
+
+def _strict_aging_jump_block(source: Dict[str, Any], next_month: int, pending: str) -> str:
+    if source.get("data_status") == "zero":
+        return f"◇ **暂无{next_month}月未清收预计跳账龄的客户**"
+    return "\n\n".join([
+        f"◇ **{next_month}月未清收预计跳账龄的 TOP5 客户**",
+        "预计跳账龄客户明细：",
+        "| 账龄跳到 | 净增加减值金额 | 1 年≤账龄＜2 年 |  | 2 年≤账龄＜3 年 |  | 账龄≥3 年 |  |",
+        "| 客户名称 |  | 应收金额 | 减值损失 | 应收金额 | 减值损失 | 应收金额 | 减值损失 |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
+        f"| {pending} | {pending} | {pending} | {pending} | {pending} | {pending} | {pending} | {pending} |",
+    ])
 
 
 def _omit_result(total: Optional[Dict[str, str]]) -> Dict[str, Any]:

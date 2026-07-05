@@ -19,7 +19,7 @@ from typing import Any, Dict, List, Optional
 BASE_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(BASE_DIR))
 
-from Data import extract_employee_configs, fetch_employee_org_data
+from Data import add_ranking_population_totals, extract_employee_configs, fetch_employee_org_data
 from ReportGenerator.full_report_generator import FullReportGenerator
 
 
@@ -27,6 +27,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="测试生成单个区域经理的 1-8 章完整报告")
     parser.add_argument("--job-id", default="06427", help="区域经理工号，默认 06427")
     parser.add_argument("--calmonth", default="202606", help="月份，默认 202606")
+    parser.add_argument("--report-period", default="", help="报告展示截止月份，默认按 calmonth 的上一个月推导")
     parser.add_argument("--api-key", default=None, help="接口 apikey；也可通过 SKSHU_BI_API_KEY 环境变量提供")
     parser.add_argument("--employee-org-api-url", default=None, help="人员名单接口 URL")
     parser.add_argument("--chapter-api-url", default=None, help="章节数据接口 URL")
@@ -71,7 +72,7 @@ async def load_person_config(args: argparse.Namespace, output_root: Path) -> Dic
     save_json(output_root / args.calmonth / "_employee_org_configs.json", configs)
     person = find_person(configs, args.job_id)
     if person:
-        return person
+        return add_ranking_population_totals(person, configs)
 
     available = ", ".join(config.get("job_id", "") for config in configs[:10])
     raise SystemExit(f"人员名单中找不到工号 {args.job_id}。前 10 个工号: {available}")
@@ -92,6 +93,7 @@ async def run(args: argparse.Namespace) -> None:
     generator = FullReportGenerator(
         person_config=person_config,
         calmonth=args.calmonth,
+        report_period=args.report_period or None,
         output_root=output_root,
         api_key=args.api_key,
         api_url=args.chapter_api_url,

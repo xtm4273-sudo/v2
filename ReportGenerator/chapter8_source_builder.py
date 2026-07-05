@@ -5,6 +5,7 @@ chapter8_ai_writer。调用方只需要知道 build_chapter8_source 这一个接
 """
 from __future__ import annotations
 
+from decimal import Decimal, ROUND_HALF_UP
 from typing import Any, Dict, Iterable, List, Optional
 
 
@@ -37,7 +38,7 @@ def build_chapter8_source(
         if actual is not None:
             fact = _fact("利润", metric_name, actual, None, str(_dict(metric).get("单位") or ""), 2)
             facts.append(fact)
-            if metric_name == "分摊前利润":
+            if metric_name == "分摊前利润" and performance.get("分摊前利润") in (None, ""):
                 (positive if actual >= 0 else negative).append(_signal(fact, outstanding=actual > 0))
 
     rows3 = c3.get("rows") if isinstance(c3.get("rows"), list) else []
@@ -69,10 +70,19 @@ def build_chapter8_source(
 
     sampling_total = _dict(_dict(c6.get("sample_paint_expense")).get("total"))
     sample_expense = _to_float(sampling_total.get("value"))
-    sample_yoy = _to_float(sampling_total.get("yoy_value"))
+    sample_yoy = _to_float(sampling_total.get("yoy_value", sampling_total.get("same_period")))
     sample_direction = _direction(sample_expense, sample_yoy)
     if sample_expense is not None:
-        fact = _fact("打样", "样板样漆费用", sample_expense, None, "元", 6, severity="medium")
+        fact = _fact(
+            "打样",
+            "样板样漆费用",
+            sample_expense,
+            sample_yoy,
+            "元",
+            6,
+            change_display=_sample_change_display(sample_direction),
+            severity="medium",
+        )
         facts.append(fact)
         negative.append(_signal(fact))
 
@@ -87,7 +97,7 @@ def build_chapter8_source(
         visit_target,
         "次",
         7,
-        change_display=f"达成{_format_number(visit_rate)}%" if visit_rate is not None else "数据待补充",
+        change_display=f"达成{_format_percent(visit_rate)}%" if visit_rate is not None else "数据待补充",
         severity="high" if visit_actual is None or (visit_rate is not None and visit_rate < 60) else "medium",
     )
     facts.append(visit_fact)
@@ -124,6 +134,12 @@ def build_chapter8_source(
         "打样": {
             "sample_expense": sample_expense,
             "yoy_direction": sample_direction,
+        },
+        "风控": {
+            "overdue_amount": overdue,
+            "impairment_amount": impairment,
+            "finance_cost": finance_cost,
+            "risk_level": "high" if overdue is not None and overdue > 0 else "normal",
         },
     }
 
@@ -201,12 +217,25 @@ def _append_performance_signals(
 
 def _find_metric(rows: Iterable[Any], name: str, date_type: str) -> Optional[Dict[str, Any]]:
     for row in rows:
-        if not isinstance(row, dict) or str(row.get("指标名称") or "") != name:
+        if not isinstance(row, dict) or not _row_matches_metric_name(row, name):
             continue
         metric = _dict(row.get("指标数据"))
         if str(metric.get("日期类型") or "") == date_type:
             return metric
     return None
+
+
+def _row_matches_metric_name(row: Dict[str, Any], name: str) -> bool:
+    metric_name = str(row.get("指标名称") or "").strip()
+    if metric_name == name:
+        return True
+
+    path_parts = [
+        part.strip()
+        for part in str(row.get("指标路径") or "").strip().rstrip("-").split("-")
+        if part.strip()
+    ]
+    return name in path_parts
 
 
 def _append_target_signal(
@@ -223,7 +252,7 @@ def _append_target_signal(
     if actual is None:
         return
     rate = _achievement(metric)
-    change = f"达成{_format_number(rate)}%" if rate is not None else ""
+    change = f"达成{_format_percent(rate)}%" if rate is not None else ""
     severity = "high" if rate is not None and rate < 60 else "medium"
     fact = _fact(dimension, name, actual, target, str(_dict(metric).get("单位") or ""), chapter, change_display=change, severity=severity)
     facts.append(fact)
@@ -302,7 +331,7 @@ def _signal(fact: Dict[str, Any], outstanding: bool = False) -> Dict[str, Any]:
         "dimension": fact.get("dimension", ""),
         "dimension_label": fact.get("dimension", ""),
         "metric_name": fact.get("metric_name", ""),
-        "value_display": f"{_format_number(actual)}{unit}" if actual is not None else "",
+        "value_display": f"{_format_display_number(actual, unit)}{unit}" if actual is not None else "",
         "change_display": fact.get("change_display", ""),
         "is_outstanding": outstanding,
         "severity": fact.get("severity", "medium"),
@@ -328,13 +357,31 @@ def _achievement(metric: Optional[Dict[str, Any]]) -> Optional[float]:
 
 
 def _direction(value: Optional[float], previous: Optional[float]) -> str:
-    if value is None or previous in (None, 0):
+    if value is None or previous is None:
         return "unknown"
+    if previous == 0:
+        if value > 0:
+            return "new"
+        if value == 0:
+            return "flat"
+        return "down"
     if value > previous:
         return "up"
     if value < previous:
         return "down"
     return "flat"
+
+
+def _sample_change_display(direction: str) -> str:
+    if direction == "new":
+        return "同比新增"
+    if direction == "up":
+        return "同比增加"
+    if direction == "down":
+        return "同比下降"
+    if direction == "flat":
+        return "同比持平"
+    return "同期数据待补充"
 
 
 def _to_float(value: Any) -> Optional[float]:
@@ -351,3 +398,24 @@ def _format_number(value: Any) -> str:
     if number is None:
         return ""
     return str(int(number)) if number.is_integer() else f"{number:.3f}".rstrip("0").rstrip(".")
+
+
+def _format_display_number(value: Any, unit: str) -> str:
+    number = _to_float(value)
+    if number is None:
+        return ""
+    if unit == "万元":
+        return f"{Decimal(str(number)).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP):.1f}"
+    if unit == "元":
+        return f"{Decimal(str(number)).quantize(Decimal('1'), rounding=ROUND_HALF_UP):.0f}"
+    return _format_number(number)
+
+
+def _format_percent(value: Any) -> str:
+    number = _to_float(value)
+    if number is None:
+        return ""
+    rounded = round(number)
+    if abs(number - rounded) < 0.5:
+        return str(int(rounded))
+    return _format_number(number)

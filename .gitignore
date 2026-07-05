@@ -14,3 +14,25 @@ env/
 *.log
 
 .env
+
+# Local/generated artifacts
+output/pdf/
+output/revalidated_reports/
+tmp/
+*.tmp
+.~*.docx
+
+# One-off manual report runs
+test_output/interface_data_test_report/
+test_output/manual_script_check_chapter5*/
+
+# One-off manual report runs
+test_output/interface_data_test_report/
+test_output/manual_script_check_chapter5*/
+
+# Generated report/runtime artifacts
+Reports/
+output/
+test_output/
+dist/
+archive/
